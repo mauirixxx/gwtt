@@ -1,7 +1,7 @@
 <?php
-$cnameid = $_GET['toonid']; //need to sanitize this input somehow
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
+$cnameid = mysqli_real_escape_string($con, $_GET['toonid']); //need to sanitize this input somehow
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
@@ -20,7 +20,7 @@ if (mysqli_num_rows($result) > 0) {
 			} else {
 				echo 'a ' . $row['material'] . '!<BR />';
 			}
-		} //add another else statement to cover RUNES here. or up there.
+		}
 	}
 } else {
 	echo 'no data to display for that character';
