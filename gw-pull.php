@@ -5,7 +5,8 @@ $cnameid = mysqli_real_escape_string($con, $_GET['toonid']); //need to sanitize 
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
-$sql = "SELECT * FROM `history` WHERE `charname` = '$cnameid' ORDER BY `historydate` ASC";
+#$sql = "SELECT * FROM `history` WHERE `charname` = '$cnameid' ORDER BY `historydate` ASC"; //old sql statement that works currently
+$sql = "SELECT history.*, treasurelocation.* FROM history LEFT OUTER JOIN treasurelocation ON history.`locationid` = treasurelocation.`treasureid` WHERE history.`charname` = '$cnameid' ORDER BY `historydate` ASC";
 if (!$result = $con->query($sql)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
