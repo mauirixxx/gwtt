@@ -13,15 +13,15 @@ if (mysqli_num_rows($result) > 0) {
 	while ($row = $result->fetch_array()){
 		echo 'On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
 		if ($row['itemtype'] == "Rune") {
-			echo 'a ' . $row['itemtype'] . ' of ' . $row['runetype'] . '!<BR />';
+			echo 'a ' . $row['itemtype'] . ' of ' . $row['runetype'];
 		} else {
 			if (is_null($row['material'])) {
-				echo 'a ' . $row['itemrarity'] . ' r' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named something stupid <BR />';
+				echo 'a ' . $row['itemrarity'] . ' r' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named something stupid';
 			} else {
-				echo 'a ' . $row['material'] . '!<BR />';
+				echo 'a ' . $row['material'];
 			}
 		}
-		echo ' at (insert SQL code here) <BR />';
+		echo ' at (insert SQL code here) <BR />!';
 	}
 } else {
 	echo 'no data to display for that character';
