@@ -15,12 +15,15 @@ MySQL - 5.5.52-MariaDB : Database - mauirixxx
 /*Table structure for table `listrunes` */
 
 CREATE TABLE `listrunes` (
-  `runes` varchar(17) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `runeid` int(2) NOT NULL AUTO_INCREMENT,
+  `runeclassid` int(2) DEFAULT NULL,
+  `runes` varchar(19) DEFAULT NULL,
+  PRIMARY KEY (`runeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
 
 /*Data for the table `listrunes` */
 
-insert  into `listrunes`(`runes`) values ('Attunement'),('Clarity'),('Purity'),('Recovery'),('Restoration'),('Vigor'),('Vitae'),('Absorption'),('Axe Mastery'),('Hammer Mastery'),('Strength'),('Swordsmanship'),('Tactics'),('Beast Mastery'),('Expertise'),('Marksmanship'),('Wilderness Surviv'),('Divine Favor'),('Healing Prayers'),('Protection Prayer'),('Smiting Prayers'),('Blood Magic'),('Curses'),('Death Magic'),('Soul Reaping'),('Domination Magic'),('Fast Casting'),('Illusion Magic'),('Inspiration Magic'),('Air Magic'),('Earth Magic'),('Energy Storage'),('Fire Magic'),('Water Magic'),('Critical Strikes'),('Dagger Mastery'),('Deadly Arts'),('Shadow Arts'),('Channeling Magic'),('Communing'),('Restoration Magic'),('Spawning Power'),('Command'),('Leadership'),('Motivation'),('Spear Mastery'),('Earth Prayers'),('Mysticism'),('Scythe Mastery'),('Wind Prayers');
+insert  into `listrunes`(`runeid`,`runeclassid`,`runes`) values (1,1,'Attunement'),(2,1,'Clarity'),(3,1,'Purity'),(4,1,'Recovery'),(5,1,'Restoration'),(6,1,'Vigor'),(7,1,'Vitae'),(8,2,'Absorption'),(9,2,'Axe Mastery'),(10,2,'Hammer Mastery'),(11,2,'Strength'),(12,2,'Swordsmanship'),(13,2,'Tactics'),(14,3,'Beast Mastery'),(15,3,'Expertise'),(16,3,'Marksmanship'),(17,3,'Wilderness Survival'),(18,4,'Divine Favor'),(19,4,'Healing Prayers'),(20,4,'Protection Prayer'),(21,4,'Smiting Prayers'),(22,5,'Blood Magic'),(23,5,'Curses'),(24,5,'Death Magic'),(25,5,'Soul Reaping'),(26,6,'Domination Magic'),(27,6,'Fast Casting'),(28,6,'Illusion Magic'),(29,6,'Inspiration Magic'),(30,7,'Air Magic'),(31,7,'Earth Magic'),(32,7,'Energy Storage'),(33,7,'Fire Magic'),(34,7,'Water Magic'),(35,8,'Critical Strikes'),(36,8,'Dagger Mastery'),(37,8,'Deadly Arts'),(38,8,'Shadow Arts'),(39,9,'Channeling Magic'),(40,9,'Communing'),(41,9,'Restoration Magic'),(42,9,'Spawning Power'),(43,10,'Command'),(44,10,'Leadership'),(45,10,'Motivation'),(46,10,'Spear Mastery'),(47,11,'Earth Prayers'),(48,11,'Mysticism'),(49,11,'Scythe Mastery'),(50,11,'Wind Prayers');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

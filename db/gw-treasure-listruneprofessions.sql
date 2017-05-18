@@ -12,16 +12,17 @@ MySQL - 5.5.52-MariaDB : Database - mauirixxx
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-/*Table structure for table `playername` */
+/*Table structure for table `listruneprofessions` */
 
-CREATE TABLE `playername` (
-  `playerid` int(11) NOT NULL AUTO_INCREMENT,
-  `charname` varchar(19) DEFAULT NULL,
-  `birthdate` date DEFAULT NULL,
-  `userid` int(11) DEFAULT NULL,
-  `professionid` int(2) DEFAULT NULL COMMENT 'this is taken from the listruneprofessions table',
-  PRIMARY KEY (`playerid`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+CREATE TABLE `listruneprofessions` (
+  `runeprofid` int(2) NOT NULL AUTO_INCREMENT,
+  `runeprofession` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`runeprofid`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+/*Data for the table `listruneprofessions` */
+
+insert  into `listruneprofessions`(`runeprofid`,`runeprofession`) values (1,'None'),(2,'Warrior'),(3,'Ranger'),(4,'Monk'),(5,'Necromancer'),(6,'Mesmer'),(7,'Elementalist'),(8,'Assassin'),(9,'Ritualist'),(10,'Paragon'),(11,'Dervish');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
