@@ -22,7 +22,7 @@ if (mysqli_num_rows($result) > 0) {
 				echo 'a ' . $row['material'];
 			}
 		}
-		echo ' at <A HREF="' . $row['wikilink'] . '' . $row['location'] . '</A><BR />';
+		echo ' at <A HREF="' . $row['wikilink'] . '">' . $row['location'] . '</A><BR />';
 	}
 } else {
 	echo 'no data to display for that character';
