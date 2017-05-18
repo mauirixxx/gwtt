@@ -10,8 +10,8 @@ if (!$result = $con->query($sql)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
 while ($row = $result->fetch_array()){
-	if (is_null($row['charname'])){
-		echo 'No data available for "$cnameid"';
+	if (empty($row['charname'])){
+		echo 'No data available for that toon';
 	} else {
 		echo 'On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
 		if (is_null($row['material'])) {
