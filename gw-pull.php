@@ -10,7 +10,7 @@ if (!$result = $con->query($sql)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
 while ($row = $result->fetch_array()){
-	if ($row['charname'] == ''){
+	if (is_null($row['charname'])){
 		echo 'No data available for $cnameid';
 	} else {
 		echo 'On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
