@@ -9,6 +9,6 @@ if (!$result = $con->query($sql)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
 while ($row = $result->fetch_array()){
-	echo 'Please select a character to continue' . $row['charname'];
+	echo 'Please select a character to continue: ' . $row['charname'] . '<BR />;
 }
 ?>
