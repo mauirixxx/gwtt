@@ -21,7 +21,7 @@ if (mysqli_num_rows($result) > 0) {
 				echo 'a ' . $row['material'];
 			}
 		}
-		echo ' at (insert SQL code here)!<BR />';
+		echo ' at (insert map location code here)!<BR />';
 	}
 } else {
 	echo 'no data to display for that character';
