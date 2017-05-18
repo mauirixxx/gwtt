@@ -1,7 +1,8 @@
+<TITLE>Treasure Data</TITLE>
 <?php
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
-$cnameid = mysqli_real_escape_string($con, $_GET['toonid']); //need to sanitize this input somehow
+$cnameid = mysqli_real_escape_string($con, $_POST['cname']); //need to sanitize this input somehow
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
@@ -28,5 +29,6 @@ if (mysqli_num_rows($result) > 0) {
 	echo 'no data to display for that character';
 }
 ?>
-
-<TITLE>Treasure Dates</TITLE>
+<BODY>
+<BR />
+Return to <A HREF=gw-toon.php">character selection</A> page
