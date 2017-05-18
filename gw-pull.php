@@ -16,7 +16,7 @@ if (mysqli_num_rows($result) > 0) {
 			echo 'a ' . $row['itemtype'] . ' of ' . $row['runetype'] . '!<BR />';
 		} else {
 			if (is_null($row['material'])) {
-				echo 'a ' . $row['itemrarity'] . ' req' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named something stupid <BR />';
+				echo 'a ' . $row['itemrarity'] . ' r' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named something stupid <BR />';
 			} else {
 				echo 'a ' . $row['material'] . '!<BR />';
 			}
