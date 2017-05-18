@@ -1,4 +1,5 @@
 <TITLE>Treasure Data</TITLE>
+<BODY>
 <?php
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
@@ -27,9 +28,9 @@ if (mysqli_num_rows($result) > 0) {
 		echo ' at <A HREF="' . $row['wikilink'] . '">' . $row['location'] . '</A><BR />';
 	}
 } else {
-	echo 'no data to display for that character';
+	echo 'There is no data to display for that character yet';
 }
 ?>
-<BODY>
 <BR />
 Return to <A HREF="gw-toon.php">character selection</A> page
+</BODY>
