@@ -9,13 +9,17 @@ $sql = "SELECT * FROM `history` WHERE `charname` = '$cnameid' ORDER BY `historyd
 if (!$result = $con->query($sql)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
-while ($row = $result->fetch_array()){
-	echo 'On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
-	if (is_null($row['material'])) {
-		echo 'a ' . $row['itemrarity'] . ' req' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named something stupid <BR />';
-	} else {
-		echo 'a ' . $row['material'] . '!<BR />';
-	} //add another else statement to cover RUNES here
+if (mysqli_num_rows($result) > 0) {
+	while ($row = $result->fetch_array()){
+		echo 'On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
+		if (is_null($row['material'])) {
+			echo 'a ' . $row['itemrarity'] . ' req' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named something stupid <BR />';
+		} else {
+			echo 'a ' . $row['material'] . '!<BR />';
+		} //add another else statement to cover RUNES here
+	}
+} else {
+	echo 'no data to display for that character';
 }
 ?>
 
