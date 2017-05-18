@@ -13,11 +13,11 @@ if (!$result = $con->query($sql)){
 } */
 //will be changing weblink with GET data to SELECT box with POST data
 echo '<FORM METHOD="POST" NAME="cselect" ACTION="gw-pull.php">';
-echo '<SELECT name="cname">';
+echo '<SELECT NAME="cname">';
 while ($row = $result->fetch_array()){
 	$charid = $row['playerid'];
 	$charname = $row['charname'];
-	echo '<OPTION VALUE="' . $charname . '">' . $charname . '</OPTION>'; //need to change first charname variable to charid once I work out the SQL query
+	echo '<OPTION VALUE="' . $charid . '">' . $charname . '</OPTION>'; //need to change first charname variable to charid once I work out the SQL query
 }
 echo '<INPUT TYPE="SUBMIT" VALUE="Choose Toon"></FORM>'; //gw-pull doesn't accept post data yet. or does it?
 ?>
