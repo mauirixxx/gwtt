@@ -21,6 +21,7 @@ if (mysqli_num_rows($result) > 0) {
 				echo 'a ' . $row['material'] . '!<BR />';
 			}
 		}
+		echo ' at (insert SQL code here) <BR />';
 	}
 } else {
 	echo 'no data to display for that character';
