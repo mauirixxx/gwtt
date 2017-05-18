@@ -17,7 +17,7 @@ echo '<SELECT name="cname">';
 while ($row = $result->fetch_array()){
 	$charid = $row['playerid'];
 	$charname = $row['charname'];
-	echo '<OPTION VALUE="' . $charid . '">' . $charname . '</OPTION>';
+	echo '<OPTION VALUE="' . $charname . '">' . $charname . '</OPTION>'; //need to change first charname variable to charid once I work out the SQL query
 }
 echo '<INPUT TYPE="SUBMIT" VALUE="Choose Toon"></FORM>'; //gw-pull doesn't accept post data yet. or does it?
 ?>

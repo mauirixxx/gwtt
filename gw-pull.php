@@ -31,4 +31,4 @@ if (mysqli_num_rows($result) > 0) {
 ?>
 <BODY>
 <BR />
-Return to <A HREF=gw-toon.php">character selection</A> page
+Return to <A HREF="gw-toon.php">character selection</A> page
