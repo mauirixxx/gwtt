@@ -11,7 +11,7 @@ if (!$result = $con->query($sql)){
 }
 while ($row = $result->fetch_array()){
 	if (is_null($row['charname'])){
-		echo 'No data available for $cnameid';
+		echo 'No data available for "$cnameid"';
 	} else {
 		echo 'On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
 		if (is_null($row['material'])) {
