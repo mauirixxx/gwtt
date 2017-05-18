@@ -6,7 +6,7 @@ if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
 $sqlweapattr = "SELECT * FROM `listattribute` ORDER BY `weapattrid` ASC";
-if (!$result = $con->query($sql)){
+if (!$result = $con->query($sqlweapattr)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
 echo '<SELECT NAME="attribute">';
