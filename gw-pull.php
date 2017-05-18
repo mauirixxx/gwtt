@@ -1,5 +1,5 @@
 <?php
-$cnameid = $_GET['toonid']; //need to make this a POST or GET variable
+$cnameid = $_GET['toonid']; //need to sanitize this input somehow
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 if ($con->connect_errno > 0){
