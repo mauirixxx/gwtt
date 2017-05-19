@@ -15,7 +15,7 @@ while ($row = $result->fetch_array()){
 	$weapattr = $row['weaponattribute'];
 	echo '<OPTION VALUE="' . $attrid . '">' . $weapattr . '</OPTION>';
 }
-echo '</SELECT><BR />';
+echo '</SELECT>';
 $sqlweaprare = "SELECT * FROM `listrarity` ORDER BY `rareid` ASC";
 if (!$result = $con->query($sqlweaprare)){
 	die ('There was an error running the query [' . $con->error . ']');
