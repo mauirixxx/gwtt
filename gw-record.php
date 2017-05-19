@@ -19,7 +19,7 @@ $sqlweaprare = "SELECT * FROM `listrarity` ORDER BY `rareid` ASC";
 if (!$result = $con->query($sqlweaprare)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
-echo ' <SELECT NAME="rarity">';
+echo '<SELECT NAME="rare">';
 while ($row = $result->fetch_array()){
 	$rareid = $row['rareid'];
 	$rarity = $row['rarity'];
