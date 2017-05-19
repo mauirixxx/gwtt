@@ -15,4 +15,14 @@ while ($row = $result->fetch_array()){
 	$weapattr = $row['weaponattribute'];
 	echo '<OPTION VALUE="' . $attrid . '">' . $weapattr . '</OPTION>';
 }
+$sqlweaprare = "SELECT * FROM `listrarity` ORDER BY `rareid` ASC";
+if (!$result = $con->query($sqlweaprare)){
+	die ('There was an error running the query [' . $con->error . ']');
+}
+echo ' <SELECT NAME="rarity">';
+while ($row = $result->fetch_array()){
+	$rareid = $row['rareid'];
+	$rarity = $row['rarity'];
+	echo '<OPTION VALUE="' . $rareid . '">' . $rarity . '</OPTION>';
+}
 ?>
