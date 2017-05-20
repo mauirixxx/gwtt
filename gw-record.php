@@ -4,11 +4,16 @@ include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 #$toonid = mysqli_real_escape_string($con, $_POST['playerid']); //enable this after character selection is working
 $toonid = 'Chrissi Chan';
+#$location = mysqli_real_escape_string($con, $_POST['locationid']); //enable this after location selection is working
+$location = 'Issnur Isles';
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
 
-echo 'At |insert location SQL code here| a/an ';
+echo 'At ';
+echo $location //code for selecting location from DB via locationid
+echo ' a/an ';
+
 //code for weapon attribute requirment
 $sqlweapreq = "SELECT * FROM `listreq` ORDER BY `req` ASC";
 if (!$result = $con->query($sqlweapreq)){
@@ -17,7 +22,7 @@ if (!$result = $con->query($sqlweapreq)){
 echo '<SELECT NAME="requirement">';
 while ($row = $result->fetch_array()){
 	$reqid = $row['req'];
-	echo '<OPTION VALUE="' . $reqid . '">' . $reqid . '</OPTION>';
+	echo '<OPTION VALUE="' . $reqid . '">' . $reqid . '</OPTION>\n';
 }
 echo '</SELECT>';
 
@@ -30,7 +35,7 @@ echo '<SELECT NAME="rare">';
 while ($row = $result->fetch_array()){
 	$rareid = $row['rareid'];
 	$rarity = $row['rarity'];
-	echo '<OPTION VALUE="' . $rareid . '">' . $rarity . '</OPTION>';
+	echo '<OPTION VALUE="' . $rareid . '">' . $rarity . '</OPTION>\n';
 }
 echo '</SELECT>';
 
@@ -43,8 +48,9 @@ echo '<SELECT NAME="attribute">';
 while ($row = $result->fetch_array()){
 	$attrid = $row['weapattrid'];
 	$weapattr = $row['weaponattribute'];
-	echo '<OPTION VALUE="' . $attrid . '">' . $weapattr . '</OPTION>';
+	echo '<OPTION VALUE="' . $attrid . '">' . $weapattr . '</OPTION>\n';
+	//need to add a nested while loop, to preselect the weapon with the attribute, or somehow java it? An r9 Axe of Energy Storage combo doesn't exist.
 }
 echo '</SELECT>';
-echo '<weapon/mat/rune code here>';
+echo ' |weapon/mat/rune code here|';
 ?>
