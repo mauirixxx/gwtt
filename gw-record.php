@@ -9,11 +9,11 @@ $location = 'Issnur Isles';
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
-
+/*
 echo 'At ';
 echo $location //code for selecting location from DB via locationid
 echo ' a/an ';
-
+*/
 //code for weapon attribute requirment
 $sqlweapreq = "SELECT * FROM `listreq` ORDER BY `req` ASC";
 if (!$result = $con->query($sqlweapreq)){
