@@ -11,7 +11,7 @@ if ($con->connect_errno > 0){
 }
 
 echo 'At ';
-echo "$location" //code for selecting location from DB via locationid
+echo $location; //code for selecting location from DB via locationid
 echo ' a/an ';
 
 //code for weapon attribute requirment
