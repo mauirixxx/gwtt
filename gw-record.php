@@ -11,11 +11,15 @@ $sqlweapattr = "SELECT * FROM `listattribute` ORDER BY `weapattrid` ASC";
 if (!$result = $con->query($sqlweapattr)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
-echo '<SELECT NAME="attribute">';
+echo ' At <insert location SQL code here> a/an ';
+$sqlweapreq = "SELECT * FROM `listreq` ORDER BY `req` ASC";
+if (!$result = $con->query($sqlweaprare)){
+	die ('There was an error running the query [' . $con->error . ']');
+}
+echo '<SELECT NAME="requirement">';
 while ($row = $result->fetch_array()){
-	$attrid = $row['weapattrid'];
-	$weapattr = $row['weaponattribute'];
-	echo '<OPTION VALUE="' . $attrid . '">' . $weapattr . '</OPTION>';
+	$reqid = $row['req'];
+	echo '<OPTION VALUE="' . $reqid . '">' . $reqid . '</OPTION>';
 }
 echo '</SELECT>';
 $sqlweaprare = "SELECT * FROM `listrarity` ORDER BY `rareid` ASC";
@@ -28,17 +32,13 @@ while ($row = $result->fetch_array()){
 	$rarity = $row['rarity'];
 	echo '<OPTION VALUE="' . $rareid . '">' . $rarity . '</OPTION>';
 }
-echo '</SELECT><BR />';
-
-$sqlweaprare = "SELECT * FROM `listrarity` ORDER BY `rareid` ASC";
-if (!$result = $con->query($sqlweaprare)){
-	die ('There was an error running the query [' . $con->error . ']');
-}
-echo '<SELECT NAME="rare">';
+echo '</SELECT>';
+echo '<SELECT NAME="attribute">';
 while ($row = $result->fetch_array()){
-	$rareid = $row['rareid'];
-	$rarity = $row['rarity'];
-	echo '<OPTION VALUE="' . $rareid . '">' . $rarity . '</OPTION>';
+	$attrid = $row['weapattrid'];
+	$weapattr = $row['weaponattribute'];
+	echo '<OPTION VALUE="' . $attrid . '">' . $weapattr . '</OPTION>';
 }
-echo '</SELECT><BR />';
+echo '</SELECT>';
+echo '<weapon/mat/rune code here>';
 ?>
