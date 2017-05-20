@@ -13,7 +13,7 @@ if (!$result = $con->query($sqlweapattr)){
 }
 echo ' At <insert location SQL code here> a/an ';
 $sqlweapreq = "SELECT * FROM `listreq` ORDER BY `req` ASC";
-if (!$result = $con->query($sqlweaprare)){
+if (!$result = $con->query($sqlweapreq)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
 echo '<SELECT NAME="requirement">';
