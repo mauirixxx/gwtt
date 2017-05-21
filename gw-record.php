@@ -26,6 +26,7 @@ echo ' a ';
 
 #experimental stuff
 echo '<FORM><SELECT NAME="gwdrop" onchange="this.form.submit()">';
+echo '<OPTION SELECTED DISABLED>choose one</OPTION>';
 echo '<OPTION VALUE="1">weapon</OPTION>';
 echo '<OPTION VALUE="2">material</OPTION>';
 echo '<OPTION VALUE="3">rune</OPTION></SELECT>';
