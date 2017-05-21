@@ -18,7 +18,7 @@ if (!$result = $con->query($sqlmaplocation)){
 while ($row = $result->fetch_array()){
 	$locname = $row['location'];
 	$loclink = $row['wikilink'];
-	echo '<A HREF="' . $loclink . '">' . $locname . '</A>\n';
+	echo '<A HREF="' . $loclink . '">' . $locname . '</A>';
 }
 
 echo ' a/an ';
@@ -31,7 +31,7 @@ if (!$result = $con->query($sqlweapreq)){
 echo 'r<SELECT NAME="requirement">';
 while ($row = $result->fetch_array()){
 	$reqid = $row['req'];
-	echo '<OPTION VALUE="' . $reqid . '">' . $reqid . '</OPTION>\n';
+	echo '<OPTION VALUE="' . $reqid . '">' . $reqid . '</OPTION>';
 }
 echo '</SELECT>';
 
@@ -44,7 +44,7 @@ echo '<SELECT NAME="rare">';
 while ($row = $result->fetch_array()){
 	$rareid = $row['rareid'];
 	$rarity = $row['rarity'];
-	echo '<OPTION VALUE="' . $rareid . '">' . $rarity . '</OPTION>\n';
+	echo '<OPTION VALUE="' . $rareid . '">' . $rarity . '</OPTION>';
 }
 echo '</SELECT>';
 
@@ -57,9 +57,10 @@ echo '<SELECT NAME="attribute">';
 while ($row = $result->fetch_array()){
 	$attrid = $row['weapattrid'];
 	$weapattr = $row['weaponattribute'];
-	echo '<OPTION VALUE="' . $attrid . '">' . $weapattr . '</OPTION>\n';
+	echo '<OPTION VALUE="' . $attrid . '">' . $weapattr . '</OPTION>';
 	//need to add a nested while loop, to preselect the weapon with the attribute, or somehow java it? An r9 Axe of Energy Storage combo doesn't exist.
 }
 echo '</SELECT>';
-echo ' |weapon/mat/rune code here|';
+echo ' |weapon/mat/rune code here|<BR /><BR />';
+echo 'End result: a Gold r9 Swordsmanship Sword'; //need to arrange code blocks around to achieve this
 ?>
