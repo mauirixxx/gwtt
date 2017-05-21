@@ -21,19 +21,7 @@ while ($row = $result->fetch_array()){
 	echo '<A HREF="' . $loclink . '">' . $locname . '</A>';
 }
 
-echo ' a/an ';
-
-//code for weapon attribute requirment
-$sqlweapreq = "SELECT * FROM `listreq` ORDER BY `req` ASC";
-if (!$result = $con->query($sqlweapreq)){
-	die ('There was an error running the query [' . $con->error . ']');
-}
-echo 'r<SELECT NAME="requirement">';
-while ($row = $result->fetch_array()){
-	$reqid = $row['req'];
-	echo '<OPTION VALUE="' . $reqid . '">' . $reqid . '</OPTION>';
-}
-echo '</SELECT>';
+echo ' a ';
 
 //code for white blue purple etc
 $sqlweaprare = "SELECT * FROM `listrarity` ORDER BY `rareid` ASC";
@@ -45,6 +33,18 @@ while ($row = $result->fetch_array()){
 	$rareid = $row['rareid'];
 	$rarity = $row['rarity'];
 	echo '<OPTION VALUE="' . $rareid . '">' . $rarity . '</OPTION>';
+}
+echo '</SELECT>';
+
+//code for weapon attribute requirment
+$sqlweapreq = "SELECT * FROM `listreq` ORDER BY `req` ASC";
+if (!$result = $con->query($sqlweapreq)){
+	die ('There was an error running the query [' . $con->error . ']');
+}
+echo 'r<SELECT NAME="requirement">';
+while ($row = $result->fetch_array()){
+	$reqid = $row['req'];
+	echo '<OPTION VALUE="' . $reqid . '">' . $reqid . '</OPTION>';
 }
 echo '</SELECT>';
 
@@ -61,6 +61,8 @@ while ($row = $result->fetch_array()){
 	//need to add a nested while loop, to preselect the weapon with the attribute, or somehow java it? An r9 Axe of Energy Storage combo doesn't exist.
 }
 echo '</SELECT>';
+
+
 echo ' |weapon/mat/rune code here|<BR /><BR />';
 echo 'End result: a Gold r9 Swordsmanship Sword'; //need to arrange code blocks around to achieve this
 ?>
