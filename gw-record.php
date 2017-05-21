@@ -72,7 +72,7 @@ if ($whatdropped == "1"){
 		echo '<OPTION VALUE="' . $typeid . '">' . $weapon . '</OPTION>';
 	}
 	echo '</SELECT>';
-	echo ' and |code for gold dropped here| gold pieces. FYI, the loclink variable is set to '. $locid . ' ';
+	echo ' and |code for gold dropped here| gold pieces.';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="2"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "2"){
@@ -89,14 +89,14 @@ if ($whatdropped == "1"){
 		echo '<OPTION VALUE="' . $matid . '">' . $raremat . '</OPTION>';
 	}
 	echo '</SELECT> ';
-	echo ' and |code for gold dropped here| gold pieces. FYI, the loclink variable is set to '. $locid . ' ';
+	echo ' and |code for gold dropped here| gold pieces.';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="2"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "3"){
 	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
 	//code for what rune dropped
 	$sqlrune = "SELECT * FROM `listrunes` ORDER BY `runeid` ASC";
-	if (!$result = $con->query($sqlrunes)){
+	if (!$result = $con->query($sqlrune)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
 	echo 'rune of <SELECT NAME="rune">';
@@ -106,7 +106,7 @@ if ($whatdropped == "1"){
 		echo '<OPTION VALUE="' . $runeid . '">' . $rune . '</OPTION>';
 	}
 	echo '</SELECT> ';
-	echo ' and |code for gold dropped here| gold pieces. FYI, the loclink variable is set to '. $locid . ' ';
+	echo ' and |code for gold dropped here| gold pieces.';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="2"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else {
