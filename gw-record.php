@@ -6,7 +6,7 @@ $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 $toonid = 'Chrissi Chan';
 #$location = mysqli_real_escape_string($con, $_POST['locationid']); //enable this after location selection is working
 $location = 4;
-$whatdropped = mysqli_real_escape_string($con, $_GET['gwdrop']);
+$whatdropped = mysqli_real_escape_string($con, $_POST['gwdrop']);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
@@ -32,7 +32,7 @@ if ($whatdropped == "1"){
 } else if ($whatdropped == "3"){
 	echo 'run rune code';
 } else {
-	echo '<FORM><SELECT NAME="gwdrop" onchange="this.form.submit()">';
+	echo '<FORM><SELECT NAME="gwdrop" METHOD="POST" onchange="this.form.submit()">';
 	echo '<OPTION SELECTED DISABLED>choose one</OPTION>';
 	echo '<OPTION VALUE="1">weapon</OPTION>';
 	echo '<OPTION VALUE="2">material</OPTION>';
