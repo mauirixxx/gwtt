@@ -23,6 +23,7 @@ while ($row = $result->fetch_array()){
 }
 echo ' a ';
 if ($whatdropped == "1"){
+	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
 	//code for white blue purple etc
 	$sqlweaprare = "SELECT * FROM `listrarity` ORDER BY `rareid` ASC";
 	if (!$result = $con->query($sqlweaprare)){
@@ -71,6 +72,9 @@ if ($whatdropped == "1"){
 		echo '<OPTION VALUE="' . $typeid . '">' . $weapon . '</OPTION>';
 	}
 	echo '</SELECT>';
+	echo ' and |code for gold dropped here| gold pieces. FYI, the loclink variable is set to '. $locid . ' ';
+	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="2"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
+	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "2"){
 	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
 	//code for what rare material dropped
@@ -86,10 +90,25 @@ if ($whatdropped == "1"){
 	}
 	echo '</SELECT> ';
 	echo ' and |code for gold dropped here| gold pieces. FYI, the loclink variable is set to '. $locid . ' ';
-	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="2">';
+	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="2"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "3"){
-	echo 'run rune code';
+	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
+	//code for what rune dropped
+	$sqlrune = "SELECT * FROM `listrunes` ORDER BY `runeid` ASC";
+	if (!$result = $con->query($sqlrunes)){
+		die ('There was an error running the query [' . $con->error . ']');
+	}
+	echo 'rune of <SELECT NAME="rune">';
+	while ($row = $result->fetch_array()){
+		$runeid = $row['runeid'];
+		$rune = $row['runes'];
+		echo '<OPTION VALUE="' . $runeid . '">' . $rune . '</OPTION>';
+	}
+	echo '</SELECT> ';
+	echo ' and |code for gold dropped here| gold pieces. FYI, the loclink variable is set to '. $locid . ' ';
+	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="2"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
+	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else {
 	echo '<FORM METHOD="POST"><SELECT NAME="gwdrop" onchange="this.form.submit()">';
 	echo '<OPTION SELECTED DISABLED>choose one</OPTION>';
