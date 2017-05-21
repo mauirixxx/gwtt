@@ -6,7 +6,7 @@ $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 $toonid = 'Chrissi Chan';
 #$location = mysqli_real_escape_string($con, $_POST['locationid']); //enable this after location selection is working
 $location = 4;
-$whatdropped = mysqli_real_escape_string($con, $_POST['gwdrop']);
+$whatdropped = mysqli_real_escape_string($con, $_GET['gwdrop']);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
@@ -26,7 +26,7 @@ echo ' a ';
 
 #experimental stuff
 echo '<FORM><SELECT NAME="gwdrop" onchange="this.form.submit()">';
-echo '<OPTION SELECTED VALUE="1">weapon</OPTION>';
+echo '<OPTION VALUE="1">weapon</OPTION>';
 echo '<OPTION VALUE="2">material</OPTION>';
 echo '<OPTION VALUE="3">rune</OPTION></SELECT>';
 echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM>';
