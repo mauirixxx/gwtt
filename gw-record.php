@@ -10,7 +10,6 @@ $whatdropped = mysqli_real_escape_string($con, $_GET['gwdrop']);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
-
 echo 'At ';
 $sqlmaplocation = "SELECT `location`, `wikilink` FROM `treasurelocation` WHERE `treasureid` = $location";
 if (!$result = $con->query($sqlmaplocation)){
@@ -21,10 +20,7 @@ while ($row = $result->fetch_array()){
 	$loclink = $row['wikilink'];
 	echo '<A HREF="' . $loclink . '">' . $locname . '</A>';
 }
-
 echo ' a ';
-
-#experimental stuff
 if ($whatdropped == "1"){
 	//code for white blue purple etc
 	$sqlweaprare = "SELECT * FROM `listrarity` ORDER BY `rareid` ASC";
@@ -38,7 +34,6 @@ if ($whatdropped == "1"){
 		echo '<OPTION VALUE="' . $rareid . '">' . $rarity . '</OPTION>';
 	}
 	echo '</SELECT>, ';
-
 	//code for weapon attribute requirment
 	$sqlweapreq = "SELECT * FROM `listreq` ORDER BY `req` ASC";
 	if (!$result = $con->query($sqlweapreq)){
@@ -50,7 +45,6 @@ if ($whatdropped == "1"){
 		echo '<OPTION VALUE="' . $reqid . '">' . $reqid . '</OPTION>';
 	}
 	echo '</SELECT>';
-
 	//code for what attribute the weapon is (command, axe mastery, energy storage, etc
 	$sqlweapattr = "SELECT * FROM `listattribute` ORDER BY `weapattrid` ASC";
 	if (!$result = $con->query($sqlweapattr)){
@@ -64,7 +58,6 @@ if ($whatdropped == "1"){
 	//need to add a nested while loop, to preselect the weapon with the attribute, or somehow java it? An r9 Axe of Energy Storage combo doesn't exist.
 	}
 	echo '</SELECT>';
-
 	//code for what the weapon is - staff, dagger, scythe, wand, sword, etc
 	$sqlweaptype = "SELECT * FROM `listtype` ORDER BY `weaponid` ASC";
 	if (!$result = $con->query($sqlweaptype)){
@@ -75,11 +68,21 @@ if ($whatdropped == "1"){
 		$typeid = $row['weaponid'];
 		$weapon = $row['weapontype'];
 		echo '<OPTION VALUE="' . $typeid . '">' . $weapon . '</OPTION>';
-		//need to figure out how to display the options for weapon, material, or rune
 	}
 	echo '</SELECT>';
 } else if ($whatdropped == "2"){
-	echo 'run material code';
+	//code for what rare material dropped
+	$sqlraremat = "SELECT * FROM `materials` ORDER BY `materialid` ASC";
+	if (!$result = $con->query($sqlraremat)){
+		die ('There was an error running the query [' . $con->error . ']');
+	}
+	echo '<SELECT NAME="rarematerial">';
+	while ($row = $result->fetch_array()){
+		$matid = $row['materialid'];
+		$raremat = $row['material'];
+		echo '<OPTION VALUE="' . $matid . '">' . $raremat . '</OPTION>';
+	}
+	echo '</SELECT> ';
 } else if ($whatdropped == "3"){
 	echo 'run rune code';
 } else {
@@ -90,10 +93,7 @@ if ($whatdropped == "1"){
 	echo '<OPTION VALUE="3">rune</OPTION></SELECT>';
 	echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM>';
 }
-
-
 echo ' and |code for gold dropped here| gold pieces';
 echo ' <BR /><BR />';
-echo 'End result: a Gold r9 Swordsmanship Sword <BR />'; //need to arrange code blocks around to achieve this
 echo 'Reload the page with no GET data? <A HREF="gw-record.php">RELOAD</A>';
 ?>
