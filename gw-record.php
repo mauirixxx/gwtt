@@ -5,13 +5,22 @@ $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 #$toonid = mysqli_real_escape_string($con, $_POST['playerid']); //enable this after character selection is working
 $toonid = 'Chrissi Chan';
 #$location = mysqli_real_escape_string($con, $_POST['locationid']); //enable this after location selection is working
-$location = 'Issnur Isles';
+$location = 4;
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
 
 echo 'At ';
-echo $location; //code for selecting location from DB via locationid
+$sqlmaplocation = "SELECT `location`, `wikilink` FROM `treasurelocation` WHERE `treasureid` = $location";
+if (!$result = $con->query($sqlmaplocation)){
+	die ('There was an error running the query [' . $con->error . ']');
+}
+while ($row = $result->fetch_array()){
+	$locname = $row['location'];
+	$loclink = $row['wikilink'];
+	echo '<A HREF="' . $loclink . '">' . $locname . '</A>\n';
+}
+
 echo ' a/an ';
 
 //code for weapon attribute requirment
@@ -19,7 +28,7 @@ $sqlweapreq = "SELECT * FROM `listreq` ORDER BY `req` ASC";
 if (!$result = $con->query($sqlweapreq)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
-echo '<SELECT NAME="requirement">';
+echo 'r<SELECT NAME="requirement">';
 while ($row = $result->fetch_array()){
 	$reqid = $row['req'];
 	echo '<OPTION VALUE="' . $reqid . '">' . $reqid . '</OPTION>\n';
