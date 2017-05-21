@@ -25,13 +25,20 @@ while ($row = $result->fetch_array()){
 echo ' a ';
 
 #experimental stuff
-echo '<FORM><SELECT NAME="gwdrop" onchange="this.form.submit()">';
-echo '<OPTION SELECTED DISABLED>choose one</OPTION>';
-echo '<OPTION VALUE="1">weapon</OPTION>';
-echo '<OPTION VALUE="2">material</OPTION>';
-echo '<OPTION VALUE="3">rune</OPTION></SELECT>';
-echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM>';
-echo '<BR /><BR />Current drop value is: ' . $whatdropped . '</BR /><BR />'; //if this works then it's time to make a big as if else statement
+if ($whatdropped = "1"){
+	echo 'run weapon code';
+} else if ($whatdropped = "2"){
+	echo 'run material code';
+} else if ($whatdropped = "3"){
+	echo 'run rune code';
+} else {
+	echo '<FORM><SELECT NAME="gwdrop" onchange="this.form.submit()">';
+	echo '<OPTION SELECTED DISABLED>choose one</OPTION>';
+	echo '<OPTION VALUE="1">weapon</OPTION>';
+	echo '<OPTION VALUE="2">material</OPTION>';
+	echo '<OPTION VALUE="3">rune</OPTION></SELECT>';
+	echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM>';
+}
 
 //code for white blue purple etc
 $sqlweaprare = "SELECT * FROM `listrarity` ORDER BY `rareid` ASC";
