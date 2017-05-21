@@ -10,15 +10,15 @@ $whatdropped = mysqli_real_escape_string($con, $_POST['gwdrop']);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
-echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
 echo 'At ';
-$sqlmaplocation = "SELECT `location`, `wikilink` FROM `treasurelocation` WHERE `treasureid` = $location";
+$sqlmaplocation = "SELECT * FROM `treasurelocation` WHERE `treasureid` = $location";
 if (!$result = $con->query($sqlmaplocation)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
 while ($row = $result->fetch_array()){
 	$locname = $row['location'];
 	$loclink = $row['wikilink'];
+	$locid = $row['treasureid'];
 	echo '<A HREF="' . $loclink . '">' . $locname . '</A>';
 }
 echo ' a ';
@@ -72,6 +72,7 @@ if ($whatdropped == "1"){
 	}
 	echo '</SELECT>';
 } else if ($whatdropped == "2"){
+	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
 	//code for what rare material dropped
 	$sqlraremat = "SELECT * FROM `materials` ORDER BY `materialid` ASC";
 	if (!$result = $con->query($sqlraremat)){
@@ -84,7 +85,8 @@ if ($whatdropped == "1"){
 		echo '<OPTION VALUE="' . $matid . '">' . $raremat . '</OPTION>';
 	}
 	echo '</SELECT> ';
-	echo ' and |code for gold dropped here| gold pieces';
+	echo ' and |code for gold dropped here| gold pieces. FYI, the loclink variable is set to '. $locid . ' ';
+	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="2">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "3"){
 	echo 'run rune code';
@@ -95,7 +97,6 @@ if ($whatdropped == "1"){
 	echo '<OPTION VALUE="2">material</OPTION>';
 	echo '<OPTION VALUE="3">rune</OPTION></SELECT>';
 	echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM>';
-	exit;
 }
 echo 'Reload the page with no GET data? <A HREF="gw-record.php">RELOAD</A>';
 ?>
