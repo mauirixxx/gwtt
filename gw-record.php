@@ -6,6 +6,7 @@ $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 $toonid = 'Chrissi Chan';
 #$location = mysqli_real_escape_string($con, $_POST['locationid']); //enable this after location selection is working
 $location = 4;
+$whatdropped = mysqli_real_escape_string($con, $_POST['gwdrop']);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
@@ -22,6 +23,14 @@ while ($row = $result->fetch_array()){
 }
 
 echo ' a ';
+
+#experimental stuff
+echo '<FORM><SELECT NAME="gwdrop" onchange="this.form.submit()">';
+echo '<OPTION SELECTED VALUE="1">weapon</OPTION>';
+echo '<OPTION VALUE="2">material</OPTION>';
+echo '<OPTION VALUE="3">rune</OPTION></SELECT>';
+echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM>';
+echo '<BR /><BR />Current drop value is: ' . $whatdropped . '</BR /><BR />'; //if this works then it's time to make a big as if else statement
 
 //code for white blue purple etc
 $sqlweaprare = "SELECT * FROM `listrarity` ORDER BY `rareid` ASC";
@@ -75,7 +84,7 @@ while ($row = $result->fetch_array()){
 	//need to figure out how to display the options for weapon, material, or rune
 }
 echo '</SELECT>';
-
+echo ' and |code for gold dropped here| gold pieces';
 echo ' <BR /><BR />';
 echo 'End result: a Gold r9 Swordsmanship Sword'; //need to arrange code blocks around to achieve this
 ?>
