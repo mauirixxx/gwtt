@@ -84,6 +84,8 @@ if ($whatdropped == "1"){
 		echo '<OPTION VALUE="' . $matid . '">' . $raremat . '</OPTION>';
 	}
 	echo '</SELECT> ';
+	echo ' and |code for gold dropped here| gold pieces';
+	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "3"){
 	echo 'run rune code';
 } else {
@@ -95,7 +97,5 @@ if ($whatdropped == "1"){
 	echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM>';
 	exit;
 }
-echo ' and |code for gold dropped here| gold pieces';
-echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 echo 'Reload the page with no GET data? <A HREF="gw-record.php">RELOAD</A>';
 ?>
