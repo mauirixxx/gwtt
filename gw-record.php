@@ -10,6 +10,7 @@ $whatdropped = mysqli_real_escape_string($con, $_POST['gwdrop']);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
+echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
 echo 'At ';
 $sqlmaplocation = "SELECT `location`, `wikilink` FROM `treasurelocation` WHERE `treasureid` = $location";
 if (!$result = $con->query($sqlmaplocation)){
@@ -94,6 +95,6 @@ if ($whatdropped == "1"){
 	echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM>';
 }
 echo ' and |code for gold dropped here| gold pieces';
-echo ' <BR /><BR />';
+echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!></FORM><BR />';
 echo 'Reload the page with no GET data? <A HREF="gw-record.php">RELOAD</A>';
 ?>
