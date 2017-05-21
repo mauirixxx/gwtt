@@ -25,11 +25,11 @@ while ($row = $result->fetch_array()){
 echo ' a ';
 
 #experimental stuff
-if ($whatdropped = "1"){
+if ($whatdropped == "1"){
 	echo 'run weapon code';
-} else if ($whatdropped = "2"){
+} else if ($whatdropped == "2"){
 	echo 'run material code';
-} else if ($whatdropped = "3"){
+} else if ($whatdropped == "3"){
 	echo 'run rune code';
 } else {
 	echo '<FORM><SELECT NAME="gwdrop" onchange="this.form.submit()">';
