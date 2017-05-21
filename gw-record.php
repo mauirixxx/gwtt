@@ -94,6 +94,6 @@ if ($whatdropped == "1"){
 
 echo ' and |code for gold dropped here| gold pieces';
 echo ' <BR /><BR />';
-echo 'End result: a Gold r9 Swordsmanship Sword'<BR />; //need to arrange code blocks around to achieve this
+echo 'End result: a Gold r9 Swordsmanship Sword <BR />'; //need to arrange code blocks around to achieve this
 echo 'Reload the page with no GET data? <A HREF="gw-record.php">RELOAD</A>';
 ?>
