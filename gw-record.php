@@ -73,7 +73,7 @@ if ($whatdropped == "1"){
 	}
 	echo '</SELECT>';
 	echo ' and |code for gold dropped here| gold pieces.';
-	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="2"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
+	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="1"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "2"){
 	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
@@ -107,7 +107,7 @@ if ($whatdropped == "1"){
 	}
 	echo '</SELECT> ';
 	echo ' and |code for gold dropped here| gold pieces.';
-	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="2"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
+	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="3"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else {
 	echo '<FORM METHOD="POST"><SELECT NAME="gwdrop" onchange="this.form.submit()">';
