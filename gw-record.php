@@ -93,8 +93,9 @@ if ($whatdropped == "1"){
 	echo '<OPTION VALUE="2">material</OPTION>';
 	echo '<OPTION VALUE="3">rune</OPTION></SELECT>';
 	echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM>';
+	exit;
 }
 echo ' and |code for gold dropped here| gold pieces';
-echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM><BR />';
+echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 echo 'Reload the page with no GET data? <A HREF="gw-record.php">RELOAD</A>';
 ?>
