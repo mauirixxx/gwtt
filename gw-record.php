@@ -21,10 +21,9 @@ while ($row = $result->fetch_array()){
 	$locid = $row['treasureid'];
 	echo '<A HREF="' . $loclink . '">' . $locname . '</A>';
 }
-echo ' a ';
 if ($whatdropped == "1"){
 	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
-	echo 'on <INPUT NAME="treasuredate" TYPE="DATETIME-LOCAL"> ';
+	echo 'on <INPUT NAME="treasuredate" TYPE="DATE"> a ';
 	//code for white blue purple etc
 	$sqlweaprare = "SELECT * FROM `listrarity` ORDER BY `rareid` ASC";
 	if (!$result = $con->query($sqlweaprare)){
