@@ -3,7 +3,7 @@
 <?php
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
-$cnameid = mysqli_real_escape_string($con, $_POST['cname']); //need to sanitize this input somehow
+$cnameid = mysqli_real_escape_string($con, $_POST['cname']); //need to sanitize & validate this input somehow
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
@@ -17,7 +17,7 @@ if (mysqli_num_rows($result) > 0) {
 	while ($row = $result->fetch_array()){
 		echo 'On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
 		if ($row['itemtype'] == 16) { //this would be a rune
-			echo 'a ' . $row['itemtype'] . ' of ' . $row['runetype'];
+			echo 'a rune of ' . $row['runetype'];
 		} else {
 			if (is_null($row['material'])) {
 				echo 'a ' . $row['itemrarity'] . ' r' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named ' . $row['itemname'] . ''; //itemtype changed, need to convert itemtype to something readable
