@@ -21,8 +21,5 @@ if ($droptype == 1){
 } else {
 	echo 'No data was sent!<BR />';
 }
-# all of the below will go away soon
-echo 'The locid variable is set to ' . $locid . '<BR />';
-echo 'The amount of gold dropped was ' . $gold . '<BR />';
 echo '<BR />Return to <A HREF="gw-record.php">data recording</A> page';
 ?>
