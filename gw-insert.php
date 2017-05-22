@@ -11,7 +11,7 @@ if ($droptype == 1){
 	$req = mysqli_real_escape_string($con, $_POST['requirement']);
 	$attrib = mysqli_real_escape_string($con, $_POST['attribute'];
 	$weap = mysqli_real_escape_string($con, $_POST['weapon']);
-	$itname = mysqli_real_escape_string($con, $_POST['itemname']);
+	//$itname = mysqli_real_escape_string($con, $_POST['itemname']);
 	//echo 'SQL code to run: "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, itemreq, itemtype, itemattribute, itemrarity, itemname) VALUES	(\'$variable-date-of-treasure\', ' . $toonid . ', ' . $locid . ', ' . $gold . ', ' . $req . ', ' . $weap . ', '$variable-attribute-of-weapon', '$variable-rarity-of-weapon', '$variable-name-of-weapon');"';
 	echo 'Well something broke somewhere!<BR />';
 } else if ($droptype == 2){
