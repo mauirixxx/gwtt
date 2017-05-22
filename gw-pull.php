@@ -16,7 +16,7 @@ if (!$result = $con->query($sql)){
 if (mysqli_num_rows($result) > 0) {
 	while ($row = $result->fetch_array()){
 		echo 'On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
-		if ($row['itemtype'] == "Rune") {
+		if ($row['itemtype'] == 16) { //this would be a rune
 			echo 'a ' . $row['itemtype'] . ' of ' . $row['runetype'];
 		} else {
 			if (is_null($row['material'])) {

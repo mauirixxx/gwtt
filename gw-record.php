@@ -3,7 +3,7 @@
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 #$toonid = mysqli_real_escape_string($con, $_POST['playerid']); //enable this after character selection is working
-$toonid = 'Chrissi Chan'; //delete this line after character selection is finished/working
+$toonid = '3'; //delete this line after character selection is finished/working
 #$location = mysqli_real_escape_string($con, $_POST['locationid']); //enable this after location selection is working
 $location = 4; //delete this line after location selection is finished/working
 $whatdropped = mysqli_real_escape_string($con, $_POST['gwdrop']);
@@ -21,6 +21,7 @@ while ($row = $result->fetch_array()){
 	$locid = $row['treasureid'];
 	echo '<A HREF="' . $loclink . '">' . $locname . '</A>';
 }
+echo 'on |insert date code here| <INPUT NAME="treasuredate" TYPE="DATETIME-LOCAL"> ';
 echo ' a ';
 if ($whatdropped == "1"){
 	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
