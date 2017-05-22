@@ -5,7 +5,7 @@ $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 $gold = mysqli_real_escape_string($con, $_POST['droppedgold']); //how much gold dropped
 $droptype = mysqli_real_escape_string($con, $_POST['droptype']); //this dictates if the drop was a weapon/rune/material
 $locid = mysqli_real_escape_string($con, $_POST['location']); //this is `treasurelocation`.`treasureid` in the database
-$toonid = mysqli_real_escape_string($con, $_POST['chartoon']; //this is the id of the character doing the hunting
+$toonid = mysqli_real_escape_string($con, $_POST['chartoon']); //this is the id of the character doing the hunting
 if ($droptype == 1){
 	$rarity = mysqli_real_escape_string($con, $_POST['rare']);
 	$req = mysqli_real_escape_string($con, $_POST['requirement']);
