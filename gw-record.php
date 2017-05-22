@@ -71,9 +71,10 @@ if ($whatdropped == "1"){
 		$weapon = $row['weapontype'];
 		echo '<OPTION VALUE="' . $typeid . '">' . $weapon . '</OPTION>';
 	}
-	echo '</SELECT>';
+	echo '</SELECT> called the <INPUT TYPE="TEXT" NAME="itemname" MAXLENGTH="100" SIZE="40">';
 	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="1" MAX="9999"> gold pieces.';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="1"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
+	echo '<INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "2"){
 	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';

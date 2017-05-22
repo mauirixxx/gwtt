@@ -20,7 +20,7 @@ if (mysqli_num_rows($result) > 0) {
 			echo 'a ' . $row['itemtype'] . ' of ' . $row['runetype'];
 		} else {
 			if (is_null($row['material'])) {
-				echo 'a ' . $row['itemrarity'] . ' r' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named something stupid';
+				echo 'a ' . $row['itemrarity'] . ' r' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named ' . $row['itemname'] . ''; //itemtype changed, need to convert itemtype to something readable
 			} else {
 				echo 'a ' . $row['material'];
 			}
