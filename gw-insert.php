@@ -13,8 +13,7 @@ if ($droptype == 1){
 	$weap = mysqli_real_escape_string($con, $_POST['weapon']);
 	$itname = mysqli_real_escape_string($con, $_POST['itemname']);
 	$treasdate = mysqli_real_escape_string($con, $_POST['treasuredate']);
-	echo "SQL code to run: \"INSERT INTO `history` (historydate, charnameid, locationid, goldrec, itemreq, itemtype, itemattribute, itemrarity, itemname) VALUES ('$treasdate', $toonid, $locid, $gold, $req, $weap , 'variable-attribute-of-weapon', 'variable-rarity-of-weapon', '$itname');\"<BR />";
-	//echo '<BR />Well something broke somewhere!<BR />';
+	echo "SQL code to run: \"INSERT INTO `history` (historydate, charnameid, locationid, goldrec, itemreq, itemtype, itemattribute, itemrarity, itemname) VALUES ('$treasdate', $toonid, $locid, $gold, $req, $weap , $req, $rarity, '$itname');\"<BR />";
 } else if ($droptype == 2){
 	echo 'drop was a rare material!<BR />';
 } else if ($droptype == 3){
