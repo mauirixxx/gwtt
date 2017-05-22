@@ -72,7 +72,7 @@ if ($whatdropped == "1"){
 		echo '<OPTION VALUE="' . $typeid . '">' . $weapon . '</OPTION>';
 	}
 	echo '</SELECT>';
-	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MAXLENGTH="4"> gold pieces.';
+	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="1" MAX="9999"> gold pieces.';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="1"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "2"){
