@@ -72,7 +72,7 @@ if ($whatdropped == "1"){
 		echo '<OPTION VALUE="' . $typeid . '">' . $weapon . '</OPTION>';
 	}
 	echo '</SELECT> called the <INPUT TYPE="TEXT" NAME="itemname" MAXLENGTH="100" SIZE="40">';
-	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="1" MAX="9999"> gold pieces.';
+	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="1" MAX="9999" PATTERN="[0-9]*"> gold pieces.';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="1"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
 	echo '<INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
@@ -90,7 +90,7 @@ if ($whatdropped == "1"){
 		echo '<OPTION VALUE="' . $matid . '">' . $raremat . '</OPTION>';
 	}
 	echo '</SELECT> ';
-	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="1" MAX="9999"> gold pieces.';
+	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="1" MAX="9999" PATTERN="[0-9]*"> gold pieces.';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="2"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "3"){
@@ -107,7 +107,7 @@ if ($whatdropped == "1"){
 		echo '<OPTION VALUE="' . $runeid . '">' . $rune . '</OPTION>';
 	}
 	echo '</SELECT> ';
-	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="1" MAX="9999"> gold pieces.';
+	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="1" MAX="9999" PATTERN="[0-9]*"> gold pieces.';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="3"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else {
