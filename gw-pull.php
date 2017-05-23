@@ -17,18 +17,29 @@ if (mysqli_num_rows($result) > 0) {
 	while ($row = $result->fetch_array()){
 		echo 'On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
 		if ($row['itemtype'] == 16) { //this would be a rune
-			//echo 'a rune of ' . $row['runetype'];
 			$runeid = $row['runetype'];
 			$sqlrune = "SELECT listrunes.`runeid`, listrunes.`runes` FROM listrunes WHERE listrunes.`runeid` = $runeid";
 			if (!$result2 = $con->query($sqlrune)){
 				die ('There was an error running the query [' . $con->error . ']');
 			}
 			while ($row2 = $result2->fetch_array()){
-				echo 'a rune of ' . $row2['runes'] . ' derp ';
+				echo 'a rune of ' . $row2['runes'];
 			}
 		} else {
 			if (is_null($row['material'])) {
-				echo 'a ' . $row['itemrarity'] . ' r' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named ' . $row['itemname'] . ''; //itemtype changed, need to convert itemtype to something readable
+				$itemrarity = $row['itemrarity'];
+				$itemattr = $row['itemattribute'];
+				$itemweap = $row['itemtype'];
+				$sqlrare = 'SELECT listrarity.* FROM listrarity WHERE listrarity.`rareid` = $itemrarity';
+				$sqlattr = '';
+				$sqlweap = '';
+				if (!$resultrarity = $con->query($sqlrare)){
+					die ('There was an error running the query [' . $con->error . ']');
+				}
+				while ($row3 = $resultrarity->fetch_array()){
+					echo 'a ' . $row3['rarity'];
+				}
+				echo ' r' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named ' . $row['itemname'] . ''; //itemtype changed, need to convert itemtype to something readable
 			} else {
 				echo 'a ' . $row['material'];
 			}
@@ -38,7 +49,6 @@ if (mysqli_num_rows($result) > 0) {
 } else {
 	echo 'There is no data to display for that character yet';
 }
-# test getting rune results without breaking working parts
 ?>
 <BR />
 Return to <A HREF="gw-toon.php">character selection</A> page
