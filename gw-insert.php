@@ -20,9 +20,8 @@ if ($droptype == 1){
 } else if ($droptype == 2){
 	echo 'drop was a rare material!<BR />';
 } else if ($droptype == 3){
-	$runeid = mysqli_real_escape_string($con, $_POST['runeid']);
+	$runeid = mysqli_real_escape_string($con, $_POST['rune']);
 	$runerare = mysqli_real_escape_string($con, $_POST['runerarity']);
-	$runetype = mysqli_real_escape_string($con, $_POST['rune']);
 	$sqlruneins = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, itemtype, itemrarity, runetype) VALUES ('$treasdate', $toonid, $locid, $gold, '16', $runerare, $runeid)";
 	if (!$result = $con->query($sqlruneins)){
 		die ('There was an error running the query [' . $con->error . ']');
