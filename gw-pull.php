@@ -40,7 +40,7 @@ if (mysqli_num_rows($result) > 0) {
 					echo 'a ' . $row3['rarity'];
 				}
 				echo ' r' . $row['itemreq'];
-				if (!$resulattr = $con->query($sqlattr)){
+				if (!$resultattr = $con->query($sqlattr)){
 					die ('There was an error running the query [' . $con->error . ']');
 				}
 				while ($row4 = $resultattr->fetch_array()){
