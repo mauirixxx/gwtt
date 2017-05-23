@@ -11,7 +11,7 @@ if (!$result = $con->query($sql)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
 # experimental stuff
-if (isset($whattoon)){
+if (empty($whattoon)){
 	echo 'Options for what to do after character selection goes here <BR />';
 } else {
 	echo '<FORM METHOD="POST" NAME="cselect" ACTION="gw-toon.php">';
