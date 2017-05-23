@@ -17,13 +17,15 @@ if (mysqli_num_rows($result) > 0) {
 	while ($row = $result->fetch_array()){
 		echo 'On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
 		if ($row['itemtype'] == 16) { //this would be a rune
-			echo 'a rune of ' . $row['runetype'];
-			/*$runeid = '6';
+			//echo 'a rune of ' . $row['runetype'];
+			$runeid = $row['runetype'];
 			$sqlrune = "SELECT listrunes.`runeid`, listrunes.`runes` FROM listrunes WHERE listrunes.`runeid` = $runeid";
-			$runeresults = mysqli_query($con, $sqlrune);
-			echo 'Results of mapping runeid to runes: ' $runeresults; */
-			$test = $row['runetype'];
-			echo ' the runetype number coming from a variable: ' . $test . ' ';
+			if (!$result2 = $con->query($sqlrune)){
+				die ('There was an error running the query [' . $con->error . ']');
+			}
+			while ($row2 = $result2->fetch_array()){
+				echo 'a rune of ' . $row2['runes'] . ' derp ';
+			}
 		} else {
 			if (is_null($row['material'])) {
 				echo 'a ' . $row['itemrarity'] . ' r' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named ' . $row['itemname'] . ''; //itemtype changed, need to convert itemtype to something readable
