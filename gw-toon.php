@@ -11,7 +11,7 @@ if (!$result = $con->query($sql)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
 # experimental stuff
-if (empty($whattoon)){
+if ($whattoon == ""){
 	echo 'Options for what to do after character selection goes here <BR />';
 	echo 'Character id selected is ' . $whattoon . '<BR />';
 } else {
