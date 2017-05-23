@@ -23,7 +23,7 @@ while ($row = $result->fetch_array()){
 }
 if ($whatdropped == "1"){
 	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
-	echo 'on <INPUT NAME="treasuredate" TYPE="DATE"> a ';
+	echo 'on <INPUT NAME="treasuredate" TYPE="DATE" PLACEHOLDER="2006-10-26"> a ';
 	//code for white blue purple etc
 	$sqlweaprare = "SELECT * FROM `listrarity` ORDER BY `rareid` ASC";
 	if (!$result = $con->query($sqlweaprare)){
