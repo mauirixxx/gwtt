@@ -12,9 +12,6 @@ if (!$result = $con->query($sql)){
 }
 # experimental stuff
 if ($whattoon == ""){
-	echo 'Options for what to do after character selection goes here <BR />';
-	echo 'Character id selected is ' . $whattoon . '<BR />';
-} else {
 	echo '<FORM METHOD="POST" NAME="cselect" ACTION="gw-toon.php">';
 	echo '<SELECT NAME="cname">';
 	while ($row = $result->fetch_array()){
@@ -23,5 +20,8 @@ if ($whattoon == ""){
 		echo '<OPTION VALUE="' . $charid . '">' . $charname . '</OPTION>';
 	}
 	echo '</SELECT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></FORM>';
+} else {
+	echo 'Options for what to do after character selection goes here <BR />';
+	echo 'Character id selected is ' . $whattoon . '<BR />';
 }
 ?>
