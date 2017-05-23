@@ -13,7 +13,7 @@ if ($droptype == 1){
 	$weap = mysqli_real_escape_string($con, $_POST['weapon']);
 	$itname = mysqli_real_escape_string($con, $_POST['itemname']);
 	$treasdate = mysqli_real_escape_string($con, $_POST['treasuredate']);
-	$sqlweapins = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, itemreq, itemtype, itemattribute, itemrarity, itemname) VALUES ('$treasdate', $toonid, $locid, $gold, $req, $weap , $req, $rarity, '$itname')";
+	$sqlweapins = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, itemreq, itemtype, itemattribute, itemrarity, itemname) VALUES ('$treasdate', $toonid, $locid, $gold, $req, $weap, $attrib, $rarity, '$itname')";
 	if (!$result = $con->query($sqlweapins)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
