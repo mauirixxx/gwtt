@@ -23,8 +23,10 @@ if ($droptype == 1){
 	$runeid = mysqli_real_escape_string($con, $_POST['runeid']);
 	$runerare = mysqli_real_escape_string($con, $_POST['runerarity']);
 	$runetype = mysqli_real_escape_string($con, $_POST['rune']);
-	echo "SQL code should be \"INSERT INTO `history` (historydate, charnameid, locationid, goldrec, itemtype, itemrarity, runetype) VALUES (\'$treasdate\', $toonid, $locid, $gold, \'16\', $runerare, $runeid)\" <BR />";
-	echo 'drop was a rune!<BR />';
+	$sqlruneins = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, itemtype, itemrarity, runetype) VALUES ('$treasdate', $toonid, $locid, $gold, '16', $runerare, $runeid)";
+	if (!$result = $con->query($sqlruneins)){
+		die ('There was an error running the query [' . $con->error . ']');
+	}
 } else {
 	echo 'No data was sent!<BR />';
 }
