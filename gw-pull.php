@@ -22,6 +22,8 @@ if (mysqli_num_rows($result) > 0) {
 			$sqlrune = "SELECT listrunes.`runeid`, listrunes.`runes` FROM listrunes WHERE listrunes.`runeid` = $runeid";
 			$runeresults = mysqli_query($con, $sqlrune);
 			echo 'Results of mapping runeid to runes: ' $runeresults; */
+			$test = $row['runetype'];
+			echo ' the runetype number coming from a variable: ' . $test . ' ';
 		} else {
 			if (is_null($row['material'])) {
 				echo 'a ' . $row['itemrarity'] . ' r' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named ' . $row['itemname'] . ''; //itemtype changed, need to convert itemtype to something readable
