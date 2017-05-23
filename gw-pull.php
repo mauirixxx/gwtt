@@ -31,15 +31,29 @@ if (mysqli_num_rows($result) > 0) {
 				$itemattr = $row['itemattribute'];
 				$itemweap = $row['itemtype'];
 				$sqlrare = "SELECT listrarity.* FROM listrarity WHERE listrarity.`rareid` = $itemrarity";
-				$sqlattr = "";
-				$sqlweap = "";
+				$sqlattr = "SELECT listattribute.* FROM listattribute WHERE listattribute.`weapattrid` = $itemattr";
+				$sqlweap = "SELECT listtype.* FROM listtype WHERE listtype.`weaponid` = $itemweap";
 				if (!$resultrarity = $con->query($sqlrare)){
 					die ('There was an error running the query [' . $con->error . ']');
 				}
 				while ($row3 = $resultrarity->fetch_array()){
 					echo 'a ' . $row3['rarity'];
 				}
-				echo ' r' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named ' . $row['itemname'] . ''; //itemtype changed, need to convert itemtype to something readable
+				echo ' r' . $row['itemreq'];
+				if (!$resulattr = $con->query($sqlattr)){
+					die ('There was an error running the query [' . $con->error . ']');
+				}
+				while ($row4 = $resultattr->fetch_array()){
+					echo $row4['weaponattribute'];
+				}
+				echo ' ' . $row['itemtype'];
+				if (!$resultweap = $con->query($sqlweap)){
+					die ('There was an error running the query [' . $con->error . ']');
+				}
+				while ($row5 = $resultweap->fetch_array()){
+					echo $row5['weapontype'];
+				}
+				echo ' named ' . $row['itemname'];
 			} else {
 				echo 'a ' . $row['material'];
 			}
