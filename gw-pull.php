@@ -51,7 +51,7 @@ if (mysqli_num_rows($result) > 0) {
 					die ('There was an error running the query [' . $con->error . ']');
 				}
 				while ($row5 = $resultweap->fetch_array()){
-					echo $row5['weapontype'];
+					echo ' ' . $row5['weapontype'];
 				}
 				echo ' named ' . $row['itemname'];
 			} else {
