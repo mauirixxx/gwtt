@@ -46,7 +46,7 @@ if (mysqli_num_rows($result) > 0) {
 				while ($row4 = $resultattr->fetch_array()){
 					echo $row4['weaponattribute'];
 				}
-				echo ' ' . $row['itemtype'];
+				#echo ' ' . $row['itemtype']; //do I need this?
 				if (!$resultweap = $con->query($sqlweap)){
 					die ('There was an error running the query [' . $con->error . ']');
 				}
