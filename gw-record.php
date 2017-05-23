@@ -78,6 +78,7 @@ if ($whatdropped == "1"){
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "2"){
 	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
+	echo 'on <INPUT NAME="treasuredate" TYPE="DATE" PLACEHOLDER="2006-10-26"> a ';
 	//code for what rare material dropped
 	$sqlraremat = "SELECT * FROM `materials` ORDER BY `materialid` ASC";
 	if (!$result = $con->query($sqlraremat)){
@@ -95,6 +96,7 @@ if ($whatdropped == "1"){
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "3"){
 	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
+	echo 'on <INPUT NAME="treasuredate" TYPE="DATE" PLACEHOLDER="2006-10-26"> a ';
 	//code for what rune dropped
 	$sqlrune = "SELECT * FROM `listrunes` ORDER BY `runeid` ASC";
 	if (!$result = $con->query($sqlrune)){
