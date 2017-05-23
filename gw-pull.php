@@ -18,12 +18,7 @@ if (mysqli_num_rows($result) > 0) {
 		echo 'On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
 		if ($row['itemtype'] == 16) { //this would be a rune
 			$runeid = $row['runeid'];
-			$sqlrune = "SELECT listrunes.`runeid`, listrunes.`runes` FROM listrunes WHERE listrunes.`runeid` = $runeid";
-			if (!$result = $con->query($sqlrune)){
-				die ('There was an error running the query [' . $con->error . ']');
-			}
-			$runeresults = mysqli_query($con, $sqlrune);
-			echo 'a rune of ' . $row['runetype'] . ' or . ' $runeresults;
+			echo 'a rune of ' . $row['runetype'];
 		} else {
 			if (is_null($row['material'])) {
 				echo 'a ' . $row['itemrarity'] . ' r' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named ' . $row['itemname'] . ''; //itemtype changed, need to convert itemtype to something readable
@@ -36,6 +31,10 @@ if (mysqli_num_rows($result) > 0) {
 } else {
 	echo 'There is no data to display for that character yet';
 }
+# test getting rune results without breaking working parts
+$sqlrune = "SELECT listrunes.`runeid`, listrunes.`runes` FROM listrunes WHERE listrunes.`runeid` = $runeid";
+$runeresults = mysqli_query($con, $sqlrune);
+echo 'Results of mapping runeid to runes: ' $runeresults;
 ?>
 <BR />
 Return to <A HREF="gw-toon.php">character selection</A> page
