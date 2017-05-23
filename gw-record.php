@@ -97,7 +97,7 @@ if ($whatdropped == "1"){
 } else if ($whatdropped == "3"){
 	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
 	echo 'on <INPUT NAME="treasuredate" TYPE="DATE" PLACEHOLDER="2006-10-26"> a ';
-	echo '<SELECT NAME=runerarity"><OPTION VALUE="2">Blue</OPTION><OPTION VALUE="3">Purple</OPTION><OPTION VALUE="4">Gold</OPTION></SELECT> ';
+	echo '<SELECT NAME="runerarity"><OPTION VALUE="2">Blue</OPTION><OPTION VALUE="3">Purple</OPTION><OPTION VALUE="4">Gold</OPTION></SELECT> ';
 	//code for what rune dropped
 	$sqlrune = "SELECT * FROM `listrunes` ORDER BY `runeid` ASC";
 	if (!$result = $con->query($sqlrune)){
@@ -112,6 +112,7 @@ if ($whatdropped == "1"){
 	echo '</SELECT> ';
 	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="1" MAX="9999"> gold pieces.';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="3"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
+	echo '<INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else {
 	echo '<FORM METHOD="POST"><SELECT NAME="gwdrop" onchange="this.form.submit()">';
