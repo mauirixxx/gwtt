@@ -44,7 +44,7 @@ if (mysqli_num_rows($result) > 0) {
 					die ('There was an error running the query [' . $con->error . ']');
 				}
 				while ($row4 = $resultattr->fetch_array()){
-					echo $row4['weaponattribute'] . ' ';
+					echo ' ' . $row4['weaponattribute'];
 				}
 				if (!$resultweap = $con->query($sqlweap)){
 					die ('There was an error running the query [' . $con->error . ']');
