@@ -15,5 +15,5 @@ while ($row = $result->fetch_array()){
 	$charname = $row['charname'];
 	echo '<OPTION VALUE="' . $charid . '">' . $charname . '</OPTION>';
 }
-echo '<INPUT TYPE="SUBMIT" VALUE="Choose Toon"></FORM>';
+echo '</SELECT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></FORM>';
 ?>

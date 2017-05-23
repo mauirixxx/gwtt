@@ -17,7 +17,13 @@ if (mysqli_num_rows($result) > 0) {
 	while ($row = $result->fetch_array()){
 		echo 'On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
 		if ($row['itemtype'] == 16) { //this would be a rune
-			echo 'a rune of ' . $row['runetype'];
+			$runeid = $row['runeid'];
+			$sqlrune = "SELECT listrunes.`runeid`, listrunes.`runes` FROM listrunes WHERE listrunes.`runeid` = $runeid";
+			if (!$result = $con->query($sqlrune)){
+				die ('There was an error running the query [' . $con->error . ']');
+			}
+			$runeresults = mysqli_query($con, $sqlrune);
+			echo 'a rune of ' . $row['runetype'] . ' or . ' $runeresults;
 		} else {
 			if (is_null($row['material'])) {
 				echo 'a ' . $row['itemrarity'] . ' r' . $row['itemreq'] . ' ' . $row['itemattribute'] . ' ' . $row['itemtype'] . ' named ' . $row['itemname'] . ''; //itemtype changed, need to convert itemtype to something readable
