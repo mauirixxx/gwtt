@@ -12,14 +12,15 @@ if (!$result = $con->query($sql)){
 }
 # experimental stuff
 if ($whattoon == ""){
-	echo '<FORM METHOD="POST" NAME="cselect" ACTION="gw-toon.php">';
-	echo '<SELECT NAME="cname">';
+	echo '<CENTER><FORM METHOD="POST">';
+	echo '<SELECT NAME="cname" onchange="this.form.submit()">>';
+	echo '<OPTION SELECTED DISABLED>Select a Character</OPTION>';
 	while ($row = $result->fetch_array()){
 		$charid = $row['playerid'];
 		$charname = $row['charname'];
 		echo '<OPTION VALUE="' . $charid . '">' . $charname . '</OPTION>';
 	}
-	echo '</SELECT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></FORM>';
+	echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM></CENTER>';
 } else {
 	echo 'Options for what to do after character selection goes here <BR />';
 	echo 'Character id selected is ' . $whattoon . '<BR />';
