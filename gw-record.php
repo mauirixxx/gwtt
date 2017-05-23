@@ -97,6 +97,7 @@ if ($whatdropped == "1"){
 } else if ($whatdropped == "3"){
 	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
 	echo 'on <INPUT NAME="treasuredate" TYPE="DATE" PLACEHOLDER="2006-10-26"> a ';
+	echo '<SELECT NAME=runerarity"><OPTION VALUE="2">Blue</OPTION><OPTION VALUE="3">Purple</OPTION><OPTION VALUE="4">Gold</OPTION> ';
 	//code for what rune dropped
 	$sqlrune = "SELECT * FROM `listrunes` ORDER BY `runeid` ASC";
 	if (!$result = $con->query($sqlrune)){
