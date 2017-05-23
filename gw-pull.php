@@ -30,9 +30,9 @@ if (mysqli_num_rows($result) > 0) {
 				$itemrarity = $row['itemrarity'];
 				$itemattr = $row['itemattribute'];
 				$itemweap = $row['itemtype'];
-				$sqlrare = 'SELECT listrarity.* FROM listrarity WHERE listrarity.`rareid` = $itemrarity';
-				$sqlattr = '';
-				$sqlweap = '';
+				$sqlrare = "SELECT listrarity.* FROM listrarity WHERE listrarity.`rareid` = $itemrarity";
+				$sqlattr = "";
+				$sqlweap = "";
 				if (!$resultrarity = $con->query($sqlrare)){
 					die ('There was an error running the query [' . $con->error . ']');
 				}
