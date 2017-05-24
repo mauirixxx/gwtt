@@ -25,7 +25,7 @@ if ($whattoon == "0"){
 } else {
 	$sqltoon = "SELECT charname from `playername` WHERE playerid = $whattoon";
 	if ($result2 = mysqli_query($con, $sqltoon)){
-		echo '<TITLE>$result2</TITLE><BODY>';
+		echo '<TITLE>' . $result2 . '</TITLE><BODY>';
 	}
 	echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
 	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $whattoon . '">';
