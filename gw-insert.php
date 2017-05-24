@@ -29,5 +29,8 @@ if ($droptype == 1){
 } else {
 	echo 'No data was sent!<BR />';
 }
-echo '<BR />Return to <A HREF="gw-record.php">data recording</A> page';
+echo '<BR />Return to <A HREF="gw-record.php">data recording</A> page<BR /><BR />';
+echo 'Go to <A HREF="gw-toon.php">character selection</A>';
+# humans shouldn't actually see this page, will need to auto submit this form back to gw-toon.php using the POST data name of "cname" so the previous toon will be auto selected
+# or look into using cookies / sessions (sessions being preferable)
 ?>

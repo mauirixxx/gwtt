@@ -122,5 +122,6 @@ if ($whatdropped == "1"){
 	echo '<OPTION VALUE="3">rune</OPTION></SELECT>';
 	echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM>';
 }
-echo 'Reload the page with no GET data? <A HREF="gw-record.php">RELOAD</A>';
+echo 'Reload the page with no POST data? <A HREF="gw-record.php">RELOAD</A><BR /><BR />'; //this needs to go away soon
+echo 'Go to <A HREF="gw-toon.php">character selection</A>'; //need to make this a form to preselect previously selected character
 ?>

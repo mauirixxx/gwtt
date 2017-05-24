@@ -10,7 +10,7 @@ $sql = "SELECT playerid, charname FROM `playername` WHERE `userid` = '1' ORDER B
 if (!$result = $con->query($sql)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
-if ($whattoon == ""){
+if ($whattoon == "0"){
 	echo '<CENTER><FORM METHOD="POST">';
 	echo '<SELECT NAME="cname" onchange="this.form.submit()">>';
 	echo '<OPTION SELECTED DISABLED>Select a Character</OPTION>';
@@ -23,7 +23,8 @@ if ($whattoon == ""){
 } else {
 	echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
 	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE=' . $whattoon . '">';
-	echo '<INPUT TYPE="RADIO" NAME="gwaction" VALUE="1">Record loot info<BR /><INPUT TYPE="RADIO" NAME="gwaction" VALUE="2">View Character loot history</BR />';
-	echo '<INPUT TYPE="SUBMIT" VALUE="Choose action"></FORM></CENTER>';
+	echo '<LEGEND>Select your course of action</LEGEND><UL>';
+	echo '<LI><INPUT TYPE="RADIO" NAME="gwaction" VALUE="1">Record loot info</LI><LI><INPUT TYPE="RADIO" NAME="gwaction" VALUE="2">View Character loot history</LI></UL>';
+	echo '<INPUT TYPE="SUBMIT" VALUE="Choose action"></FORM><BR /><BR /><FORM METHOD="POST" ACTION="w-toon.php"><INPUT TYPE="HIDDEN" NAME="cname" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM></CENTER>';
 }
 ?>
