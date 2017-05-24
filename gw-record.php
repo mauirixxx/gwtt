@@ -1,4 +1,5 @@
 <TITLE>What Dropped?</TITLE>
+<BODY>
 <?php
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
@@ -121,9 +122,9 @@ if ($whatdropped == "1"){
 	echo '<OPTION VALUE="1">weapon</OPTION>';
 	echo '<OPTION VALUE="2">material</OPTION>';
 	echo '<OPTION VALUE="3">rune</OPTION></SELECT>';
+	echo '<INPUT TYPE="HIDDEN" NAME="locationid" VALUE="' . $location . '">';
 	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $toonid .'">';
 	echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM>';
 }
-echo 'Reload the page with no POST data? <A HREF="gw-record.php">RELOAD</A><BR /><BR />'; //this needs to go away soon
-echo 'Go to <A HREF="gw-toon.php">character selection</A>'; //need to make this a form to preselect previously selected character
+echo '<BR /><CENTER><FORM METHOD="POST" ACTION="gw-location.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to location selection"></FORM></CENTER></BODY>';
 ?>
