@@ -12,6 +12,7 @@ if (!$result = $con->query($sql)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
 if ($whattoon == "0"){
+	echo '<TITLE>Character Selection</TITLE><BODY>';
 	echo '<CENTER><FORM METHOD="POST">';
 	echo '<SELECT NAME="cnameid" onchange="this.form.submit()">';
 	echo '<OPTION SELECTED DISABLED>Select a Character</OPTION>';
@@ -20,13 +21,13 @@ if ($whattoon == "0"){
 		$charname = $row['charname'];
 		echo '<OPTION VALUE="' . $charid . '">' . $charname . '</OPTION>';
 	}
-	echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM></CENTER>';
+	echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM></CENTER></BODY>';
 } else {
+	echo '<TITLE>Action Selection</TITLE><BODY>';
 	echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
-	echo 'toon id # is : ' . $whattoon;
 	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE=' . $whattoon . '">';
 	echo '<FIELDSET CLASS="radiogroup"><LEGEND>Select your course of action</LEGEND><UL CLASS="radio">';
 	echo '<LI style="text-align:left;"><INPUT TYPE="RADIO" NAME="gwaction" VALUE="1">Record loot info</LI><LI style="text-align:left;"><INPUT TYPE="RADIO" NAME="gwaction" VALUE="2">View Character loot history</LI></UL></FIELDSET>';
-	echo '<INPUT TYPE="SUBMIT" VALUE="Choose action"></FORM><BR /><BR /><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM></CENTER>';
+	echo '<INPUT TYPE="SUBMIT" VALUE="Choose action"></FORM><BR /><BR /><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM></CENTER></BODY>';
 }
 ?>
