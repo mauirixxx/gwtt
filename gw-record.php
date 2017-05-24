@@ -10,7 +10,7 @@ $whatdropped = mysqli_real_escape_string($con, $_POST['gwdrop']);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
-echo 'At ';
+echo '<CENTER>At ';
 $sqlmaplocation = "SELECT * FROM `treasurelocation` WHERE `treasureid` = $location";
 if (!$result = $con->query($sqlmaplocation)){
 	die ('There was an error running the query [' . $con->error . ']');
@@ -21,6 +21,7 @@ while ($row = $result->fetch_array()){
 	$locid = $row['treasureid'];
 	echo '<A HREF="' . $loclink . '">' . $locname . '</A> (Guild Wars Wiki link)';
 }
+echo '</CENTER>';
 if ($whatdropped == "1"){
 	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
 	echo 'on <INPUT NAME="treasuredate" TYPE="DATE" PLACEHOLDER="2006-10-26"> a ';
