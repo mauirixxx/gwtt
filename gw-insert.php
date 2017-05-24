@@ -6,7 +6,7 @@ $gold = mysqli_real_escape_string($con, $_POST['droppedgold']); //how much gold 
 $droptype = mysqli_real_escape_string($con, $_POST['droptype']); //this dictates if the drop was a weapon/rune/material
 $locid = mysqli_real_escape_string($con, $_POST['location']); //this is `treasurelocation`.`treasureid` in the database
 $toonid = mysqli_real_escape_string($con, $_POST['chartoon']); //this is the id of the character doing the hunting
-$treasdate = mysqli_real_escape_string($con, $_POST['treasuredate']); //
+$treasdate = mysqli_real_escape_string($con, $_POST['treasuredate']);
 if ($droptype == 1){
 	$rarity = mysqli_real_escape_string($con, $_POST['rare']);
 	$req = mysqli_real_escape_string($con, $_POST['requirement']);
@@ -18,7 +18,7 @@ if ($droptype == 1){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
 } else if ($droptype == 2){
-	$matid = mysqli_real_escape_string($con, $_POST['rarematerials']);
+	$matid = mysqli_real_escape_string($con, $_POST['rarematerial']);
 	$sqlmatins = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, material) VALUES ('$treasdate', $toonid, $locid, $gold, $matid)";
 	if (!$result = $con->query($sqlmatins)){
 		die ('There was an error running the query [' . $con->error . ']');
