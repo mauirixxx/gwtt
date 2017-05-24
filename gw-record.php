@@ -23,7 +23,7 @@ while ($row = $result->fetch_array()){
 }
 echo '</CENTER>';
 if ($whatdropped == "1"){
-	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
+	echo '<CENTER><FORM METHOD="POST" ACTION="gw-insert.php">';
 	echo 'on <INPUT NAME="treasuredate" TYPE="DATE" PLACEHOLDER="2006-10-26"> a ';
 	//code for white blue purple etc
 	$sqlweaprare = "SELECT * FROM `listrarity` ORDER BY `rareid` ASC";
@@ -75,10 +75,10 @@ if ($whatdropped == "1"){
 	echo '</SELECT> called the <INPUT TYPE="TEXT" NAME="itemname" MAXLENGTH="100" SIZE="40">';
 	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="1" MAX="9999"> gold pieces.';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="1"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
-	echo '<INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'"> The toonid variable is ' . $toonid . '';
-	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
+	echo '<INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'">';
+	echo ' <BR /><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "2"){
-	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
+	echo '<CENTER><FORM METHOD="POST" ACTION="gw-insert.php">';
 	echo 'on <INPUT NAME="treasuredate" TYPE="DATE" PLACEHOLDER="2006-10-26"> a ';
 	//code for what rare material dropped
 	$sqlraremat = "SELECT * FROM `materials` ORDER BY `materialid` ASC";
@@ -95,9 +95,9 @@ if ($whatdropped == "1"){
 	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="1" MAX="9999"> gold pieces.';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="2"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
 	echo '<INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'">';
-	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
+	echo ' <BR /><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "3"){
-	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
+	echo '<CENTER><FORM METHOD="POST" ACTION="gw-insert.php">';
 	echo 'on <INPUT NAME="treasuredate" TYPE="DATE" PLACEHOLDER="2006-10-26"> a ';
 	echo '<SELECT NAME="runerarity"><OPTION VALUE="2">Blue</OPTION><OPTION VALUE="3">Purple</OPTION><OPTION VALUE="4">Gold</OPTION></SELECT> ';
 	//code for what rune dropped
@@ -115,7 +115,7 @@ if ($whatdropped == "1"){
 	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="1" MAX="9999"> gold pieces.';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="3"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
 	echo '<INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'">';
-	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
+	echo ' <BR /><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else {
 	echo '<CENTER><FORM METHOD="POST"><SELECT NAME="gwdrop" onchange="this.form.submit()">';
 	echo '<OPTION SELECTED DISABLED>choose one</OPTION>';
