@@ -24,7 +24,6 @@ if ($whattoon == "0"){
 		$charid = $row['playerid'];
 		$charname = $row['charname'];
 		echo '<OPTION VALUE="' . $charid . '">' . $charname . '</OPTION>';
-		echo '<INPUT TYPE="HIDDEN" NAME="charactername" VALUE="' . $charname . '">';
 	}
 	echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM></CENTER>';
 } else {
