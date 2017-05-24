@@ -1,7 +1,7 @@
 <?php
 $toonid = $_POST['playerid'];
 $action = $_POST['gwaction'];
-echo'<TITLE>WHY ARE YOU HERE?</TITLE>';
+echo'<TITLE>Redirecting ...</TITLE>';
 if ($action == 1){ //insert dropped items data
 	echo '<BODY onload="document.record.submit()">';
 	echo '<FORM METHOD="POST" ACTION="gw-record.php" NAME="record"><INPUT TYPE="HIDDEN" NAME="playerid" VALUE="'. $toonid . '"><INPUT TYPE="SUBMIT" ID="clkRecord"></FORM></BODY>';
