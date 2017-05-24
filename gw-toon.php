@@ -23,8 +23,8 @@ if ($whattoon == "0"){
 } else {
 	echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
 	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE=' . $whattoon . '">';
-	echo '<LEGEND>Select your course of action</LEGEND><UL>';
-	echo '<LI><INPUT TYPE="RADIO" NAME="gwaction" VALUE="1">Record loot info</LI><LI><INPUT TYPE="RADIO" NAME="gwaction" VALUE="2">View Character loot history</LI></UL>';
+	echo '<FIELDSET CLASS="radiogroup"><LEGEND>Select your course of action</LEGEND><UL CLASS="radio">';
+	echo '<LI><INPUT TYPE="RADIO" NAME="gwaction" VALUE="1">Record loot info</LI><LI><INPUT TYPE="RADIO" NAME="gwaction" VALUE="2">View Character loot history</LI></UL></FIELDSET>';
 	echo '<INPUT TYPE="SUBMIT" VALUE="Choose action"></FORM><BR /><BR /><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cname" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM></CENTER>';
 }
 ?>
