@@ -13,7 +13,7 @@ if (!$resultmap = $con->query($sqlmaploc)){
 }
 echo '<BODY><CENTER><FORM METHOD="POST" ACTION="gw-record.php">';
 echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $playerid . '">';
-echo 'Current playerid is :' . $playerid ' <BR />';
+echo 'Current playerid is :' . $playerid . ' <BR />';
 echo '<SELECT NAME="locationid" onchange="this.form.submit()">';
 echo '<OPTION SELECTED DISABLED>Select a map location</OPTION>';
 while ($rowmap = $resultmap->fetch_array()){
