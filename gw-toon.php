@@ -27,6 +27,10 @@ if ($whattoon == "0"){
 	if (!$result2 = $con->query($sqltoon)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
+	while ($row2 = $result2->fetch_array()){
+		$charactername = $row['charname'];
+		echo 'Character selected is: ' . $charactername . '';
+	}
 	echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
 	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $whattoon . '">';
 	echo '<FIELDSET CLASS="radiogroup"><LEGEND>Select your course of action</LEGEND><UL CLASS="radio">';
