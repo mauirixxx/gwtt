@@ -31,10 +31,8 @@ if ($droptype == 1){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
 } else {
-	echo 'No data was sent!<BR />';
+	exit("Variable droptype was set to ($droptype)");
 }
-echo '<BR />Return to <A HREF="gw-record.php">data recording</A> page<BR /><BR />';
-echo 'Go to <A HREF="gw-toon.php">character selection</A>';
-# humans shouldn't actually see this page, will need to auto submit this form back to gw-toon.php using the POST data name of "cname" so the previous toon will be auto selected
-# or look into using cookies / sessions (sessions being preferable)
+echo '<BODY onload="document.returntotoons.submit()">';
+echo '<FORM METHOD="POST" ACTION="gw-toon.php" NAME="returntotoons"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="'. $toonid . '"><INPUT TYPE="SUBMIT"></FORM></BODY>';
 ?>
