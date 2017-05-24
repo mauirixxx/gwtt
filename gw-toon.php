@@ -23,7 +23,10 @@ if ($whattoon == "0"){
 	}
 	echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM></CENTER></BODY>';
 } else {
-	echo '<TITLE>Action Selection</TITLE><BODY>';
+	$sqltoon = "SELECT charname from `playername` WHERE playerid = $whattoon";
+	if ($result2 = mysqli_query($con, $sqltoon)){
+		echo '<TITLE>$result2</TITLE><BODY>';
+	}
 	echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
 	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $whattoon . '">';
 	echo '<FIELDSET CLASS="radiogroup"><LEGEND>Select your course of action</LEGEND><UL CLASS="radio">';
