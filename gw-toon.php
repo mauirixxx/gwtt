@@ -13,7 +13,7 @@ if (!$result = $con->query($sql)){
 }
 if ($whattoon == "0"){
 	echo '<CENTER><FORM METHOD="POST">';
-	echo '<SELECT NAME="cname" onchange="this.form.submit()">';
+	echo '<SELECT NAME="cnameid" onchange="this.form.submit()">';
 	echo '<OPTION SELECTED DISABLED>Select a Character</OPTION>';
 	while ($row = $result->fetch_array()){
 		$charid = $row['playerid'];
