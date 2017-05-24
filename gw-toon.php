@@ -29,7 +29,7 @@ if ($whattoon == "0"){
 	}
 	while ($row2 = $result2->fetch_array()){
 		$charname2 = $row2['charname'];
-		echo '<TITLE>' . $charname . '</TITLE><BODY>';
+		echo '<TITLE>' . $charname2 . '</TITLE><BODY>';
 	}
 	echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
 	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $whattoon . '">';
