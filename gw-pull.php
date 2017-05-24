@@ -63,5 +63,5 @@ if (mysqli_num_rows($result) > 0) {
 }
 ?>
 <BR />
-Return to <A HREF="gw-toon.php">character selection</A> page
+<FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM>
 </BODY>
