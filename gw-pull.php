@@ -52,6 +52,7 @@ if (mysqli_num_rows($result) > 0) {
 				}
 				echo ' named ' . $row['itemname'];
 			} else {
+				//need to insert material linking code here
 				echo 'a ' . $row['material'];
 			}
 		}
