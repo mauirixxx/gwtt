@@ -19,7 +19,7 @@ if ($droptype == 1){
 	}
 } else if ($droptype == 2){
 	$matid = mysqli_real_escape_string($con, $_POST['rarematerials']);
-	$sqlmatin = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, material) VALUES ('$treasdate', $toonid, $locid, $gold, $matid)";
+	$sqlmatins = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, material) VALUES ('$treasdate', $toonid, $locid, $gold, $matid)";
 	if (!$result = $con->query($sqlmatins)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
