@@ -7,17 +7,17 @@ $playerid = mysqli_real_escape_string($con, $_POST['playerid']);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
-$sqlmaploc = "SELECT * FROM treasurelocation";
+$sqlmaploc = "SELECT treasurelocation.treasureid, treasurelocation.location FROM treasurelocation";
 if (!$resultmap = $con->query($sqlmaploc)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
 echo '<BODY><CENTER><FORM METHOD="POST" ACTION="gw-record.php">';
 echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $playerid . '">';
+echo 'Current playerid is :' . $playerid ' <BR />';
 echo '<SELECT NAME="locationid" onchange="this.form.submit()">';
 echo '<OPTION SELECTED DISABLED>Select a map location</OPTION>';
 while ($rowmap = $resultmap->fetch_array()){
 	$locname = $rowmap['location'];
-	$loclink = $rowmap['wikilink'];
 	$locid = $rowmap['treasureid'];
 	echo '<OPTION VALUE="' . $locid . '">' . $locname . '</OPTION>';
 }
