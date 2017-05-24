@@ -7,11 +7,11 @@ $whattoon = mysqli_real_escape_string($con, $_POST['cnameid']);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
-$sql = "SELECT playerid, charname FROM `playername` WHERE `userid` = '1' ORDER BY `charname` ASC"; //need to make userid a variable
-if (!$result = $con->query($sql)){
-	die ('There was an error running the query [' . $con->error . ']');
-}
 if ($whattoon == "0"){
+	$sql = "SELECT playerid, charname FROM `playername` WHERE `userid` = '1' ORDER BY `charname` ASC"; //need to make userid a variable
+	if (!$result = $con->query($sql)){
+		die ('There was an error running the query [' . $con->error . ']');
+	}
 	echo '<TITLE>Character Selection</TITLE><BODY>';
 	echo '<CENTER><FORM METHOD="POST">';
 	echo '<SELECT NAME="cnameid" onchange="this.form.submit()">';
