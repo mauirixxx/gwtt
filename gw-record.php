@@ -19,7 +19,7 @@ while ($row = $result->fetch_array()){
 	$locname = $row['location'];
 	$loclink = $row['wikilink'];
 	$locid = $row['treasureid'];
-	echo '<A HREF="' . $loclink . '">' . $locname . '</A>';
+	echo '<A HREF="' . $loclink . '">' . $locname . '</A> (Guild Wars Wiki link)';
 }
 if ($whatdropped == "1"){
 	echo '<FORM METHOD="POST" ACTION="gw-insert.php">';
@@ -117,14 +117,14 @@ if ($whatdropped == "1"){
 	echo '<INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'">';
 	echo ' <BR /><CENTER><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else {
-	echo '<FORM METHOD="POST"><SELECT NAME="gwdrop" onchange="this.form.submit()">';
+	echo '<CENTER><FORM METHOD="POST"><SELECT NAME="gwdrop" onchange="this.form.submit()">';
 	echo '<OPTION SELECTED DISABLED>choose one</OPTION>';
-	echo '<OPTION VALUE="1">weapon</OPTION>';
-	echo '<OPTION VALUE="2">material</OPTION>';
-	echo '<OPTION VALUE="3">rune</OPTION></SELECT>';
+	echo '<OPTION VALUE="1">Weapon</OPTION>';
+	echo '<OPTION VALUE="2">Rare Material</OPTION>';
+	echo '<OPTION VALUE="3">Rune</OPTION></SELECT>';
 	echo '<INPUT TYPE="HIDDEN" NAME="locationid" VALUE="' . $location . '">';
 	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $toonid .'">';
-	echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM>';
+	echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM></CENTER>';
 }
 echo '<BR /><CENTER><FORM METHOD="POST" ACTION="gw-location.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to location selection"></FORM></CENTER></BODY>';
 ?>
