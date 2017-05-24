@@ -53,7 +53,14 @@ if (mysqli_num_rows($result) > 0) {
 				echo ' named ' . $row['itemname'];
 			} else {
 				//need to insert material linking code here
-				echo 'a ' . $row['material'];
+				$matid = $row['materialid'];
+				$sqlmat = "SELECT material FROM materials WHERE materialid = $matid";
+				if (!$resultmats = $con->query($sqlmat)){
+					die ('There was an error running the query [' . $con->error . ']');
+				}
+				while ($row6 = $resultmats->fetch_array()){
+					echo 'a ' . $row6['material'];
+				}
 			}
 		}
 		echo ' at <A HREF="' . $row['wikilink'] . '">' . $row['location'] . '</A><BR />';
@@ -63,5 +70,5 @@ if (mysqli_num_rows($result) > 0) {
 }
 ?>
 <BR />
-<FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM>
+<CENTER><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM></CENTER>
 </BODY>
