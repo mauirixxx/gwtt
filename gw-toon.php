@@ -24,7 +24,7 @@ if ($whattoon == "0"){
 	echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM></CENTER></BODY>';
 } else {
 	$sqltoon = "SELECT charname from `playername` WHERE playerid = $whattoon";
-	if (!$result = $con->query($sqltoon)){
+	if (!$result2 = $con->query($sqltoon)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
 	while ($row2 = $result2->fetch_array()){
