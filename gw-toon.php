@@ -24,8 +24,9 @@ if ($whattoon == "0"){
 	echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM></CENTER></BODY>';
 } else {
 	$sqltoon = "SELECT charname from `playername` WHERE playerid = $whattoon";
-	if ($result2 = mysqli_query($con, $sqltoon)){
-		echo '<TITLE>' . $result2 . '</TITLE><BODY>';
+	if ($result2 = $con->query($sqltoon)){
+		$row2 = $result2->fetch_row();
+		echo '<TITLE>' . $row2 . '</TITLE><BODY>';
 	}
 	echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
 	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $whattoon . '">';
