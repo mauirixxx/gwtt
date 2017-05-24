@@ -122,7 +122,7 @@ if ($whatdropped == "1"){
 	echo '<OPTION VALUE="1">weapon</OPTION>';
 	echo '<OPTION VALUE="2">material</OPTION>';
 	echo '<OPTION VALUE="3">rune</OPTION></SELECT>';
-	echo '<INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'">';
+	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $toonid .'">';
 	echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM>';
 }
 echo 'Reload the page with no POST data? <A HREF="gw-record.php">RELOAD</A><BR /><BR />'; //this needs to go away soon
