@@ -28,7 +28,7 @@ if ($whattoon == "0"){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
 	while ($row2 = $result2->fetch_array()){
-		$charactername = $row['charname'];
+		$charactername = $row2['charname'];
 		echo 'Character selected is: ' . $charactername . '';
 	}
 	echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
