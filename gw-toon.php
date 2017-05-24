@@ -3,12 +3,7 @@ include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 $userid = 1; //need to actually pull this info from cookie/session (preferable)
 $whattoon = mysqli_real_escape_string($con, $_POST['cnameid']);
-$nameoftoon = mysqli_real_escape_string($con, $_POST['charactername']);
-if ($toonid == ""){
-	echo '<TITLE>Choose a character!</TITLE><BODY>';
-} else {
-	echo '<TITLE>' . $nameoftoon . '</TITLE></BODY>"';
-}
+//$nameoftoon = mysqli_real_escape_string($con, $_POST['charactername']);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
@@ -18,7 +13,7 @@ if (!$result = $con->query($sql)){
 }
 if ($whattoon == "0"){
 	echo '<CENTER><FORM METHOD="POST">';
-	echo '<SELECT NAME="cname" onchange="this.form.submit()">>';
+	echo '<SELECT NAME="cname" onchange="this.form.submit()">';
 	echo '<OPTION SELECTED DISABLED>Select a Character</OPTION>';
 	while ($row = $result->fetch_array()){
 		$charid = $row['playerid'];
