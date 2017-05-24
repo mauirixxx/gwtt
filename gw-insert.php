@@ -18,7 +18,11 @@ if ($droptype == 1){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
 } else if ($droptype == 2){
-	echo 'drop was a rare material!<BR />';
+	$matid = mysqli_real_escape_string($con, $_POST['rarematerials']);
+	$sqlmatin = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, material) VALUES ('$treasdate', $toonid, $locid, $gold, $matid)";
+	if (!$result = $con->query($sqlmatins)){
+		die ('There was an error running the query [' . $con->error . ']');
+	}
 } else if ($droptype == 3){
 	$runeid = mysqli_real_escape_string($con, $_POST['rune']);
 	$runerare = mysqli_real_escape_string($con, $_POST['runerarity']);
