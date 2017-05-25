@@ -10,6 +10,8 @@ if ($con->connect_errno > 0){
 }
 $sqllogin = "SELECT * FROM users WHERE users.username = '$username' and password = '$password'";
 if ($result = $con->query($sqllogin)){
+	$row_cnt = mysqli_num_rows($result);
+	echo 'there were ' . $row_cnt . ' results!<BR>';
 	while ($row = $result->fetch_array()){
 		$uname = $row['username'];
 		$uid = $row['userid'];
