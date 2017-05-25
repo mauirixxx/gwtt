@@ -3,7 +3,8 @@ session_start();
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 $userid = $_SESSION['userid']; //need to actually pull this info from cookie/session (preferable)
-$whattoon = mysqli_real_escape_string($con, $_POST['cnameid']);
+//$whattoon = mysqli_real_escape_string($con, $_POST['cnameid']);
+$whattoon = $_SESSION['playerid'];
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
