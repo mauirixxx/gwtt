@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 #non-section specific POST data here
