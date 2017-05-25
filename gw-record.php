@@ -4,7 +4,6 @@
 session_start();
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
-//$toonid = mysqli_real_escape_string($con, $_POST['playerid']); //enable this after character selection is working
 $toonid = $_SESSION['playerid'];
 $location = mysqli_real_escape_string($con, $_POST['locationid']);
 $whatdropped = mysqli_real_escape_string($con, $_POST['gwdrop']);
