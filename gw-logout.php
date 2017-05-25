@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>Logging out</TITLE>
+</HEAD>
+<BODY>
 <?php
 session_start();
 if (isset($_POST['logout'])){
@@ -9,3 +15,5 @@ if (isset($_POST['logout'])){
 	echo 'Something went wrong, you haven\'t been logged out!';
 }
 ?>
+</BODY>
+</HTML>

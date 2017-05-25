@@ -21,7 +21,7 @@ if ($result = $con->query($sqllogin)){
 			$_SESSION['access'] = $access;
 		}
 		header("refresh:3;url=gw-index.php");
-		echo '<HTML><HEAD><TITLE>Logged in</TITLE></HEAD><BODY><CENTER>';
+		echo '<!DOCTYPE html><HTML><HEAD><TITLE>Logged in</TITLE></HEAD><BODY><CENTER>';
 		echo 'You have successfully logged in ...<BR />Returning to index in a few seconds</CENTER>';
 	} else {
 		echo '<HTML><HEAD><TITLE>Invalid login</TITLE></HEAD><BODY><CENTER>';

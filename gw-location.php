@@ -1,4 +1,8 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
 <TITLE>Location Selection</TITLE>
+</HEAD>
 <?php
 session_start();
 include_once 'gw-connect.php';
@@ -22,5 +26,6 @@ while ($rowmap = $resultmap->fetch_array()){
 }
 echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Map Location"></NOSCRIPT></FORM></CENTER><BR />';
 echo '<CENTER><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="playeridid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM>';
-echo '</BODY>';
 ?>
+</BODY>
+</HTML>

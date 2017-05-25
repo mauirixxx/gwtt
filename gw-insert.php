@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>Inserting Data</TITLE>
+</HEAD>
 <?php
 session_start();
 include_once 'gw-connect.php';
@@ -35,6 +40,10 @@ if ($droptype == 1){
 } else {
 	exit("Variable droptype was set to ($droptype)");
 }
-echo '<BODY onload="document.returntotoons.submit()">';
-echo '<FORM METHOD="POST" ACTION="gw-toon.php" NAME="returntotoons"><INPUT TYPE="SUBMIT"></FORM></BODY>';
 ?>
+<BODY onload="document.returntotoons.submit()">
+<FORM METHOD="POST" ACTION="gw-toon.php" NAME="returntotoons">
+<INPUT TYPE="SUBMIT">
+</FORM>
+</BODY>
+</HTML>

@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
 <?php
 session_start();
 include_once 'gw-connect.php';
@@ -12,7 +15,7 @@ if ($whattoon == "0" or $whattoon == ""){
 	if (!$result = $con->query($sql)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
-	echo '<TITLE>Character Selection</TITLE><BODY>';
+	echo '<TITLE>Character Selection</TITLE></HEAD><BODY>';
 	echo '<CENTER><FORM METHOD="POST">';
 	echo '<SELECT NAME="playerid" onchange="this.form.submit()">';
 	echo '<OPTION SELECTED DISABLED>Select a Character</OPTION>';

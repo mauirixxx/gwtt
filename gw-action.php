@@ -1,8 +1,11 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
 <?php
 session_start();
 $playerid = $_SESSION['playerid'];
 $action = $_POST['gwaction'];
-echo'<TITLE>Redirecting ...</TITLE>';
+echo'<TITLE>Redirecting ...</TITLE></HEAD>';
 if ($action == 1){ //insert dropped items data
 	echo '<BODY onload="document.record.submit()">';
 	echo '<FORM METHOD="POST" ACTION="gw-location.php" NAME="record"><INPUT TYPE="HIDDEN" NAME="playerid" VALUE="'. $playerid . '"><INPUT TYPE="SUBMIT" ID="clkRecord"></FORM></BODY>';
@@ -13,3 +16,4 @@ if ($action == 1){ //insert dropped items data
 	echo 'You shouldn\'t be seeing this, something went horribly horribly wrong!';
 }
 ?>
+</HTML>

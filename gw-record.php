@@ -1,4 +1,8 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
 <TITLE>What Dropped?</TITLE>
+</HEAD>
 <BODY>
 <?php
 session_start();
@@ -126,5 +130,13 @@ if ($whatdropped == "1"){
 	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $toonid .'">';
 	echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM></CENTER>';
 }
-echo '<BR /><CENTER><FORM METHOD="POST" ACTION="gw-location.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to location selection"></FORM></CENTER></BODY>';
 ?>
+<BR />
+<CENTER>
+<FORM METHOD="POST" ACTION="gw-location.php">
+<INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0">
+<INPUT TYPE="SUBMIT" VALUE="Return to location selection">
+</FORM>
+</CENTER>
+</BODY>
+</HTML>
