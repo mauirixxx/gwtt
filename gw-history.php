@@ -1,4 +1,8 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
 <TITLE>Treasure Data</TITLE>
+</HEAD>
 <BODY>
 <?php
 session_start();
@@ -67,9 +71,15 @@ if (mysqli_num_rows($result) > 0) {
 		echo ' at <A HREF="' . $row['wikilink'] . '">' . $row['location'] . '</A><BR />';
 	}
 } else {
-	echo 'There is no data to display for that character yet';
+	echo '<CENTER>There is no data to display for that character yet</CENTER><BR />';
 }
 ?>
 <BR />
-<CENTER><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM></CENTER>
+<CENTER>
+<FORM METHOD="POST" ACTION="gw-toon.php">
+<INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0">
+<INPUT TYPE="SUBMIT" VALUE="Return to character selection">
+</FORM>
+</CENTER>
 </BODY>
+</HTML>
