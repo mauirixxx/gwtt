@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
 <?php
 session_start();
 include_once 'gw-connect.php';
@@ -21,13 +24,14 @@ if ($result = $con->query($sqllogin)){
 			$_SESSION['access'] = $access;
 		}
 		header("refresh:3;url=gw-index.php");
-		echo '<!DOCTYPE html><HTML><HEAD><TITLE>Logged in</TITLE></HEAD><BODY><CENTER>';
+		echo '<TITLE>Logged in</TITLE></HEAD><BODY><CENTER>';
 		echo 'You have successfully logged in ...<BR />Returning to index in a few seconds</CENTER>';
 	} else {
-		echo '<HTML><HEAD><TITLE>Invalid login</TITLE></HEAD><BODY><CENTER>';
-		echo 'That was not a valid username or password!<BR>';
+		echo '<TITLE>Invalid login</TITLE></HEAD><BODY><CENTER>';
+		echo 'That was not a valid username or password!<BR /><BR />';
 		echo 'Please try again <A HREF="gw-index.php">here</A></CENTER>';
 	}
 }
-echo '</BODY></HTML>';
 ?>
+</BODY>
+</HTML>

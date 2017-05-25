@@ -12,7 +12,7 @@ if (isset($_POST['logout'])){
 	header("refresh:3;url=gw-index.php");
 	echo '<CENTER>You have been logged out ...<BR />Returning to login screen in a few seconds</CENTER>';
 } else {
-	echo 'Something went wrong, you haven\'t been logged out!';
+	echo '<CENTER>Something went wrong, you haven\'t been logged out!<BR /><BR />Please click <A HREF="gw-logout.php">HERE</A> to try again</CENTER>';
 }
 ?>
 </BODY>
