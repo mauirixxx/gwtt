@@ -24,7 +24,7 @@ if ($whattoon == "0" or $whattoon == ""){
 		$charname = $row['charname'];
 		echo '<OPTION VALUE="' . $charid . '">' . $charname . '</OPTION>';
 	}
-	echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM></CENTER></BODY>';
+	echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM></CENTER>';
 } else {
 	$sqltoon = "SELECT charname from `playername` WHERE playerid = $whattoon";
 	if (!$result2 = $con->query($sqltoon)){
@@ -40,7 +40,16 @@ if ($whattoon == "0" or $whattoon == ""){
 	echo '<LI style="text-align:left;"><INPUT TYPE="RADIO" NAME="gwaction" VALUE="1">Record loot info</LI>';
 	echo '<LI style="text-align:left;"><INPUT TYPE="RADIO" NAME="gwaction" VALUE="2">View Character loot history</LI>';
 	echo '</UL></FIELDSET>';
-	echo '<INPUT TYPE="SUBMIT" VALUE="Choose action"></FORM><BR /><BR /><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM></CENTER></BODY>';
+	echo '<INPUT TYPE="SUBMIT" VALUE="Choose action"></FORM><BR /><BR /><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM></CENTER>';
 }
-echo '<BR /><BR /><CENTER><FORM METHOD="POST" ACTION="gw-logout.php"><INPUT TYPE="HIDDEN" NAME="logout"><INPUT TYPE="SUBMIT" VALUE="Logout"></FORM></CENTER>';
 ?>
+<BR />
+<BR />
+<CENTER>
+<FORM METHOD="POST" ACTION="gw-logout.php">
+<INPUT TYPE="HIDDEN" NAME="logout">
+<INPUT TYPE="SUBMIT" VALUE="Logout">
+</FORM>
+</CENTER>
+</BODY>
+</HTML>
