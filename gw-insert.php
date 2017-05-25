@@ -6,7 +6,6 @@ $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 $gold = mysqli_real_escape_string($con, $_POST['droppedgold']); //how much gold dropped
 $droptype = mysqli_real_escape_string($con, $_POST['droptype']); //this dictates if the drop was a weapon/rune/material
 $locid = mysqli_real_escape_string($con, $_POST['location']); //this is `treasurelocation`.`treasureid` in the database
-//$toonid = mysqli_real_escape_string($con, $_POST['chartoon']); //this is the id of the character doing the hunting
 $toonid = $_SESSION['playerid'];
 $treasdate = mysqli_real_escape_string($con, $_POST['treasuredate']);
 if ($droptype == 1){
@@ -21,7 +20,7 @@ if ($droptype == 1){
 	}
 } else if ($droptype == 2){
 	$matid = mysqli_real_escape_string($con, $_POST['rarematerial']);
-	$sqlmatins = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, material) VALUES (\"$treasdate\", $toonid, $locid, $gold, $matid)";
+	$sqlmatins = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, material) VALUES ('$treasdate', $toonid, $locid, $gold, $matid)";
 	if (!$result = $con->query($sqlmatins)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
@@ -36,5 +35,5 @@ if ($droptype == 1){
 	exit("Variable droptype was set to ($droptype)");
 }
 echo '<BODY onload="document.returntotoons.submit()">';
-echo '<FORM METHOD="POST" ACTION="gw-toon.php" NAME="returntotoons"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="'. $toonid . '"><INPUT TYPE="SUBMIT"></FORM></BODY>';
+echo '<FORM METHOD="POST" ACTION="gw-toon.php" NAME="returntotoons"><INPUT TYPE="SUBMIT"></FORM></BODY>';
 ?>
