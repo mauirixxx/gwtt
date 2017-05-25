@@ -1,9 +1,11 @@
 <TITLE>Treasure Data</TITLE>
 <BODY>
 <?php
+session_start();
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
-$cnameid = mysqli_real_escape_string($con, $_POST['cnameid']); //need to sanitize & validate this input somehow
+//$cnameid = mysqli_real_escape_string($con, $_POST['cnameid']); //need to sanitize & validate this input somehow
+$cnameid = $_SESSION['playerid'];
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
