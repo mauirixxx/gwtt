@@ -13,7 +13,7 @@ if ($action == 1){ //insert dropped items data
 	echo '<BODY onload="document.createtoon.submit()">';
 	echo 'Character creation is currently disabled!<BR><BR>Click <A HREF="gw-index.php">here</A> to go to the main page';
 	//echo '<FORM METHOD="POST" ACTION="gw-create.php" NAME="createtoon"><INPUT TYPE="SUBMIT"></FORM></BODY>'; //enable this and modify it when gw-create.php is made
-{
+} else {
 	echo 'You shouldn\'t be seeing this, something went horribly horribly wrong!';
 }
 ?>
