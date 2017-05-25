@@ -13,7 +13,6 @@ if ($whattoon == "0" or $whattoon == ""){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
 	echo '<TITLE>Character Selection</TITLE><BODY>';
-	echo 'your userid is ' . $userid . '<BR />';
 	echo '<CENTER><FORM METHOD="POST">';
 	echo '<SELECT NAME="cnameid" onchange="this.form.submit()">';
 	echo '<OPTION SELECTED DISABLED>Select a Character</OPTION>';
