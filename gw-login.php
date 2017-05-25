@@ -8,7 +8,6 @@ $password = md5($password);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
-echo 'broke something above the sql statement!<BR>';
 $sqllogin = "SELECT * FROM users WHERE users.username = '$username' and password = '$password'";
 if ($result = $con->query($sqllogin)){
 	while ($row = $result->fetch_array()){
@@ -20,7 +19,9 @@ if ($result = $con->query($sqllogin)){
 		$_SESSION['access'] = $access;
 		echo 'Your username is ' . $uname . '. Your userid is ' . $uid . '. Your access level is ' . $access . '.<BR />';
 	}
-	echo 'Login failed - please try again <A HREF="gw-index.php">here</A>';
+} else {
+	echo 'Login failed - please try again <A HREF="gw-index.php">here</A>'; //saving this for later
+	exit;
 }
 echo 'Proceed to character selection <A HREF="gw-toon.php">here</A><BR>'; //really should automate this
 ?>
