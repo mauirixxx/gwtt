@@ -52,7 +52,6 @@ if (mysqli_num_rows($result) > 0) {
 				}
 				echo ' named ' . $row['itemname'];
 			} else {
-				//need to insert material linking code here
 				$matid = $row['material'];
 				$sqlmat = "SELECT material FROM materials WHERE materialid = $matid";
 				if (!$resultmats = $con->query($sqlmat)){
