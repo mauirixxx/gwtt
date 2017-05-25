@@ -11,19 +11,16 @@ if ($con->connect_errno > 0){
 echo 'broke something above the sql statement!<BR>';
 $sqllogin = "SELECT * FROM users WHERE users.username = '$username' and password = '$password'";
 if ($result = $con->query($sqllogin)){
-	if ($result->fetchColumn() > 0){
-		while ($row = $result->fetch_array()){
-			$uname = $row['username'];
-			$uid = $row['userid'];
-			$access = $row['access'];
-			$_SESSION['username'] = $uname;
-			$_SESSION['userid'] = $uid;
-			$_SESSION['access'] = $access;
-			echo 'Your username is ' . $uname . '. Your userid is ' . $uid . '. Your access level is ' . $access . '.<BR />';
-		}
-	} else {
-		echo 'Login failed - please try again <A HREF="gw-index.php">here</A>';
+	while ($row = $result->fetch_array()){
+		$uname = $row['username'];
+		$uid = $row['userid'];
+		$access = $row['access'];
+		$_SESSION['username'] = $uname;
+		$_SESSION['userid'] = $uid;
+		$_SESSION['access'] = $access;
+		echo 'Your username is ' . $uname . '. Your userid is ' . $uid . '. Your access level is ' . $access . '.<BR />';
 	}
+	echo 'Login failed - please try again <A HREF="gw-index.php">here</A>';
 }
 echo 'Proceed to character selection <A HREF="gw-toon.php">here</A><BR>'; //really should automate this
 ?>
