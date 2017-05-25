@@ -24,7 +24,8 @@ if ($whattoon == "0" or $whattoon == ""){
 		$charname = $row['charname'];
 		echo '<OPTION VALUE="' . $charid . '">' . $charname . '</OPTION>';
 	}
-	echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM></CENTER>';
+	echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM><BR /><BR />';
+	echo '<FORM ACTION="gw-create.php"><INPUT TYPE="SUBMIT" VALUE="Add a toon"></FORM></CENTER>';
 } else {
 	$sqltoon = "SELECT charname from `playername` WHERE playerid = $whattoon";
 	if (!$result2 = $con->query($sqltoon)){
