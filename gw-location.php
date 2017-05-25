@@ -1,9 +1,11 @@
 <TITLE>Location Selection</TITLE>
 <?php
+session_start();
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 //all POST variable data under here
-$playerid = mysqli_real_escape_string($con, $_POST['playerid']);
+//$playerid = mysqli_real_escape_string($con, $_POST['playerid']);
+$playerid = $_SESSION['playerid'];
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
@@ -21,6 +23,6 @@ while ($rowmap = $resultmap->fetch_array()){
 	echo '<OPTION VALUE="' . $locid . '">' . $locname . '</OPTION>';
 }
 echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Map Location"></NOSCRIPT></FORM></CENTER><BR />';
-echo '<CENTER><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM>';
+echo '<CENTER><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="playeridid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM>';
 echo '</BODY>';
 ?>
