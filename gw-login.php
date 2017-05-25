@@ -19,11 +19,15 @@ if ($result = $con->query($sqllogin)){
 			$_SESSION['username'] = $uname;
 			$_SESSION['userid'] = $uid;
 			$_SESSION['access'] = $access;
-			echo 'Proceed to character selection <A HREF="gw-toon.php">here</A><BR>'; //really should automate this
 		}
+		header("refresh:3;url=gw-index.php");
+		echo '<HTML><HEAD><TITLE>Logged in</TITLE></HEAD><BODY><CENTER>';
+		echo 'You have successfully logged in ...<BR />Returning to index in a few seconds</CENTER>';
 	} else {
+		echo '<HTML><HEAD><TITLE>Invalid login</TITLE></HEAD><BODY><CENTER>';
 		echo 'That was not a valid username or password!<BR>';
-		echo 'Please try again <A HREF="gw-index.php">here</A>';
+		echo 'Please try again <A HREF="gw-index.php">here</A></CENTER>';
 	}
 }
+echo '</BODY></HTML>';
 ?>
