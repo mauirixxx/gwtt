@@ -5,6 +5,6 @@ if (isset($_POST['logout'])){
 	header("refresh:5;url=login.php");
 	echo '<CENTER>You have been logged out ...<BR />Returning to login screen in a few seconds</CENTER>';
 } else {
-	echo 'Something went wrong, you haven't been logged out!';
+	echo 'Something went wrong, you haven\'t been logged out!';
 }
 ?>
