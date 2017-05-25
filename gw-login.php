@@ -12,22 +12,18 @@ $sqllogin = "SELECT * FROM users WHERE users.username = '$username' and password
 if ($result = $con->query($sqllogin)){
 	$row_cnt = mysqli_num_rows($result);
 	if ($row_cnt > 0){
-		echo 'you should be logging in now!<BR>'; //will move the while loop up to here if successful
+		while ($row = $result->fetch_array()){
+			$uname = $row['username'];
+			$uid = $row['userid'];
+			$access = $row['access'];
+			$_SESSION['username'] = $uname;
+			$_SESSION['userid'] = $uid;
+			$_SESSION['access'] = $access;
+			echo 'Proceed to character selection <A HREF="gw-toon.php">here</A><BR>'; //really should automate this
+		}
 	} else {
 		echo 'That was not a valid username or password!<BR>';
+		echo 'Please try again <A HREF="gw-index.php">here</A>';
 	}
-	while ($row = $result->fetch_array()){
-		$uname = $row['username'];
-		$uid = $row['userid'];
-		$access = $row['access'];
-		$_SESSION['username'] = $uname;
-		$_SESSION['userid'] = $uid;
-		$_SESSION['access'] = $access;
-		echo 'Your username is ' . $uname . '. Your userid is ' . $uid . '. Your access level is ' . $access . '.<BR />';
-	}
-} else {
-	echo 'Login failed - please try again <A HREF="gw-index.php">here</A>'; //saving this for later
-	exit;
 }
-echo 'Proceed to character selection <A HREF="gw-toon.php">here</A><BR>'; //really should automate this
 ?>
