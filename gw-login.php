@@ -6,9 +6,7 @@ if (isset($_SESSION['userid']) && ($_SESSION['access'])){
 	include_once 'gw-connect.php';
 	$con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 	$username = mysqli_real_escape_string($con, $_POST['username']); //enable this after username form is built
-	//$username = 'mauirixxx'; //delete this line after the above is finished
 	$password = mysqli_real_escape_string($con, $_POST['password']); //enable this after password form is built
-	//$password = 'drx9175l';
 	$password = md5($password);
 	if ($con->connect_errno > 0){
 		die ('Unable to connect to database [' . $db->connect_errno . ']');
