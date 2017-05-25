@@ -2,8 +2,8 @@
 session_start();
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
-$username = mysqli_real_escape_string($con, $_POST['username']); //enable this after username form is built
-$password = mysqli_real_escape_string($con, $_POST['password']); //enable this after password form is built
+$username = mysqli_real_escape_string($con, $_POST['username']);
+$password = mysqli_real_escape_string($con, $_POST['password']);
 $password = md5($password);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');

@@ -3,8 +3,6 @@
 session_start();
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
-//all POST variable data under here
-//$playerid = mysqli_real_escape_string($con, $_POST['playerid']);
 $playerid = $_SESSION['playerid'];
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
@@ -14,7 +12,7 @@ if (!$resultmap = $con->query($sqlmaploc)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
 echo '<BODY><CENTER><FORM METHOD="POST" ACTION="gw-record.php">';
-echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $playerid . '">';
+//echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $playerid . '">';
 echo '<SELECT NAME="locationid" onchange="this.form.submit()">';
 echo '<OPTION SELECTED DISABLED>Select a map location</OPTION>';
 while ($rowmap = $resultmap->fetch_array()){
