@@ -7,7 +7,7 @@ if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
 if ($whattoon == "0" or $whattoon == ""){
-	$sql = "SELECT playerid, charname FROM `playername` WHERE `userid` = '1' ORDER BY `charname` ASC"; //need to make userid a variable
+	$sql = "SELECT playerid, charname FROM `playername` WHERE `userid` = '$userid' ORDER BY `charname` ASC"; //need to make userid a variable
 	if (!$result = $con->query($sql)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
