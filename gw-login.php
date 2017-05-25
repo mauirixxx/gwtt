@@ -1,8 +1,10 @@
 <?php
 session_start();
 if (isset($_SESSION['userid']) && ($_SESSION['access'])){
+	$userid = $_SESSION['userid'];
+	$acc = $_SESSION['access'];
 	echo 'Proceed to character selection <A HREF="gw-toon.php">here</A><BR>'; //really should automate this
-	echo 'Your session userid is ' . $_SESSION['userid'] . ' and your access is ' . $_SESSION['access'] . '<BR />';
+	echo 'Your session userid is ' . $userid . ' and your access is ' . $acc . '<BR />';
 } else {
 	include_once 'gw-connect.php';
 	$con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
