@@ -1,7 +1,6 @@
 <?php
 session_start();
 $playerid = $_SESSION['playerid'];
-//$toonid = $_POST['playerid'];
 $action = $_POST['gwaction'];
 echo'<TITLE>Redirecting ...</TITLE>';
 if ($action == 1){ //insert dropped items data
