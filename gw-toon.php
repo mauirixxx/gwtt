@@ -2,9 +2,8 @@
 session_start();
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
-$userid = $_SESSION['userid']; //need to actually pull this info from cookie/session (preferable)
-//$whattoon = mysqli_real_escape_string($con, $_POST['cnameid']);
-$whattoon = $_SESSION['playerid'];
+$userid = $_SESSION['userid'];
+$whattoon = mysqli_real_escape_string($con, $_POST['playerid']);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
@@ -15,7 +14,7 @@ if ($whattoon == "0" or $whattoon == ""){
 	}
 	echo '<TITLE>Character Selection</TITLE><BODY>';
 	echo '<CENTER><FORM METHOD="POST">';
-	echo '<SELECT NAME="cnameid" onchange="this.form.submit()">';
+	echo '<SELECT NAME="playerid" onchange="this.form.submit()">';
 	echo '<OPTION SELECTED DISABLED>Select a Character</OPTION>';
 	while ($row = $result->fetch_array()){
 		$charid = $row['playerid'];
@@ -33,7 +32,6 @@ if ($whattoon == "0" or $whattoon == ""){
 		echo '<TITLE>' . $charactername . '</TITLE><BODY>';
 	}
 	echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
-	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $whattoon . '">';
 	$_SESSION['playerid'] = $whattoon;
 	echo '<FIELDSET CLASS="radiogroup"><LEGEND>Select your course of action</LEGEND><UL CLASS="radio">';
 	echo '<LI style="text-align:left;"><INPUT TYPE="RADIO" NAME="gwaction" VALUE="1">Record loot info</LI>';
