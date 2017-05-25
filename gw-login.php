@@ -8,6 +8,7 @@ $password = md5($password);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
+echo 'broke something above the sql statement!<BR>';
 $sqllogin = "SELECT * FROM users WHERE users.username = '$username' and password = '$password'";
 if ($result = $con->query($sqllogin)){
 	if ($result->fetchColumn() > 0){
