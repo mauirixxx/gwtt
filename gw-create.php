@@ -16,6 +16,7 @@ if ($createnew === "1"){
 	$bdate = mysqli_real_escape_string($con, $_POST['bdate']);
 	$profid = mysqli_real_escape_string($con, $_POST['professionid']);
 	$sqlcreate = "INSERT INTO `playername` (charname, birthdate, userid, professionid) VALUES ('$cname', '$bdate', $userid, $profid)";
+	echo 'SQL Code w/ variables is: ' . $sqlcreate . '';
 	echo 'Character creation database insertion code here';
 } else {
 	echo 'Form creation code goes here';
