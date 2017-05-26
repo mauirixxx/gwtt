@@ -17,7 +17,7 @@ if ($createnew === "1"){
 	$profid = mysqli_real_escape_string($con, $_POST['professionid']);
 	list ($y, $m, $d) = explode('-', $bdate);
 	if (!checkdate($y, $m, $d)) {
-		echo 'Date is invalid<BR />';
+		echo 'Date is invalid ' . $bdate . '<BR />';
 		echo 'Date format is YYYY-MM-DD / 2005-04-28<BR />';
 		echo 'Please click <A HREF="gw-create.php">HERE</A> to try again';
 		echo '<BR /><BR />Return to <A HREF="gw-index.php">home</A>.</CENTER></BODY></HTML>';
