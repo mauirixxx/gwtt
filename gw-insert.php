@@ -42,8 +42,10 @@ if ($droptype == 1){
 }
 ?>
 <BODY onload="document.returntotoons.submit()">
+<CENTER>
 <FORM METHOD="POST" ACTION="gw-toon.php" NAME="returntotoons">
 <INPUT TYPE="SUBMIT">
 </FORM>
+</CENTER>
 </BODY>
 </HTML>

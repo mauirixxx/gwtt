@@ -10,7 +10,6 @@ include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 $createnew = mysqli_real_escape_string($con, $_POST['docreate']);
 $userid = $_SESSION['userid'];
-//echo '<CENTER>Character creation isn\'t enabled yet!<BR />Your userid is ' . $userid . '<BR />'; //delete this line when script is done
 if ($createnew === "1"){
 	$cname = mysqli_real_escape_string($con, $_POST['cname']);
 	$bdate = mysqli_real_escape_string($con, $_POST['bdate']);
@@ -38,8 +37,6 @@ if ($createnew === "1"){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
 	header("refresh:3;url=gw-toon.php");
-/*	echo 'SQL Code w/ variables is: ' . $sqlcreate . '';
-	echo 'Character creation database insertion code here'; */
 } else {
 	echo '<CENTER><FORM METHOD="POST" ACTION="gw-create.php"><INPUT TYPE="HIDDEN" NAME="docreate" VALUE="1">';
 	echo 'Character name: <INPUT TYPE="TEXT" NAME="cname" MAXLENGTH="19" SIZE="20"><BR />';
