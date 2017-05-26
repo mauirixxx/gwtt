@@ -10,13 +10,13 @@ include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 $createnew = mysqli_real_escape_string($con, $_POST['docreate']);
 $userid = $_SESSION['userid'];
-echo '<CENTER>Character creation isn\'t enabled yet!<BR />Your userid is ' . $userid . '';
+echo '<CENTER>Character creation isn\'t enabled yet!<BR />Your userid is ' . $userid . '<BR />';
 if ($createnew === "1"){
 	$cname = mysqli_real_escape_string($con, $_POST['cname']);
 	$bdate = mysqli_real_escape_string($con, $_POST['bdate']);
 	$profid = mysqli_real_escape_string($con, $_POST['professionid']);
 	list ($y, $m, $d) = explode('-', $bdate);
-	if (!checkdate($y, $m, $d)) {
+	if (!checkdate($m, $d, $y)) {
 		echo 'Date is invalid ' . $bdate . '<BR />';
 		echo 'Date format is YYYY-MM-DD / 2005-04-28<BR />';
 		echo 'Please click <A HREF="gw-create.php">HERE</A> to try again';
