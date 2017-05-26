@@ -10,7 +10,7 @@ include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 $createnew = mysqli_real_escape_string($con, $_POST['docreate']);
 $userid = $_SESSION['userid'];
-echo '<CENTER>Character creation isn\'t enabled yet!<BR />Your userid is ' . $userid . '<BR />';
+echo '<CENTER>Character creation isn\'t enabled yet!<BR />Your userid is ' . $userid . '<BR />'; //delete this line when script is done
 if ($createnew === "1"){
 	$cname = mysqli_real_escape_string($con, $_POST['cname']);
 	$bdate = mysqli_real_escape_string($con, $_POST['bdate']);
@@ -19,6 +19,16 @@ if ($createnew === "1"){
 	if (!checkdate($m, $d, $y)) {
 		echo 'Date is invalid ' . $bdate . '<BR />';
 		echo 'Date format is YYYY-MM-DD / 2005-04-28<BR />';
+		echo 'Please click <A HREF="gw-create.php">HERE</A> to try again';
+		echo '<BR /><BR />Return to <A HREF="gw-index.php">home</A>.</CENTER></BODY></HTML>';
+		exit();
+	} else if ($cname === ""){
+		echo 'Please enter a name for your character<BR />';
+		echo 'Please click <A HREF="gw-create.php">HERE</A> to try again';
+		echo '<BR /><BR />Return to <A HREF="gw-index.php">home</A>.</CENTER></BODY></HTML>';
+		exit();
+	} else if ($profid === ""){
+		echo 'Please choose a profession<BR />';
 		echo 'Please click <A HREF="gw-create.php">HERE</A> to try again';
 		echo '<BR /><BR />Return to <A HREF="gw-index.php">home</A>.</CENTER></BODY></HTML>';
 		exit();
