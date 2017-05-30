@@ -46,16 +46,8 @@ if ($whattoon == "0" or $whattoon == ""){
 if (!$_SESSION['userid']){
 	echo '<br>session is empty, put login code here<br>';
 } else {
-	echo '<br>session is valid, put logout code here<br>';
+	echo '<BR /><BR /><CENTER><FORM METHOD="POST" ACTION="gw-logout.php"><INPUT TYPE="HIDDEN" NAME="logout"><INPUT TYPE="SUBMIT" VALUE="Logout"></FORM></CENTER>';
 }
 ?>
-<BR />
-<BR />
-<CENTER>
-<FORM METHOD="POST" ACTION="gw-logout.php">
-<INPUT TYPE="HIDDEN" NAME="logout">
-<INPUT TYPE="SUBMIT" VALUE="Logout">
-</FORM>
-</CENTER>
 </BODY>
 </HTML>
