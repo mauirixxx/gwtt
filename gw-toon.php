@@ -43,6 +43,11 @@ if ($whattoon == "0" or $whattoon == ""){
 	echo '</UL></FIELDSET>';
 	echo '<INPUT TYPE="SUBMIT" VALUE="Choose action"></FORM><BR /><BR /><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM></CENTER>';
 }
+if (!$_SESSION['userid']){
+	echo '<br>session is empty, put login code here<br>';
+} else {
+	echo '<br>session is valid, put logout code here<br>';
+}
 ?>
 <BR />
 <BR />
