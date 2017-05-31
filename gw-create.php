@@ -38,7 +38,7 @@ if ($createnew === "1"){
 		echo '<BR /><BR />Return to <A HREF="gw-index.php" CLASS="navlink">home</A>.</CENTER></BODY></HTML>';
 		exit();
 	}
-	$sqlcreate = "INSERT INTO `playername` (charname, birthdate, userid, professionid, profcolor) VALUES ('$cname', '$bdate', $userid, $profid, $profcolor)";
+	$sqlcreate = "INSERT INTO `playername` (charname, birthdate, userid, professionid, profcolor) VALUES ('$cname', '$bdate', $userid, $profid, '$profcolor')";
 	if (!$resultcreate = $con->query($sqlcreate)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
