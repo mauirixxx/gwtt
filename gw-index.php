@@ -7,7 +7,7 @@ session_start();
 if (isset($_SESSION['userid']) && ($_SESSION['access'])){
 	$uname = $_SESSION['username'];
 	echo '<TITLE>Welcome, ' . $uname . '</TITLE></HEAD><BODY><CENTER>';
-	echo 'Proceed to character selection <A HREF="gw-toon.php">here</A><BR />';
+	echo 'Proceed to character selection <A HREF="gw-toon.php" CLASS="navlink">here</A><BR />';
 	echo 'Create a new character to record <A HREF="gw-create.php" CLASS="navlink">here</A><BR /></CENTER>';
 } else {
 	echo '<TITLE>Login Required</TITLE></HEAD><BODY>';
