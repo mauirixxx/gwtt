@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <HTML>
 <HEAD>
+<link rel="stylesheet" type="text/css" href="gw-style.css">
 <TITLE>Inserting Data</TITLE>
 </HEAD>
 <?php

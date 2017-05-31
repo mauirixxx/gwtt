@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <HTML>
 <HEAD>
+<link rel="stylesheet" type="text/css" href="gw-style.css">
 <?php
 session_start();
 include_once 'gw-connect.php';
@@ -29,7 +30,7 @@ if ($result = $con->query($sqllogin)){
 	} else {
 		echo '<TITLE>Invalid login</TITLE></HEAD><BODY><CENTER>';
 		echo 'That was not a valid username or password!<BR /><BR />';
-		echo 'Please try again <A HREF="gw-index.php">here</A></CENTER>';
+		echo 'Please try again <A HREF="gw-index.php" CLASS="navlink">here</A></CENTER>';
 	}
 }
 ?>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <HTML>
 <HEAD>
+<link rel="stylesheet" type="text/css" href="gw-style.css">
 <TITLE>What Dropped?</TITLE>
 </HEAD>
 <BODY>
@@ -23,7 +24,7 @@ while ($row = $result->fetch_array()){
 	$locname = $row['location'];
 	$loclink = $row['wikilink'];
 	$locid = $row['treasureid'];
-	echo '<A HREF="' . $loclink . '">' . $locname . '</A> (Guild Wars Wiki link)';
+	echo '<A HREF="' . $loclink . '" CLASS="navlink">' . $locname . '</A> (Guild Wars Wiki link)';
 }
 echo '</CENTER>';
 if ($whatdropped == "1"){

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <HTML>
 <HEAD>
+<link rel="stylesheet" type="text/css" href="gw-style.css">
 <TITLE>Treasure Data</TITLE>
 </HEAD>
 <BODY>
@@ -68,7 +69,7 @@ if (mysqli_num_rows($result) > 0) {
 				}
 			}
 		}
-		echo ' at <A HREF="' . $row['wikilink'] . '">' . $row['location'] . '</A><BR />';
+		echo ' at <A HREF="' . $row['wikilink'] . '" CLASS="navlink">' . $row['location'] . '</A><BR />';
 	}
 } else {
 	echo '<CENTER>There is no data to display for that character yet</CENTER><BR />';

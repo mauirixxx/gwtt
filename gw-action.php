@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <HTML>
 <HEAD>
+<link rel="stylesheet" type="text/css" href="gw-style.css">
 <?php
 session_start();
 $playerid = $_SESSION['playerid'];

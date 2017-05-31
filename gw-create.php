@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <HTML>
 <HEAD>
+<link rel="stylesheet" type="text/css" href="gw-style.css">
 <TITLE>Character Creation</TITLE>
 </HEAD>
 <BODY>
@@ -18,18 +19,18 @@ if ($createnew === "1"){
 	if (!checkdate($m, $d, $y)) {
 		echo 'Date is invalid ' . $bdate . '<BR />';
 		echo 'Date format is YYYY-MM-DD / 2005-04-28<BR />';
-		echo 'Please click <A HREF="gw-create.php">HERE</A> to try again';
-		echo '<BR /><BR />Return to <A HREF="gw-index.php">home</A>.</CENTER></BODY></HTML>';
+		echo 'Please click <A HREF="gw-create.php" CLASS="navlink">HERE</A> to try again';
+		echo '<BR /><BR />Return to <A HREF="gw-index.php" CLASS="navlink">home</A>.</CENTER></BODY></HTML>';
 		exit();
 	} else if ($cname === ""){
 		echo 'Please enter a name for your character<BR />';
-		echo 'Please click <A HREF="gw-create.php">HERE</A> to try again';
-		echo '<BR /><BR />Return to <A HREF="gw-index.php">home</A>.</CENTER></BODY></HTML>';
+		echo 'Please click <A HREF="gw-create.php" CLASS="navlink">HERE</A> to try again';
+		echo '<BR /><BR />Return to <A HREF="gw-index.php" CLASS="navlink">home</A>.</CENTER></BODY></HTML>';
 		exit();
 	} else if ($profid === ""){
 		echo 'Please choose a profession<BR />';
-		echo 'Please click <A HREF="gw-create.php">HERE</A> to try again';
-		echo '<BR /><BR />Return to <A HREF="gw-index.php">home</A>.</CENTER></BODY></HTML>';
+		echo 'Please click <A HREF="gw-create.php" CLASS="navlink">HERE</A> to try again';
+		echo '<BR /><BR />Return to <A HREF="gw-index.php" CLASS="navlink">home</A>.</CENTER></BODY></HTML>';
 		exit();
 	}
 	$sqlcreate = "INSERT INTO `playername` (charname, birthdate, userid, professionid) VALUES ('$cname', '$bdate', $userid, $profid)";
@@ -57,7 +58,7 @@ if ($createnew === "1"){
 }
 ?>
 <BR /><BR />
-Return to <A HREF="gw-index.php">home</A>.
+Return to <A HREF="gw-index.php" CLASS="navlink">home</A>.
 </CENTER>
 </BODY>
 </HTML>

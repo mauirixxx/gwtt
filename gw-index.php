@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <HTML>
 <HEAD>
+<link rel="stylesheet" type="text/css" href="gw-style.css">
 <?php
 session_start();
 if (isset($_SESSION['userid']) && ($_SESSION['access'])){
 	$uname = $_SESSION['username'];
 	echo '<TITLE>Welcome, ' . $uname . '</TITLE></HEAD><BODY><CENTER>';
 	echo 'Proceed to character selection <A HREF="gw-toon.php">here</A><BR />';
-	echo 'Create a new character to record <A HREF="gw-create.php">here</A><BR /></CENTER>';
+	echo 'Create a new character to record <A HREF="gw-create.php" CLASS="navlink">here</A><BR /></CENTER>';
 } else {
 	echo '<TITLE>Login Required</TITLE></HEAD><BODY>';
 	echo '<CENTER><FORM ACTION="gw-login.php" METHOD="POST">Username:<INPUT TYPE="TEXT" NAME="username" SIZE="20"><BR />';

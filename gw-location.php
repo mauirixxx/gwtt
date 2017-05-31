@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <HTML>
 <HEAD>
+<link rel="stylesheet" type="text/css" href="gw-style.css">
 <TITLE>Location Selection</TITLE>
 </HEAD>
 <?php
@@ -16,7 +17,6 @@ if (!$resultmap = $con->query($sqlmaploc)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
 echo '<BODY><CENTER><FORM METHOD="POST" ACTION="gw-record.php">';
-//echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $playerid . '">';
 echo '<SELECT NAME="locationid" onchange="this.form.submit()">';
 echo '<OPTION SELECTED DISABLED>Select a map location</OPTION>';
 while ($rowmap = $resultmap->fetch_array()){
