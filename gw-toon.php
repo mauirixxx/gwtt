@@ -42,7 +42,7 @@ if (!$_SESSION['userid']){
 				$charactername = $row2['charname'];
 				$profcolor = $row2['profcolor'];
 				echo '<TITLE>' . $charactername . '</TITLE><BODY>';
-				echo '<STYLE TYPE="TEXT/CSS" MEDIA="SCREEN">body { background-color: ' . $profcolor . '; }';
+				echo '<STYLE TYPE="TEXT/CSS" MEDIA="SCREEN">body { background-color: ' . $profcolor . '; }</STYLE>';
 			}
 			echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
 			$_SESSION['playerid'] = $whattoon;
