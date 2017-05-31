@@ -19,7 +19,6 @@ if ($createnew === "1"){
 		return array("#FFF", "#DDD", "#FF8", "#CF9", "#ACF", "#9FC", "#DAF", "#FBB", "#FCE", "#BFF", "#FC9", "#DDF");
 	}
 	$profcolor = getColor()[$profid];
-	//echo 'profession color is ' . $profcolor . ' due to profid being ' . $profid . '!';
 	list ($y, $m, $d) = explode('-', $bdate);
 	if (!checkdate($m, $d, $y)) {
 		echo 'Date is invalid ' . $bdate . '<BR />';
