@@ -34,13 +34,15 @@ if (!$_SESSION['userid']){
 		echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM><BR /><BR />';
 		echo '<FORM ACTION="gw-create.php"><INPUT TYPE="SUBMIT" VALUE="Add a toon"></FORM></CENTER>';
 		} else {
-			$sqltoon = "SELECT charname from `playername` WHERE playerid = $whattoon";
+			$sqltoon = "SELECT charname, profcolor from `playername` WHERE playerid = $whattoon";
 			if (!$result2 = $con->query($sqltoon)){
 				die ('There was an error running the query [' . $con->error . ']');
 			}
 			while ($row2 = $result2->fetch_array()){
 				$charactername = $row2['charname'];
+				$profcolor = $row2['profcolor'];
 				echo '<TITLE>' . $charactername . '</TITLE><BODY>';
+				echo '<STYLE TYPE="TEXT/CSS" MEDIA="SCREEN">body { background-color: ' . $profcolor . '; }';
 			}
 			echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
 			$_SESSION['playerid'] = $whattoon;
