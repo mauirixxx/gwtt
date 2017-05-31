@@ -15,6 +15,11 @@ if ($createnew === "1"){
 	$cname = mysqli_real_escape_string($con, $_POST['cname']);
 	$bdate = mysqli_real_escape_string($con, $_POST['bdate']);
 	$profid = mysqli_real_escape_string($con, $_POST['professionid']);
+	function getColor() {
+		return array("#DDD", "#FF8", "#CF9", "#ACF", "#9FC", "#DAF", "#FBB", "#FCE", "#BFF", "#FC9", "#DDF");
+	}
+	$profcolor = getColor()[$profid];
+	echo 'profession color is ' . $profcolor . '!';
 	list ($y, $m, $d) = explode('-', $bdate);
 	if (!checkdate($m, $d, $y)) {
 		echo 'Date is invalid ' . $bdate . '<BR />';
@@ -33,7 +38,7 @@ if ($createnew === "1"){
 		echo '<BR /><BR />Return to <A HREF="gw-index.php" CLASS="navlink">home</A>.</CENTER></BODY></HTML>';
 		exit();
 	}
-	$sqlcreate = "INSERT INTO `playername` (charname, birthdate, userid, professionid) VALUES ('$cname', '$bdate', $userid, $profid)";
+	$sqlcreate = "INSERT INTO `playername` (charname, birthdate, userid, professionid, profcolor) VALUES ('$cname', '$bdate', $userid, $profid, $profcolor)";
 	if (!$resultcreate = $con->query($sqlcreate)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
