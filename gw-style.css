@@ -30,3 +30,17 @@ ul, li{
 	float: left;
 	margin: 0 20px 0 0;
 }
+
+fieldset {
+  padding: 1em;
+  font:80%/1 sans-serif;
+  }
+  
+label {
+  float:left;
+  width:25%;
+  margin-right:0.5em;
+  padding-top:0.2em;
+  text-align:right;
+  font-weight:bold;
+  }
