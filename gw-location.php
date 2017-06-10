@@ -9,6 +9,7 @@ session_start();
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 $playerid = $_SESSION['playerid'];
+$profcolor = $_SESSION['profcolor'];
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
@@ -16,6 +17,7 @@ $sqlmaploc = "SELECT treasurelocation.treasureid, treasurelocation.location FROM
 if (!$resultmap = $con->query($sqlmaploc)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
+echo '<STYLE TYPE="TEXT/CSS" MEDIA="SCREEN">body { background-color: ' . $profcolor . '; }</STYLE>';
 echo '<BODY><CENTER><FORM METHOD="POST" ACTION="gw-record.php">';
 echo '<SELECT NAME="locationid" onchange="this.form.submit()">';
 echo '<OPTION SELECTED DISABLED>Select a map location</OPTION>';
