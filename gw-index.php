@@ -10,7 +10,7 @@ if (isset($_SESSION['userid']) && ($_SESSION['access'])){
 	echo 'Proceed to character selection <A HREF="gw-toon.php" CLASS="navlink">here</A><BR />';
 	echo 'Create a new character to record <A HREF="gw-create.php" CLASS="navlink">here</A><BR />';
 	if ($_SESSION['access'] == 9){
-		echo'<BR />Hello admin, please click <A HREF="gw-admin.php">here</A> to access the admin page <BR />';
+		echo'<BR />Hello admin, please click <A HREF="gw-admin.php" CLASS="navlink">here</A> to access the admin page <BR />';
 	}
 } else {
 	echo '<TITLE>Login Required</TITLE></HEAD><BODY>';
