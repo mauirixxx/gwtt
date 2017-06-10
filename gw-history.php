@@ -30,6 +30,8 @@ if (mysqli_num_rows($result) > 0) {
 			while ($row2 = $result2->fetch_array()){
 				echo 'a rune of ' . $row2['runes'];
 			}
+		} else if ($row['itemtype'] == 17) { //nothing dropped, but showing the recorded date
+			echo 'nothing dropped at this location on this date.';
 		} else {
 			if (is_null($row['material'])) {
 				$itemrarity = $row['itemrarity'];
