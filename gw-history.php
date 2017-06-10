@@ -12,6 +12,7 @@ include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 //$cnameid = mysqli_real_escape_string($con, $_POST['cnameid']); //need to sanitize & validate this input somehow
 $cnameid = $_SESSION['playerid'];
+$profcolor = $_SESSION['profcolor'];
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
@@ -20,6 +21,7 @@ if (!$result = $con->query($sql)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
 if (mysqli_num_rows($result) > 0) {
+	echo '<STYLE TYPE="TEXT/CSS" MEDIA="SCREEN">body { background-color: ' . $profcolor . '; }</STYLE>';
 	while ($row = $result->fetch_array()){
 		echo '<TR><TD>On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
 		if ($row['itemtype'] == 16) { //this would be a rune

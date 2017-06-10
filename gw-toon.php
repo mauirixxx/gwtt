@@ -41,6 +41,7 @@ if (!$_SESSION['userid']){
 			while ($row2 = $result2->fetch_array()){
 				$charactername = $row2['charname'];
 				$profcolor = $row2['profcolor'];
+				$_SESSION['profcolor'] == $profcolor;
 				echo '<TITLE>' . $charactername . '</TITLE><BODY>';
 				echo '<STYLE TYPE="TEXT/CSS" MEDIA="SCREEN">body { background-color: ' . $profcolor . '; }</STYLE>';
 			}
