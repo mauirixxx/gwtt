@@ -20,5 +20,7 @@ if (isset($_SESSION['userid']) && ($_SESSION['access'])){
 }
 ?>
 </CENTER>
+<!-- yup REALLY need to make a footer page - having a logout button when you're not even logged in is stupid -->
+<BR /><BR /><CENTER><FORM METHOD="POST" ACTION="gw-logout.php"><INPUT TYPE="HIDDEN" NAME="logout"><INPUT TYPE="SUBMIT" VALUE="Logout"></FORM></CENTER>
 </BODY>
 </HTML>

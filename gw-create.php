@@ -64,5 +64,6 @@ if ($createnew === "1"){
 <BR /><BR />
 Return to <A HREF="gw-index.php" CLASS="navlink">home</A>.
 </CENTER>
+<BR /><BR /><CENTER><FORM METHOD="POST" ACTION="gw-logout.php"><INPUT TYPE="HIDDEN" NAME="logout"><INPUT TYPE="SUBMIT" VALUE="Logout"></FORM></CENTER>
 </BODY>
 </HTML>

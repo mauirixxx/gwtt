@@ -149,5 +149,7 @@ if ($whatdropped == "1"){
 <INPUT TYPE="SUBMIT" VALUE="Return to location selection">
 </FORM>
 </CENTER>
+<!-- really need to make a footer page for this -->
+<BR /><BR /><CENTER><FORM METHOD="POST" ACTION="gw-logout.php"><INPUT TYPE="HIDDEN" NAME="logout"><INPUT TYPE="SUBMIT" VALUE="Logout"></FORM></CENTER>
 </BODY>
 </HTML>

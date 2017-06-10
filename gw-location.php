@@ -29,5 +29,6 @@ while ($rowmap = $resultmap->fetch_array()){
 echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Map Location"></NOSCRIPT></FORM></CENTER><BR />';
 echo '<CENTER><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="playeridid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM>';
 ?>
+<BR /><BR /><CENTER><FORM METHOD="POST" ACTION="gw-logout.php"><INPUT TYPE="HIDDEN" NAME="logout"><INPUT TYPE="SUBMIT" VALUE="Logout"></FORM></CENTER>
 </BODY>
 </HTML>
