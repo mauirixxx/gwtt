@@ -27,20 +27,20 @@ if ($droptype == 1){
 	}
 } else if ($droptype == 2){
 	$matid = mysqli_real_escape_string($con, $_POST['rarematerial']);
-	$sqlmatins = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, material) VALUES ('$treasdate', $toonid, $locid, $gold, $matid)";
+	$sqlmatins = "INSERT INTO `history` (historydate, userid, charnameid, locationid, goldrec, material) VALUES ('$treasdate', $uid, $toonid, $locid, $gold, $matid)";
 	if (!$result = $con->query($sqlmatins)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
 } else if ($droptype == 3){
 	$runeid = mysqli_real_escape_string($con, $_POST['rune']);
 	$runerare = mysqli_real_escape_string($con, $_POST['runerarity']);
-	$sqlruneins = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, itemtype, itemrarity, runetype) VALUES ('$treasdate', $toonid, $locid, $gold, '16', $runerare, $runeid)";
+	$sqlruneins = "INSERT INTO `history` (historydate, userid, charnameid, locationid, goldrec, itemtype, itemrarity, runetype) VALUES ('$treasdate', $uid, $toonid, $locid, $gold, '16', $runerare, $runeid)";
 	if (!$result = $con->query($sqlruneins)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
 } else if ($droptype == 4){
 	$itname = mysqli_real_escape_string($con, $_POST['itemname']);
-	$sqlnothing = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, itemname) VALUES ('$treasdate', $uid, $toonid, $locid, $gold, '$itname')";
+	$sqlnothing = "INSERT INTO `history` (historydate, userid, charnameid, locationid, goldrec, itemname) VALUES ('$treasdate', $uid, $toonid, $locid, $gold, '$itname')";
 	if (!$result = $con->query($sqlnothing)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
