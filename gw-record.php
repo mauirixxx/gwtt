@@ -117,16 +117,19 @@ if ($whatdropped == "1"){
 		echo '<OPTION VALUE="' . $runeid . '">' . $rune . '</OPTION>';
 	}
 	echo '</SELECT> ';
-	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="1" MAX="9999"> gold pieces.';
+	echo ' and <INPUT TYPE="NUMBER" NAME="droppedgold" SIZE="4" MIN="0" MAX="9999"> gold pieces.';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="3"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
 	echo '<INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'">';
 	echo ' <BR /><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
+} else if ($whatdropped == "4"){
+	echo 'If nothing dropped, come back in 30 days and try again!';
 } else {
 	echo '<CENTER><FORM METHOD="POST"><SELECT NAME="gwdrop" onchange="this.form.submit()">';
 	echo '<OPTION SELECTED DISABLED>choose one</OPTION>';
 	echo '<OPTION VALUE="1">Weapon</OPTION>';
 	echo '<OPTION VALUE="2">Rare Material</OPTION>';
-	echo '<OPTION VALUE="3">Rune</OPTION></SELECT>';
+	echo '<OPTION VALUE="3">Rune</OPTION>';
+	echo '<OPTION VALUE="4">Nothing!</OPTION></SELECT>';
 	echo '<INPUT TYPE="HIDDEN" NAME="locationid" VALUE="' . $location . '">';
 	echo '<INPUT TYPE="HIDDEN" NAME="playerid" VALUE="' . $toonid .'">';
 	echo '<NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="SUBMIT"></NOSCRIPT></FORM></CENTER>';
