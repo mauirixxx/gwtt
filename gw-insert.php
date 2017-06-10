@@ -38,6 +38,12 @@ if ($droptype == 1){
 	if (!$result = $con->query($sqlruneins)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}
+} else if ($droptype == 4){
+	$itname = mysqli_real_escape_string($con, $_POST['itemname']);
+	$sqlnothing = "INSERT INTO `history` (historydate, charnameid, locationid, goldrec, itemname) VALUES ('$treasdate', $uid, $toonid, $locid, $gold, '$itname')";
+	if (!$result = $con->query($sqlnothing)){
+		die ('There was an error running the query [' . $con->error . ']');
+	}
 } else {
 	exit("Variable droptype was set to ($droptype)");
 }
