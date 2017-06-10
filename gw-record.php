@@ -10,11 +10,13 @@ session_start();
 include_once 'gw-connect.php';
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
 $toonid = $_SESSION['playerid'];
+$profcolor = $_SESSION['profcolor'];
 $location = mysqli_real_escape_string($con, $_POST['locationid']);
 $whatdropped = mysqli_real_escape_string($con, $_POST['gwdrop']);
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
+echo '<STYLE TYPE="TEXT/CSS" MEDIA="SCREEN">body { background-color: ' . $profcolor . '; }</STYLE>';
 echo '<CENTER>At ';
 $sqlmaplocation = "SELECT * FROM `treasurelocation` WHERE `treasureid` = $location";
 if (!$result = $con->query($sqlmaplocation)){
