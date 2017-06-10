@@ -40,7 +40,8 @@ if ($droptype == 1){
 	}
 } else if ($droptype == 4){
 	$itname = mysqli_real_escape_string($con, $_POST['itemname']);
-	$sqlnothing = "INSERT INTO `history` (historydate, userid, charnameid, locationid, goldrec, itemname) VALUES ('$treasdate', $uid, $toonid, $locid, $gold, '$itname')";
+	$itnothing = mysqli_real_escape_string($con, $_POST['itemtype']);
+	$sqlnothing = "INSERT INTO `history` (historydate, userid, charnameid, locationid, goldrec, itemtype, itemname) VALUES ('$treasdate', $uid, $toonid, $locid, $gold, $itnothing, '$itname')";
 	if (!$result = $con->query($sqlnothing)){
 		die ('There was an error running the query [' . $con->error . ']');
 	}

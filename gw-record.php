@@ -126,7 +126,7 @@ if ($whatdropped == "1"){
 	echo 'on <INPUT NAME="treasuredate" TYPE="DATE" PLACEHOLDER="2006-10-26" VALUE="' . date('Y-m-d') . '"> nothing dropped! Maybe try again in 30 days on: ' . date('Y-m-d', strtotime("+30 days"));
 	echo '<INPUT TYPE="HIDDEN" NAME="droppedgold" VALUE="0"><INPUT TYPE="HIDDEN" NAME="itemname" VALUE="Nothing dropped!">';
 	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="4"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
-	echo '<INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'">';
+	echo '<INPUT TYPE="HIDDEN" NAME="itemtype" VALUE="17"><INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'">';
 	echo ' <BR /><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else {
 	echo '<CENTER><FORM METHOD="POST"><SELECT NAME="gwdrop" onchange="this.form.submit()">';
