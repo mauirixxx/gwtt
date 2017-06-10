@@ -122,7 +122,12 @@ if ($whatdropped == "1"){
 	echo '<INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'">';
 	echo ' <BR /><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else if ($whatdropped == "4"){
-	echo 'If nothing dropped, come back in 30 days and try again!';
+	echo '<CENTER><FORM METHOD="POST" ACTION="gw-insert.php">';
+	echo 'on <INPUT NAME="treasuredate" TYPE="DATE" PLACEHOLDER="2006-10-26"> nothing dropped! Maybe try again in 30 days on the: ' . date('Y-m-d', strtotime("+30 days"));
+	echo '<INPUT TYPE="HIDDEN" NAME="droppedgold" VALUE="0">';
+	echo '<INPUT TYPE="HIDDEN" NAME="droptype" VALUE="4"><INPUT TYPE="HIDDEN" NAME="location" VALUE="' . $locid .'">';
+	echo '<INPUT TYPE="HIDDEN" NAME="chartoon" VALUE="' . $toonid .'">';
+	echo ' <BR /><INPUT TYPE="SUBMIT" VALUE="Click me!"></FORM></CENTER><BR />';
 } else {
 	echo '<CENTER><FORM METHOD="POST"><SELECT NAME="gwdrop" onchange="this.form.submit()">';
 	echo '<OPTION SELECTED DISABLED>choose one</OPTION>';
