@@ -5,6 +5,7 @@
 <TITLE>Treasure Data</TITLE>
 </HEAD>
 <BODY>
+<CENTER><TABLE BORDER="0"><TR>
 <?php
 session_start();
 include_once 'gw-connect.php';
@@ -20,7 +21,7 @@ if (!$result = $con->query($sql)){
 }
 if (mysqli_num_rows($result) > 0) {
 	while ($row = $result->fetch_array()){
-		echo 'On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
+		echo '<TD>On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
 		if ($row['itemtype'] == 16) { //this would be a rune
 			$runeid = $row['runetype'];
 			$sqlrune = "SELECT listrunes.`runeid`, listrunes.`runes` FROM listrunes WHERE listrunes.`runeid` = $runeid";
@@ -71,12 +72,13 @@ if (mysqli_num_rows($result) > 0) {
 				}
 			}
 		}
-		echo ' at <A HREF="' . $row['wikilink'] . '" CLASS="navlink">' . $row['location'] . '</A><BR />';
+		echo ' at <A HREF="' . $row['wikilink'] . '" CLASS="navlink">' . $row['location'] . '</A></TD>';
 	}
 } else {
 	echo '<CENTER>There is no data to display for that character yet</CENTER><BR />';
 }
 ?>
+</TR></TABLE></CENTER>
 <BR />
 <CENTER>
 <FORM METHOD="POST" ACTION="gw-toon.php">
