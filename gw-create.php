@@ -5,6 +5,7 @@
 <TITLE>Character Creation</TITLE>
 </HEAD>
 <BODY>
+<CENTER>
 <?php
 session_start();
 include_once 'gw-connect.php';
