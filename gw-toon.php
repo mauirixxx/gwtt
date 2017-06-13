@@ -33,28 +33,28 @@ if (!$_SESSION['userid']){
 		}
 		echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM><BR /><BR />';
 		echo '<FORM ACTION="gw-create.php"><INPUT TYPE="SUBMIT" VALUE="Add a toon"></FORM></CENTER>';
-		} else {
-			$sqltoon = "SELECT charname, profcolor from `playername` WHERE playerid = $whattoon";
-			if (!$result2 = $con->query($sqltoon)){
-				die ('There was an error running the query [' . $con->error . ']');
-			}
-			while ($row2 = $result2->fetch_array()){
-				$charactername = $row2['charname'];
-				$profcolor = $row2['profcolor'];
-				$_SESSION['profcolor'] = $profcolor;
-				echo '<TITLE>' . $charactername . '</TITLE><BODY>';
-				echo '<STYLE TYPE="TEXT/CSS" MEDIA="SCREEN">body { background-color: ' . $profcolor . '; }</STYLE>';
-			}
-			echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
-			$_SESSION['playerid'] = $whattoon;
-			echo '<FIELDSET CLASS="radiogroup"><LEGEND>Select your course of action</LEGEND><UL CLASS="radio">';
-			echo '<LI style="text-align:left;"><INPUT TYPE="RADIO" NAME="gwaction" VALUE="1">Record loot info</LI>';
-			echo '<LI style="text-align:left;"><INPUT TYPE="RADIO" NAME="gwaction" VALUE="2">View Character loot history</LI>';
-			echo '</UL></FIELDSET>';
-			echo '<INPUT TYPE="SUBMIT" VALUE="Choose action"></FORM><BR /><BR /><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM></CENTER>';
+	} else {
+		$sqltoon = "SELECT charname, profcolor from `playername` WHERE playerid = $whattoon";
+		if (!$result2 = $con->query($sqltoon)){
+			die ('There was an error running the query [' . $con->error . ']');
 		}
-		echo '<BR /><BR /><CENTER><FORM METHOD="POST" ACTION="gw-logout.php"><INPUT TYPE="HIDDEN" NAME="logout"><INPUT TYPE="SUBMIT" VALUE="Logout"></FORM></CENTER>';
+		while ($row2 = $result2->fetch_array()){
+			$charactername = $row2['charname'];
+			$profcolor = $row2['profcolor'];
+			$_SESSION['profcolor'] = $profcolor;
+			echo '<TITLE>' . $charactername . '</TITLE><BODY>';
+			echo '<STYLE TYPE="TEXT/CSS" MEDIA="SCREEN">body { background-color: ' . $profcolor . '; }</STYLE>';
+		}
+		echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
+		$_SESSION['playerid'] = $whattoon;
+		echo '<FIELDSET CLASS="radiogroup"><LEGEND>Select your course of action</LEGEND><UL CLASS="radio">';
+		echo '<LI style="text-align:left;"><INPUT TYPE="RADIO" NAME="gwaction" VALUE="1">Record loot info</LI>';
+		echo '<LI style="text-align:left;"><INPUT TYPE="RADIO" NAME="gwaction" VALUE="2">View Character loot history</LI>';
+		echo '</UL></FIELDSET>';
+		echo '<INPUT TYPE="SUBMIT" VALUE="Choose action"></FORM><BR /><BR /><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM></CENTER>';
 	}
+	echo '<BR /><BR /><CENTER><FORM METHOD="POST" ACTION="gw-logout.php"><INPUT TYPE="HIDDEN" NAME="logout"><INPUT TYPE="SUBMIT" VALUE="Logout"></FORM></CENTER>';
+}
 ?>
 </BODY>
 </HTML>
