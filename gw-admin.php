@@ -13,7 +13,7 @@ if (isset($_SESSION['userid']) && ($_SESSION['access'])){
 		echo 'Delete a toon <A HREF="gw-deletetoon.php" CLASS="navlink">here</A><BR />'; //page doesn't actually exist yet
 		echo 'This will delete a character from a user account, and all of it\'s recorded drop data - this is not reversable!<BR /><BR />';
 		echo 'Delete a user <A HREF="gw-deleteuser.php" CLASS="navlink">here</A><BR />'; //page doesn't actually exist yet
-		echo 'This will delete the user, all of their associated toons, and associated drop data - this is NOT reverable!<BR /><BR />';
+		echo 'This will delete the user, all of their associated toons, and associated drop data - this is NOT reversable!<BR /><BR />';
 	}
 	echo 'Click <A HREF="gw-index.php" CLASS="navlink">HERE</A> to return to the home page!';
 } else {
