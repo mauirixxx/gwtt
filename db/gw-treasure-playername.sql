@@ -2,7 +2,8 @@
 SQLyog Ultimate - MySQL GUI v8.2 
 MySQL - 5.5.52-MariaDB : Database - mauirixxx
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -20,6 +21,7 @@ CREATE TABLE `playername` (
   `birthdate` date DEFAULT NULL,
   `userid` int(11) DEFAULT NULL,
   `professionid` int(2) DEFAULT NULL COMMENT 'this is taken from the listruneprofessions table',
+  `profcolor` char(4) DEFAULT NULL,
   PRIMARY KEY (`playerid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
