@@ -13,7 +13,7 @@ $profcolor = $_SESSION['profcolor'];
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
-$sqlmaploc = "SELECT treasurelocation.treasureid, treasurelocation.location FROM treasurelocation";
+$sqlmaploc = "SELECT treasuredata.treasureid, treasuredata.location FROM treasurelocation";
 if (!$resultmap = $con->query($sqlmaploc)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
