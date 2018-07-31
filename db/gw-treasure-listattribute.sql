@@ -11,6 +11,7 @@
 DROP TABLE IF EXISTS `listattribute`;
 
 CREATE TABLE `listattribute` (
+  `weapattrid` int(2) NOT NULL AUTO_INCREMENT,
   `weaponattribute` varchar(20) DEFAULT NULL COMMENT 'death magic, axe mastery, command, smiting prayers, etc'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
