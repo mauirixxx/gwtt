@@ -17,7 +17,7 @@ CREATE TABLE `listtype` (
 
 /*Data for the table `listtype` */
 
-insert  into `listtype`(`weapontype`) values ('Material'),('Axe'),('Hammer'),('Sword'),('Dagger'),('Scythe'),('Bow (Flatbow)'),('Bow (Hornbow)'),('Bow (Longbow)'),('Bow (Recurve)'),('Bow (Shortbow)'),('Spear'),('Staff'),('Wand'),('Focus'),('Shield');
+insert  into `listtype`(`weapontype`) values ('Material'),('Axe'),('Hammer'),('Sword'),('Dagger'),('Scythe'),('Bow (Flatbow)'),('Bow (Hornbow)'),('Bow (Longbow)'),('Bow (Recurve)'),('Bow (Shortbow)'),('Spear'),('Staff'),('Wand'),('Focus'),('Shield'),('Nothing');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
