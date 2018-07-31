@@ -16,7 +16,7 @@ $profcolor = $_SESSION['profcolor'];
 if ($con->connect_errno > 0){
 	die ('Unable to connect to database [' . $db->connect_errno . ']');
 }
-$sql = "SELECT history.*, treasurelocation.*, playername.`playerid`, playername.`charname` FROM ((history INNER JOIN treasurelocation ON history.`locationid` = treasurelocation.`treasureid`) INNER JOIN playername ON history.`charnameid` = playername.`playerid`) WHERE history.`charnameid` = '$cnameid' ORDER BY `historydate`,`historyid` ASC";
+$sql = "SELECT history.*, treasuredata.*, playername.`playerid`, playername.`charname` FROM ((history INNER JOIN treasurelocation ON history.`locationid` = treasurelocation.`treasureid`) INNER JOIN playername ON history.`charnameid` = playername.`playerid`) WHERE history.`charnameid` = '$cnameid' ORDER BY `historydate`,`historyid` ASC";
 if (!$result = $con->query($sql)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
