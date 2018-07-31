@@ -18,7 +18,7 @@ if ($con->connect_errno > 0){
 }
 echo '<STYLE TYPE="TEXT/CSS" MEDIA="SCREEN">body { background-color: ' . $profcolor . '; }</STYLE>';
 echo '<CENTER>At ';
-$sqlmaplocation = "SELECT * FROM `treasurelocation` WHERE `treasureid` = $location";
+$sqlmaplocation = "SELECT * FROM `treasuredata` WHERE `treasureid` = $location";
 if (!$result = $con->query($sqlmaplocation)){
 	die ('There was an error running the query [' . $con->error . ']');
 }
