@@ -11,6 +11,7 @@
 DROP TABLE IF EXISTS `listtype`;
 
 CREATE TABLE `listtype` (
+  `weaponid` int(2) NOT NULL AUTO_INCREMENT,
   `weapontype` varchar(20) DEFAULT NULL COMMENT 'materials, or axe staff wand bow daggers etc'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
