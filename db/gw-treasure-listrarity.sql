@@ -11,7 +11,7 @@
 DROP TABLE IF EXISTS `listrarity`;
 
 CREATE TABLE `listrarity` (
-  `rarid` int(1) NOT NULL AUTO_INCREMENT,
+  `rareid` int(1) NOT NULL AUTO_INCREMENT,
   `rarity` varchar(6) DEFAULT NULL COMMENT 'white blue pruple gold green'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
