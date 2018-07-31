@@ -18,6 +18,7 @@ MySQL - 5.5.52-MariaDB : Database - mauirixxx
 CREATE TABLE `history` (
   `historyid` int(11) NOT NULL AUTO_INCREMENT,
   `historydate` date DEFAULT NULL,
+  `userid` int(11) DEFAULT NULL,
   `charnameid` int(11) DEFAULT NULL,
   `locationid` int(2) DEFAULT NULL,
   `goldrec` int(4) DEFAULT NULL,
