@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.09 (64 bit)
 MySQL - 5.5.52-MariaDB : Database - mauirixxx
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -15,6 +16,7 @@ MySQL - 5.5.52-MariaDB : Database - mauirixxx
 /*Table structure for table `history` */
 
 CREATE TABLE `history` (
+  `historyid` int(11) NOT NULL AUTO_INCREMENT,
   `historydate` date DEFAULT NULL,
   `charnameid` int(11) DEFAULT NULL,
   `locationid` int(2) DEFAULT NULL,
