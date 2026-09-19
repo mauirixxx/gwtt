@@ -1,20 +1,44 @@
-<!DOCTYPE html>
-<HTML>
-<HEAD>
-<link rel="stylesheet" type="text/css" href="gw-style.css">
 <?php
 session_start();
-$playerid = $_SESSION['playerid'];
-$action = $_POST['gwaction'];
-echo'<TITLE>Redirecting ...</TITLE></HEAD>';
-if ($action == 1){ //insert dropped items data
-	echo '<BODY onload="document.record.submit()">';
-	echo '<FORM METHOD="POST" ACTION="gw-location.php" NAME="record"><INPUT TYPE="HIDDEN" NAME="playerid" VALUE="'. $playerid . '"><INPUT TYPE="SUBMIT" ID="clkRecord"></FORM></BODY>';
-} else if ($action == 2){ //view history of dropped items
-	echo '<BODY onload="document.insert.submit()">';
-	echo '<FORM METHOD="POST" ACTION="gw-history.php" NAME="insert"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="' . $playerid . '"><INPUT TYPE="SUBMIT" ID="clkInsert"></FORM></BODY>';
+
+// 1. Strict Session / Auth Check
+if (!isset($_SESSION['playerid']) || empty($_SESSION['playerid'])) {
+    http_response_code(403);
+    die('Unauthorized access.');
+}
+
+// 2. Sanitize and validate inputs
+$playerid = htmlspecialchars((string)$_SESSION['playerid'], ENT_QUOTES, 'UTF-8');
+$action = isset($_POST['gwaction']) ? (int)$_POST['gwaction'] : 0;
+
+$targetUrl = '';
+$inputName = '';
+
+if ($action === 1) {
+    $targetUrl = 'gw-location.php';
+    $inputName = 'playerid';
+} elseif ($action === 2) {
+    $targetUrl = 'gw-history.php';
+    $inputName = 'cnameid';
 } else {
-	echo 'You shouldn\'t be seeing this, something went horribly horribly wrong!';
+    http_response_code(400);
+    die('Invalid action provided.');
 }
 ?>
-</HTML>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="gw-style.css">
+    <title>Redirecting...</title>
+</head>
+<body onload="document.forms['redirectForm'].submit();">
+    <form method="POST" action="<?php echo $targetUrl; ?>" name="redirectForm">
+        <input type="hidden" name="<?php echo $inputName; ?>" value="<?php echo $playerid; ?>">
+        <noscript>
+            <p>JavaScript is disabled. Click button to continue:</p>
+            <input type="submit" value="Continue">
+        </noscript>
+    </form>
+</body>
+</html>
