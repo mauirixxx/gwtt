@@ -49,6 +49,7 @@ function refreshWeaponAttributes(){
     const attrs=weaponAttributeMap[weaponType.value]||[];
     weaponAttribute.replaceChildren(new Option(attrs.length?'Choose attribute':'No valid attributes',''));
     attrs.forEach(function(attr){weaponAttribute.add(new Option(attr.name,String(attr.id)));});
+    if(attrs.length===1)weaponAttribute.value=String(attrs[0].id);
     weaponAttribute.disabled=attrs.length===0;
 }
 weaponType.addEventListener('change',refreshWeaponAttributes);
