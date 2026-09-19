@@ -13,7 +13,7 @@ $con->set_charset('utf8mb4');
 $uid=(int)$_SESSION['userid']; $pid=(int)$_SESSION['playerid'];
 if(!gw_character_belongs_to_user($con,$pid,$uid)){unset($_SESSION['playerid'],$_SESSION['profcolor']);$con->close();header('Location: gw-toon.php');exit;}
 $profcolor=$_SESSION['profcolor']??'#ffffff';
-if(!preg_match('/^#[a-fA-F0-9]{6}$/',$profcolor))$profcolor='#ffffff';
+if(!preg_match('/^#(?:[a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/',$profcolor))$profcolor='#ffffff';
 $result=$con->query('SELECT treasureid, location FROM treasuredata ORDER BY treasureid ASC');
 if(!$result){error_log('Query failed: '.$con->error);exit('An error occurred while fetching locations.');}
 ?>
