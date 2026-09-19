@@ -65,3 +65,40 @@ function gw_character_belongs_to_user(mysqli $con, int $playerId, int $userId): 
     $stmt->close();
     return $ok;
 }
+
+
+function gw_current_access(mysqli $con): int
+{
+    $userId = (int)($_SESSION['userid'] ?? 0);
+    if ($userId <= 0) {
+        return 0;
+    }
+
+    $stmt = $con->prepare('SELECT access FROM users WHERE userid = ? LIMIT 1');
+    $stmt->bind_param('i', $userId);
+    $stmt->execute();
+    $row = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    return $row ? (int)$row['access'] : 0;
+}
+
+function gw_require_admin(mysqli $con): void
+{
+    if (empty($_SESSION['userid'])) {
+        header('Location: gw-index.php');
+        exit;
+    }
+
+    if (gw_current_access($con) !== 9) {
+        http_response_code(403);
+        exit('Access denied.');
+    }
+}
+
+function gw_refresh_session_access(mysqli $con): int
+{
+    $access = gw_current_access($con);
+    $_SESSION['access'] = $access;
+    return $access;
+}
