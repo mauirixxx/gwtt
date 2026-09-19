@@ -1,34 +1,77 @@
-<!DOCTYPE html>
-<HTML>
-<HEAD>
-<link rel="stylesheet" type="text/css" href="gw-style.css">
-<TITLE>Location Selection</TITLE>
-</HEAD>
 <?php
 session_start();
-include_once 'gw-connect.php';
+require_once 'gw-connect.php';
+
+// 1. Enforce Authentication Check
+if (!isset($_SESSION['playerid']) || empty($_SESSION['playerid'])) {
+    header('Location: login.php');
+    exit;
+}
+
+// 2. Database Connection & Error Handling
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
-$playerid = $_SESSION['playerid'];
-$profcolor = $_SESSION['profcolor'];
-if ($con->connect_errno > 0){
-	die ('Unable to connect to database [' . $db->connect_errno . ']');
+if ($con->connect_errno) {
+    error_log("Database connection failed: " . $con->connect_error);
+    die('A database error occurred. Please try again later.');
 }
-$sqlmaploc = "SELECT treasuredata.treasureid, treasuredata.location FROM treasuredata";
-if (!$resultmap = $con->query($sqlmaploc)){
-	die ('There was an error running the query [' . $con->error . ']');
+
+// 3. Sanitize Session Variables
+$profcolor = isset($_SESSION['profcolor']) ? $_SESSION['profcolor'] : '#ffffff';
+// Validate $profcolor to ensure it's a valid hex color code
+if (!preg_match('/^#[a-fA-F0-9]{6}$/', $profcolor)) {
+    $profcolor = '#ffffff';
 }
-echo '<STYLE TYPE="TEXT/CSS" MEDIA="SCREEN">body { background-color: ' . $profcolor . '; }</STYLE>';
-echo '<BODY><CENTER><FORM METHOD="POST" ACTION="gw-record.php">';
-echo '<SELECT NAME="locationid" onchange="this.form.submit()">';
-echo '<OPTION SELECTED DISABLED>Select a map location</OPTION>';
-while ($rowmap = $resultmap->fetch_array()){
-	$locname = $rowmap['location'];
-	$locid = $rowmap['treasureid'];
-	echo '<OPTION VALUE="' . $locid . '">' . $locname . '</OPTION>';
+
+// 4. Query Database
+$sqlmaploc = "SELECT treasureid, location FROM treasuredata";
+$resultmap = $con->query($sqlmaploc);
+
+if (!$resultmap) {
+    error_log("Query failed: " . $con->error);
+    die('An error occurred while fetching locations.');
 }
-echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Map Location"></NOSCRIPT></FORM></CENTER><BR />';
-echo '<CENTER><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="playeridid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM>';
 ?>
-<BR /><BR /><CENTER><FORM METHOD="POST" ACTION="gw-logout.php"><INPUT TYPE="HIDDEN" NAME="logout"><INPUT TYPE="SUBMIT" VALUE="Logout"></FORM></CENTER>
-</BODY>
-</HTML>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="gw-style.css">
+    <title>Location Selection</title>
+    <style media="screen">
+        body { background-color: <?php echo htmlspecialchars($profcolor, ENT_QUOTES, 'UTF-8'); ?>; }
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+        <form method="POST" action="gw-record.php">
+            <select name="locationid" onchange="this.form.submit()">
+                <option selected disabled>Select a map location</option>
+                <?php while ($rowmap = $resultmap->fetch_assoc()): ?>
+                    <option value="<?php echo htmlspecialchars((string)$rowmap['treasureid'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <?php echo htmlspecialchars($rowmap['location'], ENT_QUOTES, 'UTF-8'); ?>
+                    </option>
+                <?php endwhile; ?>
+            </select>
+            <noscript>
+                <input type="submit" value="Choose Map Location">
+            </noscript>
+        </form>
+        <br />
+
+        <form method="POST" action="gw-toon.php">
+            <input type="hidden" name="playeridid" value="0">
+            <input type="submit" value="Return to character selection">
+        </form>
+        <br /><br />
+
+        <form method="POST" action="gw-logout.php">
+            <input type="hidden" name="logout" value="1">
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+</body>
+</html>
+<?php
+$resultmap->close();
+$con->close();
+?>
