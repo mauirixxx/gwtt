@@ -10,7 +10,10 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 }
 
 $gwNavLoggedIn = !empty($_SESSION['userid']);
-$gwNavAccess = (int)($_SESSION['access'] ?? 0);
+$gwNavAccess = 0;
+if ($gwNavLoggedIn && isset($con) && $con instanceof mysqli && function_exists('gw_refresh_session_access')) {
+    $gwNavAccess = gw_refresh_session_access($con);
+}
 $gwNavUsername = (string)($_SESSION['username'] ?? 'User');
 ?>
 <header class="gw-site-header">
