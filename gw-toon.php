@@ -16,6 +16,14 @@ $userid = (int)$_SESSION['userid'];
 $selectedToonId = 0;
 $charactername = '';
 $profcolor = '#DDD';
+$lastPlayerId = isset($_SESSION['last_playerid']) ? (int)$_SESSION['last_playerid'] : 0;
+$dropConfirmation = null;
+$confirmationHistoryId = isset($_SESSION['drop_confirmation_historyid']) ? (int)$_SESSION['drop_confirmation_historyid'] : 0;
+unset($_SESSION['drop_confirmation_historyid']);
+if ($confirmationHistoryId > 0) {
+    $stmt = $con->prepare("SELECT h.historydate,h.goldrec,h.drop_type,h.itemreq,h.itemname,p.charname,t.weapontype,a.weaponattribute,r.rarity,m.material,ru.runes,td.location FROM history h JOIN playername p ON p.playerid=h.charnameid AND p.userid=h.userid JOIN treasuredata td ON td.treasureid=h.locationid LEFT JOIN listtype t ON t.weaponid=h.itemtype LEFT JOIN listattribute a ON a.weapattrid=h.itemattribute LEFT JOIN listrarity r ON r.rareid=h.itemrarity LEFT JOIN materials m ON m.materialid=h.material LEFT JOIN listrunes ru ON ru.runeid=h.runetype WHERE h.historyid=? AND h.userid=? LIMIT 1");
+    $stmt->bind_param('ii',$confirmationHistoryId,$userid);$stmt->execute();$dropConfirmation=$stmt->get_result()->fetch_assoc();$stmt->close();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     gw_require_csrf();
@@ -48,12 +56,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <style>body{background-color:<?php echo htmlspecialchars($profcolor, ENT_QUOTES, 'UTF-8'); ?>}</style></head><body>
 <?php require 'gw-header.php'; ?>
 <div style="text-align:center">
+<?php if ($dropConfirmation): ?>
+<?php
+$dropText='';
+switch((int)$dropConfirmation['drop_type']){
+case 1:$dropText=trim(($dropConfirmation['rarity']??'').' req '.($dropConfirmation['itemreq']??'').' '.($dropConfirmation['weaponattribute']??'').' '.($dropConfirmation['weapontype']??'').(!empty($dropConfirmation['itemname'])?' called "'.$dropConfirmation['itemname'].'"':''));break;
+case 2:$dropText=(string)($dropConfirmation['material']??'Rare material');break;
+case 3:$dropText=trim(($dropConfirmation['rarity']??'').' '.($dropConfirmation['runes']??'').' rune');break;
+default:$dropText='Nothing dropped';break;
+}
+?>
+<p><strong>Drop recorded!</strong> <?php echo htmlspecialchars($dropConfirmation['charname'],ENT_QUOTES,'UTF-8'); ?> recorded <?php echo htmlspecialchars($dropText,ENT_QUOTES,'UTF-8'); ?> at <?php echo htmlspecialchars($dropConfirmation['location'],ENT_QUOTES,'UTF-8'); ?> on <?php echo htmlspecialchars($dropConfirmation['historydate'],ENT_QUOTES,'UTF-8'); ?><?php if((int)$dropConfirmation['goldrec']>0): ?>, plus <?php echo number_format((int)$dropConfirmation['goldrec']); ?> gold<?php endif; ?>.</p>
+<?php endif; ?>
 <?php if (!$selectedToonId): ?>
 <form method="POST"><?php echo gw_csrf_input(); ?><select name="playerid" onchange="this.form.submit()"><option selected disabled>Select a Character</option>
 <?php
 $stmt=$con->prepare('SELECT playerid, charname FROM playername WHERE userid = ? ORDER BY charname ASC');
 $stmt->bind_param('i',$userid); $stmt->execute(); $res=$stmt->get_result();
-while($row=$res->fetch_assoc()) echo '<option value="'.(int)$row['playerid'].'">'.htmlspecialchars($row['charname'],ENT_QUOTES,'UTF-8').'</option>';
+while($row=$res->fetch_assoc()){ $pid=(int)$row['playerid']; echo '<option value="'.$pid.'"'.($pid===$lastPlayerId?' selected':'').'>'.htmlspecialchars($row['charname'],ENT_QUOTES,'UTF-8').'</option>'; }
 $stmt->close();
 ?></select><noscript><input type="submit" value="Choose Toon"></noscript></form>
 <br><br><form action="gw-create.php" method="GET"><input type="submit" value="Add a toon"></form>
