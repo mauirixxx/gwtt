@@ -9,7 +9,7 @@ if($con->connect_errno){error_log('Database connection failed: '.$con->connect_e
 $con->set_charset('utf8mb4');
 $uid=(int)$_SESSION['userid'];$pid=(int)$_SESSION['playerid'];
 if(!gw_character_belongs_to_user($con,$pid,$uid)){unset($_SESSION['playerid'],$_SESSION['profcolor']);$con->close();header('Location: gw-toon.php');exit;}
-$profcolor=$_SESSION['profcolor']??'#ffffff';if(!preg_match('/^#[a-fA-F0-9]{6}$/',$profcolor))$profcolor='#ffffff';
+$profcolor=$_SESSION['profcolor']??'#ffffff';if(!preg_match('/^#(?:[a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/',$profcolor))$profcolor='#ffffff';
 
 $sql="SELECT h.historydate,h.goldrec,h.drop_type,h.itemreq,h.itemname,p.charname,t.location,t.wikilink,
 lr.runes AS runename,lrat.rarity AS rarityname,la.weaponattribute AS attrname,lt.weapontype AS weapname,m.material AS matname
