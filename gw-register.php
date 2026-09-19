@@ -19,6 +19,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         $con->close();
         gw_rate_limited_response();
     }
+    gw_throttle_record_failure($con,'register-ip',$registerIpKey,GW_REGISTER_IP_LIMIT);
     $username=trim($_POST['username']??'');
     $email=trim($_POST['email']??'');
     $password=$_POST['password']??'';
@@ -32,17 +33,13 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     else{
         $stmt=$con->prepare('SELECT 1 FROM users WHERE username=? OR email=? LIMIT 1');
         $stmt->bind_param('ss',$username,$email);$stmt->execute();$exists=(bool)$stmt->get_result()->fetch_row();$stmt->close();
-        if($exists){
-            gw_throttle_record_failure($con,'register-ip',$registerIpKey,GW_REGISTER_IP_LIMIT);
-            $errorMsg='That username or email address is already registered.';
-        }
+        if($exists)$errorMsg='That username or email address is already registered.';
         else{
             $hash=password_hash($password,PASSWORD_DEFAULT);
             $stmt=$con->prepare('INSERT INTO users (username,password,email,access) VALUES (?,?,?,0)');
             $stmt->bind_param('sss',$username,$hash,$email);
             if($stmt->execute()){
                 $userid=(int)$stmt->insert_id;$stmt->close();
-                gw_throttle_clear($con,'register-ip',$registerIpKey);
                 session_regenerate_id(true);
                 $_SESSION['authenticated_at']=time();
                 $_SESSION['last_activity']=time();
