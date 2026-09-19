@@ -1,6 +1,62 @@
 <?php
 // Shared security helpers. Include after session_start().
 
+const GW_SESSION_IDLE_TIMEOUT = 1800;      // 30 minutes
+const GW_SESSION_ABSOLUTE_TIMEOUT = 28800; // 8 hours
+
+function gw_destroy_session(): void
+{
+    $_SESSION = [];
+
+    if (ini_get('session.use_cookies')) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', [
+            'expires' => time() - 42000,
+            'path' => $params['path'],
+            'domain' => $params['domain'],
+            'secure' => $params['secure'],
+            'httponly' => $params['httponly'],
+            'samesite' => $params['samesite'] ?? 'Lax',
+        ]);
+    }
+
+    session_destroy();
+}
+
+function gw_enforce_session_timeout(): void
+{
+    // Timeout enforcement applies only to authenticated sessions.
+    if (empty($_SESSION['userid'])) {
+        return;
+    }
+
+    $now = time();
+
+    // Gracefully initialize sessions that existed before timeout tracking
+    // was deployed instead of immediately logging those users out.
+    if (empty($_SESSION['authenticated_at'])) {
+        $_SESSION['authenticated_at'] = $now;
+    }
+    if (empty($_SESSION['last_activity'])) {
+        $_SESSION['last_activity'] = $now;
+    }
+
+    $idleExpired =
+        ($now - (int)$_SESSION['last_activity']) >= GW_SESSION_IDLE_TIMEOUT;
+    $absoluteExpired =
+        ($now - (int)$_SESSION['authenticated_at']) >= GW_SESSION_ABSOLUTE_TIMEOUT;
+
+    if ($idleExpired || $absoluteExpired) {
+        gw_destroy_session();
+        header('Location: gw-index.php?session=expired');
+        exit;
+    }
+
+    $_SESSION['last_activity'] = $now;
+}
+
+gw_enforce_session_timeout();
+
 function gw_csrf_token(): string
 {
     if (empty($_SESSION['csrf_token'])) {
