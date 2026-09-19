@@ -17,7 +17,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     gw_require_csrf();
     $action = $_POST['admin_action'] ?? '';
 
-    if ($action === 'delete_character') {
+    if ($action === 'set_admin') {
+        $targetUserId = (int)($_POST['userid'] ?? 0);
+        $newAccess = (int)($_POST['access'] ?? -1);
+        $currentUserId = (int)$_SESSION['userid'];
+
+        if ($targetUserId <= 0 || !in_array($newAccess, [0, 9], true)) {
+            $error = 'Invalid user or access level.';
+        } elseif ($targetUserId === $currentUserId && $newAccess === 0) {
+            $error = 'You cannot revoke your own administrator access.';
+        } else {
+            $stmt = $con->prepare('SELECT username, access FROM users WHERE userid = ?');
+            $stmt->bind_param('i', $targetUserId);
+            $stmt->execute();
+            $targetUser = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+
+            if (!$targetUser) {
+                $error = 'User not found.';
+            } else {
+                $stmt = $con->prepare('UPDATE users SET access = ? WHERE userid = ?');
+                $stmt->bind_param('ii', $newAccess, $targetUserId);
+                if ($stmt->execute()) {
+                    $message = $newAccess === 9
+                        ? 'Administrator access granted to "' . $targetUser['username'] . '".'
+                        : 'Administrator access revoked from "' . $targetUser['username'] . '".';
+                } else {
+                    error_log('Admin access update failed: '.$stmt->error);
+                    $error = 'Administrator access could not be updated.';
+                }
+                $stmt->close();
+            }
+        }
+    } elseif ($action === 'delete_character') {
         $playerId = (int)($_POST['playerid'] ?? 0);
         $stmt = $con->prepare('SELECT charname FROM playername WHERE playerid = ?');
         $stmt->bind_param('i', $playerId);
@@ -70,6 +102,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+$users = [];
+$r = $con->query('SELECT u.userid,u.username,u.email,u.access,(SELECT COUNT(*) FROM playername p WHERE p.userid=u.userid) AS character_count FROM users u ORDER BY u.username');
+while ($row = $r->fetch_assoc()) $users[] = $row;
+$r->close();
+
 $selectedPlayer = (int)($_GET['playerid'] ?? $_POST['filter_playerid'] ?? 0);
 $characters = [];
 $r = $con->query('SELECT p.playerid,p.charname,p.birthdate,p.profcolor,rp.runeprofession AS profession,(SELECT COUNT(*) FROM history h WHERE h.charnameid=p.playerid) AS history_count FROM playername p LEFT JOIN listruneprofessions rp ON p.professionid=rp.runeprofid ORDER BY p.charname');
@@ -102,6 +139,23 @@ if ($selectedPlayer > 0) {
 <h2>Administrator Tools</h2>
 <?php if($message): ?><p class="admin-message"><?php echo htmlspecialchars($message,ENT_QUOTES,'UTF-8'); ?></p><?php endif; ?>
 <?php if($error): ?><p class="admin-error"><?php echo htmlspecialchars($error,ENT_QUOTES,'UTF-8'); ?></p><?php endif; ?>
+
+<h3>User Access</h3>
+<table class="admin-table"><thead><tr><th>Username</th><th>Email</th><th>Characters</th><th>Access</th><th>Actions</th></tr></thead><tbody>
+<?php foreach($users as $u): ?><tr>
+<td><?php echo htmlspecialchars($u['username'],ENT_QUOTES,'UTF-8'); ?></td>
+<td><?php echo htmlspecialchars($u['email'],ENT_QUOTES,'UTF-8'); ?></td>
+<td><?php echo (int)$u['character_count']; ?></td>
+<td><?php echo (int)$u['access']===9 ? '<strong>Administrator</strong>' : 'Normal user'; ?></td>
+<td class="admin-actions">
+<?php if((int)$u['userid']===(int)$_SESSION['userid']): ?>
+<span>Current account</span>
+<?php elseif((int)$u['access']===9): ?>
+<form method="POST" onsubmit="return confirm('Revoke administrator access from this user?');"><?php echo gw_csrf_input(); ?><input type="hidden" name="admin_action" value="set_admin"><input type="hidden" name="userid" value="<?php echo (int)$u['userid']; ?>"><input type="hidden" name="access" value="0"><button class="admin-danger" type="submit">Revoke admin</button></form>
+<?php else: ?>
+<form method="POST" onsubmit="return confirm('Grant administrator access to this user?');"><?php echo gw_csrf_input(); ?><input type="hidden" name="admin_action" value="set_admin"><input type="hidden" name="userid" value="<?php echo (int)$u['userid']; ?>"><input type="hidden" name="access" value="9"><button type="submit">Grant admin</button></form>
+<?php endif; ?>
+</td></tr><?php endforeach; ?></tbody></table>
 
 <h3>Characters</h3>
 <table class="admin-table"><thead><tr><th>Character</th><th>Profession</th><th>Birthdate</th><th>Loot entries</th><th>Actions</th></tr></thead><tbody>
