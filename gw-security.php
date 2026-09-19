@@ -81,6 +81,117 @@ function gw_require_csrf(): void
     }
 }
 
+const GW_AUTH_WINDOW_SECONDS = 900;       // 15 minutes
+const GW_LOGIN_USER_LIMIT = 5;
+const GW_LOGIN_IP_LIMIT = 20;
+const GW_REGISTER_IP_LIMIT = 5;
+const GW_AUTH_BLOCK_SECONDS = 900;        // 15 minutes
+
+function gw_client_ip(): string
+{
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+    return filter_var($ip, FILTER_VALIDATE_IP) ? $ip : 'unknown';
+}
+
+function gw_throttle_key(string $scope, string $value): string
+{
+    return hash('sha256', $scope . ':' . strtolower($value));
+}
+
+function gw_throttle_is_blocked(mysqli $con, string $action, string $key): bool
+{
+    $stmt = $con->prepare(
+        'SELECT blocked_until FROM auth_throttle
+         WHERE throttle_key = ? AND action_type = ? LIMIT 1'
+    );
+    $stmt->bind_param('ss', $key, $action);
+    $stmt->execute();
+    $row = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    return $row && $row['blocked_until'] !== null
+        && strtotime($row['blocked_until']) > time();
+}
+
+function gw_throttle_record_failure(
+    mysqli $con,
+    string $action,
+    string $key,
+    int $limit
+): void {
+    $stmt = $con->prepare(
+        'INSERT INTO auth_throttle
+            (throttle_key, action_type, failure_count, window_started_at, blocked_until, updated_at)
+         VALUES (?, ?, 1, NOW(), NULL, NOW())
+         ON DUPLICATE KEY UPDATE
+            failure_count = IF(
+                window_started_at < DATE_SUB(NOW(), INTERVAL ? SECOND),
+                1,
+                failure_count + 1
+            ),
+            window_started_at = IF(
+                window_started_at < DATE_SUB(NOW(), INTERVAL ? SECOND),
+                NOW(),
+                window_started_at
+            ),
+            blocked_until = IF(
+                (
+                    IF(
+                        window_started_at < DATE_SUB(NOW(), INTERVAL ? SECOND),
+                        1,
+                        failure_count + 1
+                    )
+                ) >= ?,
+                DATE_ADD(NOW(), INTERVAL ? SECOND),
+                blocked_until
+            ),
+            updated_at = NOW()'
+    );
+    $window = GW_AUTH_WINDOW_SECONDS;
+    $block = GW_AUTH_BLOCK_SECONDS;
+    $stmt->bind_param('ssiiiii', $key, $action, $window, $window, $window, $limit, $block);
+    $stmt->execute();
+    $stmt->close();
+}
+
+function gw_throttle_clear(mysqli $con, string $action, string $key): void
+{
+    $stmt = $con->prepare(
+        'DELETE FROM auth_throttle WHERE throttle_key = ? AND action_type = ?'
+    );
+    $stmt->bind_param('ss', $key, $action);
+    $stmt->execute();
+    $stmt->close();
+}
+
+function gw_throttle_cleanup(mysqli $con): void
+{
+    // Opportunistic cleanup; roughly 1% of authentication requests.
+    if (random_int(1, 100) !== 1) {
+        return;
+    }
+
+    $con->query(
+        'DELETE FROM auth_throttle
+         WHERE updated_at < DATE_SUB(NOW(), INTERVAL 2 DAY)'
+    );
+}
+
+function gw_rate_limited_response(): void
+{
+    http_response_code(429);
+    header('Retry-After: ' . GW_AUTH_BLOCK_SECONDS);
+    exit(
+        '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">' .
+        '<title>Too Many Requests</title></head><body>' .
+        '<div style="text-align:center;margin-top:50px">' .
+        '<h2>Too Many Requests</h2>' .
+        '<p>Too many attempts were received. Please wait 15 minutes and try again.</p>' .
+        '<p><a href="gw-index.php">Return to sign in</a></p>' .
+        '</div></body></html>'
+    );
+}
+
 function gw_valid_date(string $date): bool
 {
     $parts = explode('-', $date);
