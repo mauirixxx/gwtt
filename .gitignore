@@ -1,0 +1,14 @@
+# Local database credentials
+gw-connect.php
+
+# Environment files
+.env
+.env.*
+
+# Editor and backup files
+*.bak
+*.old
+*.orig
+*.save
+*~
+*.swp
