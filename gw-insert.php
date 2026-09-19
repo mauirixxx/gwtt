@@ -45,6 +45,10 @@ if($droptype===1){
     $stmt->bind_param('siiiiis',$treasdate,$uid,$toonid,$locid,$gold,$droptype,$itname);
 }
 if(!$stmt->execute()){error_log('Insert failed: '.$stmt->error);http_response_code(500);exit('Failed to record drop data.');}
-$stmt->close();$con->close();
+$historyid=$con->insert_id;
+$stmt->close();
+$_SESSION['last_playerid']=$toonid;
+$_SESSION['drop_confirmation_historyid']=$historyid;
+$con->close();
 header('Location: gw-toon.php');
 exit;
