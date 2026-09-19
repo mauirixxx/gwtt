@@ -16,7 +16,9 @@ elseif(!gw_lookup_exists($con,'listruneprofessions','runeprofid',$profid))$error
 else{$colors=getColorArray();$profcolor=$colors[$profid]??'#FFFFFF';$stmt=$con->prepare('INSERT INTO playername (charname,birthdate,userid,professionid,profcolor) VALUES (?,?,?,?,?)');$stmt->bind_param('ssiis',$cname,$bdate,$userid,$profid,$profcolor);if($stmt->execute()){$successMsg='Character created successfully!';}else{error_log('Insert error: '.$stmt->error);$errorMsg='An error occurred while creating your character.';}$stmt->close();}
 }
 ?>
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link rel="stylesheet" type="text/css" href="gw-style.css"><title>Character Creation</title></head><body><div style="text-align:center;margin-top:30px">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link rel="stylesheet" type="text/css" href="gw-style.css"><title>Character Creation</title></head><body>
+<?php require 'gw-header.php'; ?>
+<div style="text-align:center;margin-top:30px">
 <?php if($successMsg): ?><p><?php echo htmlspecialchars($successMsg,ENT_QUOTES,'UTF-8'); ?></p><p><a href="gw-toon.php" class="navlink">Continue to character selection</a></p>
 <?php else: ?><?php if($errorMsg): ?><p style="color:red"><?php echo htmlspecialchars($errorMsg,ENT_QUOTES,'UTF-8'); ?></p><?php endif; ?>
 <form method="POST" action="gw-create.php"><?php echo gw_csrf_input(); ?><input type="hidden" name="docreate" value="1">
