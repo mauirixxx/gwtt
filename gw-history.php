@@ -20,7 +20,9 @@ LEFT JOIN materials m ON h.material=m.materialid WHERE h.charnameid=? AND h.user
 $stmt=$con->prepare($sql);$stmt->bind_param('ii',$pid,$uid);$stmt->execute();$result=$stmt->get_result();
 ?>
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link rel="stylesheet" type="text/css" href="gw-style.css"><title>Treasure Data</title>
-<style>body{background-color:<?php echo htmlspecialchars($profcolor,ENT_QUOTES,'UTF-8'); ?>}</style></head><body><div style="text-align:center">
+<style>body{background-color:<?php echo htmlspecialchars($profcolor,ENT_QUOTES,'UTF-8'); ?>}</style></head><body>
+<?php require 'gw-header.php'; ?>
+<div style="text-align:center">
 <?php if($result->num_rows): ?><table style="margin:0 auto;border:0">
 <?php while($row=$result->fetch_assoc()): ?><tr><td>On <?php echo htmlspecialchars($row['historydate'],ENT_QUOTES,'UTF-8'); ?>, "<?php echo htmlspecialchars($row['charname'],ENT_QUOTES,'UTF-8'); ?>" got <?php echo (int)$row['goldrec']; ?>GP and
 <?php if((int)$row['drop_type']===3): ?>a <?php echo htmlspecialchars($row['rarityname']??'',ENT_QUOTES,'UTF-8'); ?> rune of <?php echo htmlspecialchars($row['runename']??'Unknown',ENT_QUOTES,'UTF-8'); ?>
