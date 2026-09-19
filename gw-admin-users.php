@@ -2,11 +2,9 @@
 session_start();
 require_once 'gw-connect.php';
 require_once 'gw-security.php';
-if(empty($_SESSION['userid'])){header('Location: gw-index.php');exit;}
-if((int)($_SESSION['access']??0)!==9){http_response_code(403);exit('Access denied.');}
 $con=new mysqli(DATABASE_HOST,DATABASE_USER,DATABASE_PASS,DATABASE_NAME);
 if($con->connect_errno){error_log('Database error: '.$con->connect_error);exit('A database error occurred.');}
-$con->set_charset('utf8mb4');$message='';$error='';
+$con->set_charset('utf8mb4');gw_require_admin($con);gw_refresh_session_access($con);$message='';$error='';
 if($_SERVER['REQUEST_METHOD']==='POST'){
  gw_require_csrf();$targetUserId=(int)($_POST['userid']??0);$newAccess=(int)($_POST['access']??-1);$currentUserId=(int)$_SESSION['userid'];
  if($targetUserId<=0||!in_array($newAccess,[0,9],true))$error='Invalid user or access level.';
