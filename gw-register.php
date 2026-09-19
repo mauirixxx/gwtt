@@ -32,6 +32,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             if($stmt->execute()){
                 $userid=(int)$stmt->insert_id;$stmt->close();
                 session_regenerate_id(true);
+                $_SESSION['authenticated_at']=time();
+                $_SESSION['last_activity']=time();
                 $_SESSION['username']=$username;$_SESSION['userid']=$userid;$_SESSION['access']=0;
                 unset($_SESSION['playerid'],$_SESSION['profcolor']);
                 $con->close();header('Location: gw-index.php');exit;
