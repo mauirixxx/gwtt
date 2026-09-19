@@ -1,60 +1,116 @@
-<!DOCTYPE html>
-<HTML>
-<HEAD>
-<link rel="stylesheet" type="text/css" href="gw-style.css">
 <?php
 session_start();
-include_once 'gw-connect.php';
-$con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
-$userid = $_SESSION['userid'];
-$whattoon = mysqli_real_escape_string($con, $_POST['playerid']);
-if ($con->connect_errno > 0){
-	die ('Unable to connect to database [' . $db->connect_errno . ']');
+require_once 'gw-connect.php';
+
+// 1. Strict Authentication Check
+if (!isset($_SESSION['userid']) \vert{}\vert{} empty($_SESSION['userid'])) {
+    header('Location: gw-login.php');
+    exit;
 }
-if (!$_SESSION['userid']){
-	echo '<TITLE>Please login first</TITLE></HEAD><BODY>';
-	echo '<CENTER><FORM ACTION="gw-login.php" METHOD="POST">Username:<INPUT TYPE="TEXT" NAME="username" SIZE="20"><BR />';
-	echo 'Password:<INPUT TYPE="PASSWORD" NAME="password" SIZE="20"><BR />';
-	echo '<INPUT TYPE="SUBMIT" VALUE="Login ..."></FORM></CENTER>';
-} else {
-	if ($whattoon == "0" or $whattoon == ""){
-		$sql = "SELECT playerid, charname FROM `playername` WHERE `userid` = '$userid' ORDER BY `charname` ASC"; //need to make userid a variable
-		if (!$result = $con->query($sql)){
-			die ('There was an error running the query [' . $con->error . ']');
-		}
-		echo '<TITLE>Character Selection</TITLE></HEAD><BODY>';
-		echo '<CENTER><FORM METHOD="POST">';
-		echo '<SELECT NAME="playerid" onchange="this.form.submit()">';
-		echo '<OPTION SELECTED DISABLED>Select a Character</OPTION>';
-		while ($row = $result->fetch_array()){
-			$charid = $row['playerid'];
-			$charname = $row['charname'];
-			echo '<OPTION VALUE="' . $charid . '">' . $charname . '</OPTION>';
-		}
-		echo '</SELECT><NOSCRIPT><INPUT TYPE="SUBMIT" VALUE="Choose Toon"></NOSCRIPT></FORM><BR /><BR />';
-		echo '<FORM ACTION="gw-create.php"><INPUT TYPE="SUBMIT" VALUE="Add a toon"></FORM></CENTER>';
-	} else {
-		$sqltoon = "SELECT charname, profcolor from `playername` WHERE playerid = $whattoon";
-		if (!$result2 = $con->query($sqltoon)){
-			die ('There was an error running the query [' . $con->error . ']');
-		}
-		while ($row2 = $result2->fetch_array()){
-			$charactername = $row2['charname'];
-			$profcolor = $row2['profcolor'];
-			$_SESSION['profcolor'] = $profcolor;
-			echo '<TITLE>' . $charactername . '</TITLE><BODY>';
-			echo '<STYLE TYPE="TEXT/CSS" MEDIA="SCREEN">body { background-color: ' . $profcolor . '; }</STYLE>';
-		}
-		echo '<CENTER><FORM METHOD="POST" ACTION="gw-action.php">';
-		$_SESSION['playerid'] = $whattoon;
-		echo '<FIELDSET CLASS="radiogroup"><LEGEND>Select your course of action</LEGEND><UL CLASS="radio">';
-		echo '<LI style="text-align:left;"><INPUT TYPE="RADIO" NAME="gwaction" VALUE="1">Record loot info</LI>';
-		echo '<LI style="text-align:left;"><INPUT TYPE="RADIO" NAME="gwaction" VALUE="2">View Character loot history</LI>';
-		echo '</UL></FIELDSET>';
-		echo '<INPUT TYPE="SUBMIT" VALUE="Choose action"></FORM><BR /><BR /><FORM METHOD="POST" ACTION="gw-toon.php"><INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0"><INPUT TYPE="SUBMIT" VALUE="Return to character selection"></FORM></CENTER>';
-	}
-	echo '<BR /><BR /><CENTER><FORM METHOD="POST" ACTION="gw-logout.php"><INPUT TYPE="HIDDEN" NAME="logout"><INPUT TYPE="SUBMIT" VALUE="Logout"></FORM></CENTER>';
+
+// 2. Database Connection
+$con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
+if ($con->connect_errno) {
+    error_log("Database error: " . $con->connect_error);
+    die("A database error occurred.");
+}
+
+$userid = (int)$_SESSION['userid'];$whattoon = isset($_POST['playerid']) ? (int)$_POST['playerid'] : 0;
+
+$charactername = '';$profcolor = '#ffffff';
+$selectedToonId = 0;
+
+// 3. Process Character Selection with IDOR Protection
+if ($whattoon > 0) {
+    // Verify that the requested character actually belongs to the logged-in user
+    $stmtToon =$con->prepare("SELECT playerid, charname, profcolor FROM `playername` WHERE `playerid` = ? AND `userid` = ?");
+    $stmtToon->bind_param("ii", $whattoon, $userid);$stmtToon->execute();
+    $resToon =$stmtToon->get_result();
+
+    if ($rowToon =$resToon->fetch_assoc()) {
+        $selectedToonId = (int)$rowToon['playerid'];
+        $charactername  =$rowToon['charname'];
+        $profcolor      =$rowToon['profcolor'];
+
+        // Validate hex color format
+        if (!preg_match('/^#[a-fA-F0-9]{6}$/', $profcolor)) {$profcolor = '#ffffff';
+        }
+
+        // Set session state safely
+        $_SESSION['playerid']  =$selectedToonId;
+        $_SESSION['profcolor'] =$profcolor;
+    }
+    $stmtToon->close();
 }
 ?>
-</BODY>
-</HTML>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="gw-style.css">
+    <title><?php echo $selectedToonId > 0 ? htmlspecialchars($charactername, ENT_QUOTES, 'UTF-8') : 'Character Selection'; ?></title>
+    <style media="screen">
+        body { background-color: <?php echo htmlspecialchars($profcolor, ENT_QUOTES, 'UTF-8'); ?>; }
+    </style>
+</head>
+<body>
+
+<div style="text-align: center;">
+
+<?php if ($selectedToonId === 0): ?>
+    <!-- CHARACTER SELECTION FORM -->
+    <form method="POST">
+        <select name="playerid" onchange="this.form.submit()">
+            <option selected disabled>Select a Character</option>
+            <?php
+            $stmtList =$con->prepare("SELECT playerid, charname FROM `playername` WHERE `userid` = ? ORDER BY `charname` ASC");
+            $stmtList->bind_param("i", $userid);$stmtList->execute();
+            $resList =$stmtList->get_result();
+
+            while ($row =$resList->fetch_assoc()) {
+                echo '<option value="' . (int)$row['playerid'] . '">' . htmlspecialchars($row['charname'], ENT_QUOTES, 'UTF-8') . '</option>';
+            }
+            $stmtList->close();
+            ?>
+        </select>
+        <noscript><input type="submit" value="Choose Toon"></noscript>
+    </form>
+    <br /><br />
+    <form action="gw-create.php" method="GET">
+        <input type="submit" value="Add a toon">
+    </form>
+
+<?php else: ?>
+    <!-- ACTION SELECTION FORM -->
+    <form method="POST" action="gw-action.php">
+        <fieldset class="radiogroup">
+            <legend>Select your course of action</legend>
+            <ul class="radio" style="list-style: none; padding: 0;">
+                <li style="text-align: center;">
+                    <label><input type="radio" name="gwaction" value="1" required> Record loot info</label>
+                </li>
+                <li style="text-align: center;">
+                    <label><input type="radio" name="gwaction" value="2"> View Character loot history</label>
+                </li>
+            </ul>
+        </fieldset>
+        <br />
+        <input type="submit" value="Choose action">
+    </form>
+    <br /><br />
+    <form method="POST" action="gw-toon.php">
+        <input type="submit" value="Return to character selection">
+    </form>
+
+<?php endif; ?>
+
+    <br /><br />
+    <form method="POST" action="gw-logout.php">
+        <input type="hidden" name="logout" value="1">
+        <input type="submit" value="Logout">
+    </form>
+</div>
+
+</body>
+</html>
+<?php $con->close(); ?>
