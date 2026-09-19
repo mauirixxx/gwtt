@@ -35,6 +35,9 @@ $accessLevel = $isLoggedIn ? (int)($_SESSION['access'] ?? 0) : 0;
 </div>
 <?php else: ?>
 <main class="login-wrap"><section class="login-card"><h2>Login Required</h2>
+<?php if (($_GET['session'] ?? '') === 'expired'): ?>
+<p style="text-align:center;color:#a00000;">Your session expired due to inactivity. Please log in again.</p>
+<?php endif; ?>
 <form action="gw-login.php" method="POST"><?php echo gw_csrf_input(); ?>
 <div class="login-field"><label for="username">Username:</label><input type="text" id="username" name="username" maxlength="50" autocomplete="username" required autofocus></div>
 <div class="login-field"><label for="password">Password:</label><input type="password" id="password" name="password" autocomplete="current-password" required></div>
