@@ -134,8 +134,23 @@ function gw_throttle_record_failure(
         $row = $stmt->get_result()->fetch_assoc();
         $stmt->close();
 
-        $now = time();
-        if (!$row || strtotime($row['window_started_at']) <= ($now - GW_AUTH_WINDOW_SECONDS)) {
+        // Keep all throttle-window time comparisons inside MariaDB. PHP runs
+        // in UTC on production while MariaDB follows the host's HST timezone.
+        // Comparing a MariaDB DATETIME through PHP strtotime() would therefore
+        // make a fresh HST window appear roughly ten hours old.
+        $windowExpired = !$row;
+        if ($row) {
+            $stmt = $con->prepare(
+                'SELECT window_started_at < DATE_SUB(NOW(), INTERVAL ? SECOND) AS expired'
+            );
+            $window = GW_AUTH_WINDOW_SECONDS;
+            $stmt->bind_param('i', $window);
+            $stmt->execute();
+            $windowExpired = (bool)$stmt->get_result()->fetch_assoc()['expired'];
+            $stmt->close();
+        }
+
+        if ($windowExpired) {
             $count = 1;
             $stmt = $con->prepare(
                 'INSERT INTO auth_throttle
