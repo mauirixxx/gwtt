@@ -9,12 +9,25 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
+require_once 'gw-connect.php';
+require_once 'gw-security.php';
+
 $gwNavLoggedIn = !empty($_SESSION['userid']);
 $gwNavAccess = 0;
-if ($gwNavLoggedIn && isset($con) && $con instanceof mysqli && function_exists('gw_refresh_session_access')) {
-    $gwNavAccess = gw_refresh_session_access($con);
-}
 $gwNavUsername = (string)($_SESSION['username'] ?? 'User');
+
+if ($gwNavLoggedIn) {
+    // Authorization shown in navigation must come from the database, not
+    // from a potentially stale access value stored in the PHP session.
+    $gwNavCon = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
+    if ($gwNavCon->connect_errno) {
+        error_log('Header authorization database connection failed: ' . $gwNavCon->connect_error);
+    } else {
+        $gwNavCon->set_charset('utf8mb4');
+        $gwNavAccess = gw_refresh_session_access($gwNavCon);
+        $gwNavCon->close();
+    }
+}
 ?>
 <header class="gw-site-header">
     <div class="gw-site-header__inner">
