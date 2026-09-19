@@ -40,7 +40,7 @@ $accessLevel = $isLoggedIn ? (int)($_SESSION['access'] ?? 0) : 0;
 <?php endif; ?>
 <form action="gw-login.php" method="POST"><?php echo gw_csrf_input(); ?>
 <div class="login-field"><label for="username">Username:</label><input type="text" id="username" name="username" maxlength="50" autocomplete="username" required autofocus></div>
-<div class="login-field"><label for="password">Password:</label><input type="password" id="password" name="password" autocomplete="current-password" required></div>
+<div class="login-field"><label for="password">Password:</label><input type="password" id="password" name="password" maxlength="1024" autocomplete="current-password" required></div>
 <div class="login-actions"><input type="submit" value="Sign in"></div></form>
 <div class="login-register">Don't have an account? <a href="gw-register.php" class="navlink">Create an account</a></div>
 </section></main>
