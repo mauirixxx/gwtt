@@ -41,6 +41,8 @@ if ($username !== '' && $password !== '' && strlen($username) <= 50) {
                 $update->close();
             }
             session_regenerate_id(true);
+            $_SESSION['authenticated_at'] = time();
+            $_SESSION['last_activity'] = time();
             $_SESSION['username'] = $row['username'];
             $_SESSION['userid'] = (int)$row['userid'];
             $_SESSION['access'] = (int)$row['access'];
