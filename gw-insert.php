@@ -1,59 +1,84 @@
-<!DOCTYPE html>
-<HTML>
-<HEAD>
-<link rel="stylesheet" type="text/css" href="gw-style.css">
-<TITLE>Inserting Data</TITLE>
-</HEAD>
 <?php
 session_start();
-include_once 'gw-connect.php';
-$con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
-#non-section specific POST data here
-$gold = mysqli_real_escape_string($con, $_POST['droppedgold']); //how much gold dropped
-$droptype = mysqli_real_escape_string($con, $_POST['droptype']); //this dictates if the drop was a weapon/rune/material
-$locid = mysqli_real_escape_string($con, $_POST['location']); //this is `treasurelocation`.`treasureid` in the database
-$toonid = $_SESSION['playerid'];
-$uid = $_SESSION['userid'];
-$treasdate = mysqli_real_escape_string($con, $_POST['treasuredate']);
-if ($droptype == 1){
-	$rarity = mysqli_real_escape_string($con, $_POST['rare']);
-	$req = mysqli_real_escape_string($con, $_POST['requirement']);
-	$attrib = mysqli_real_escape_string($con, $_POST['attribute']);
-	$weap = mysqli_real_escape_string($con, $_POST['weapon']);
-	$itname = mysqli_real_escape_string($con, $_POST['itemname']);
-	$sqlweapins = "INSERT INTO `history` (historydate, userid, charnameid, locationid, goldrec, itemreq, itemtype, itemattribute, itemrarity, itemname) VALUES ('$treasdate', $uid, $toonid, $locid, $gold, $req, $weap, $attrib, $rarity, '$itname')";
-	if (!$result = $con->query($sqlweapins)){
-		die ('There was an error running the query [' . $con->error . ']');
-	}
-} else if ($droptype == 2){
-	$matid = mysqli_real_escape_string($con, $_POST['rarematerial']);
-	$sqlmatins = "INSERT INTO `history` (historydate, userid, charnameid, locationid, goldrec, material) VALUES ('$treasdate', $uid, $toonid, $locid, $gold, $matid)";
-	if (!$result = $con->query($sqlmatins)){
-		die ('There was an error running the query [' . $con->error . ']');
-	}
-} else if ($droptype == 3){
-	$runeid = mysqli_real_escape_string($con, $_POST['rune']);
-	$runerare = mysqli_real_escape_string($con, $_POST['runerarity']);
-	$sqlruneins = "INSERT INTO `history` (historydate, userid, charnameid, locationid, goldrec, itemtype, itemrarity, runetype) VALUES ('$treasdate', $uid, $toonid, $locid, $gold, '16', $runerare, $runeid)";
-	if (!$result = $con->query($sqlruneins)){
-		die ('There was an error running the query [' . $con->error . ']');
-	}
-} else if ($droptype == 4){
-	$itname = mysqli_real_escape_string($con, $_POST['itemname']);
-	$itnothing = mysqli_real_escape_string($con, $_POST['itemtype']);
-	$sqlnothing = "INSERT INTO `history` (historydate, userid, charnameid, locationid, goldrec, itemtype, itemname) VALUES ('$treasdate', $uid, $toonid, $locid, $gold, $itnothing, '$itname')";
-	if (!$result = $con->query($sqlnothing)){
-		die ('There was an error running the query [' . $con->error . ']');
-	}
-} else {
-	exit("Variable droptype was set to ($droptype)");
+require_once 'gw-connect.php';
+
+// 1. Authentication Check
+if (!isset($_SESSION['playerid']) \vert{}\vert{} !isset($_SESSION['userid'])) {
+    http_response_code(403);
+    die('Unauthorized access.');
 }
+
+// 2. Database Connection
+$con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
+if ($con->connect_errno) {
+    error_log("Database connection failed: " . $con->connect_error);
+    die("A database error occurred.");
+}
+
+// 3. Extract & Cast Core Inputs
+$uid       = (int)$_SESSION['userid'];$toonid    = (int)$_SESSION['playerid'];$gold      = isset($_POST['droppedgold']) ? (int)$_POST['droppedgold'] : 0;
+$droptype  = isset($_POST['droptype']) ? (int)$_POST['droptype'] : 0;
+$locid     = isset($_POST['location']) ? (int)$_POST['location'] : 0;
+$treasdate = isset($_POST['treasuredate']) ?$_POST['treasuredate'] : date('Y-m-d');
+
+// Basic date format validation (YYYY-MM-DD)
+if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $treasdate)) {$treasdate = date('Y-m-d');
+}
+
+// 4. Handle Drops via Prepared Statements
+if ($droptype === 1) {
+    // Weapon Drop
+    $rarity = (int)$_POST['rare'];
+    $req    = (int)$_POST['requirement'];
+    $attrib = (int)$_POST['attribute'];
+    $weap   = (int)$_POST['weapon'];
+    $itname = trim($_POST['itemname'] ?? '');
+
+    $stmt =$con->prepare("INSERT INTO `history` (historydate, userid, charnameid, locationid, goldrec, itemreq, itemtype, itemattribute, itemrarity, itemname) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("siiiiiiiis", $treasdate,$uid, $toonid,$locid, $gold,$req, $weap,$attrib, $rarity,$itname);
+    
+} elseif ($droptype === 2) {
+    // Rare Material Drop
+    $matid = (int)$_POST['rarematerial'];
+
+    $stmt =$con->prepare("INSERT INTO `history` (historydate, userid, charnameid, locationid, goldrec, material) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("siiiii", $treasdate,$uid, $toonid,$locid, $gold,$matid);
+
+} elseif ($droptype === 3) {     // Rune Drop$runeid   = (int)$_POST['rune'];$runerare = (int)$_POST['runerarity'];$itemtype = 16;
+
+    $stmt =$con->prepare("INSERT INTO `history` (historydate, userid, charnameid, locationid, goldrec, itemtype, itemrarity, runetype) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("siiiiiii", $treasdate,$uid, $toonid,$locid, $gold,$itemtype, $runerare,$runeid);
+
+} elseif ($droptype === 4) {     // Nothing Dropped$itname     = trim($_POST['itemname'] ?? 'Nothing dropped!');$itnothing  = isset($_POST['itemtype']) ? (int)$_POST['itemtype'] : 17;
+
+    $stmt =$con->prepare("INSERT INTO `history` (historydate, userid, charnameid, locationid, goldrec, itemtype, itemname) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("siiiiis", $treasdate, $uid,$toonid, $locid,$gold, $itnothing,$itname);
+
+} else {
+    die("Invalid drop type provided.");
+}
+
+// 5. Execute Query
+if (!$stmt->execute()) {
+    error_log("Insert failed: " . $stmt->error);
+    die("Failed to record drop data.");
+}
+
+$stmt->close();$con->close();
 ?>
-<BODY onload="document.returntotoons.submit()">
-<CENTER>
-<FORM METHOD="POST" ACTION="gw-toon.php" NAME="returntotoons">
-<INPUT TYPE="SUBMIT">
-</FORM>
-</CENTER>
-</BODY>
-</HTML>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="gw-style.css">
+    <title>Inserting Data...</title>
+</head>
+<body onload="document.forms['returntotoons'].submit();">
+    <div style="text-align: center;">
+        <p>Record saved successfully. Redirecting...</p>
+        <form method="POST" action="gw-toon.php" name="returntotoons">
+            <input type="submit" value="Continue">
+        </form>
+    </div>
+</body>
+</html>
