@@ -87,5 +87,19 @@ if ($loginSuccess) {
 }
 http_response_code(401);
 ?>
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link rel="stylesheet" type="text/css" href="gw-style.css"><title>Invalid Login</title></head>
-<body><div style="text-align:center;margin-top:50px"><h2>Invalid Login</h2><p>That was not a valid username or password.</p><p>Please try again <a href="gw-index.php" class="navlink">here</a>.</p></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="gw-style.css">
+<title>Invalid Login</title>
+</head>
+<body>
+<?php require 'gw-header.php'; ?>
+<div style="text-align:center;margin-top:50px">
+<h2>Invalid Login</h2>
+<p>That was not a valid username or password.</p>
+<p>Please try again <a href="gw-index.php" class="navlink">here</a>.</p>
+</div>
+</body>
+</html>
