@@ -16,15 +16,49 @@ elseif(!gw_lookup_exists($con,'listruneprofessions','runeprofid',$profid))$error
 else{$colors=getColorArray();$profcolor=$colors[$profid]??'#FFFFFF';$stmt=$con->prepare('INSERT INTO playername (charname,birthdate,userid,professionid,profcolor) VALUES (?,?,?,?,?)');$stmt->bind_param('ssiis',$cname,$bdate,$userid,$profid,$profcolor);if($stmt->execute()){$successMsg='Character created successfully!';}else{error_log('Insert error: '.$stmt->error);$errorMsg='An error occurred while creating your character.';}$stmt->close();}
 }
 ?>
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link rel="stylesheet" type="text/css" href="gw-style.css"><title>Character Creation</title></head><body><div style="text-align:center;margin-top:30px">
-<?php if($successMsg): ?><p><?php echo htmlspecialchars($successMsg,ENT_QUOTES,'UTF-8'); ?></p><p><a href="gw-toon.php" class="navlink">Continue to character selection</a></p>
-<?php else: ?><?php if($errorMsg): ?><p style="color:red"><?php echo htmlspecialchars($errorMsg,ENT_QUOTES,'UTF-8'); ?></p><?php endif; ?>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link rel="stylesheet" type="text/css" href="gw-style.css"><title>Character Creation</title>
+<style>
+.create-wrap{max-width:520px;margin:35px auto;padding:0 20px}.create-card{background:rgba(255,255,255,.78);border:1px solid #bbb;border-radius:6px;padding:24px 28px;box-shadow:0 2px 8px rgba(0,0,0,.08)}.create-card h2{margin:0 0 22px;text-align:center}.create-field{display:grid;grid-template-columns:140px 1fr;gap:14px;align-items:center;margin-bottom:16px}.create-field label{float:none;width:auto;margin:0;padding:0;text-align:right}.create-field input,.create-field select{box-sizing:border-box;font:inherit;padding:7px 8px;width:100%}.create-actions{text-align:center;margin-top:22px}.create-actions input{font-size:1rem;padding:8px 16px}.create-message{text-align:center}.create-footer{text-align:center;margin-top:22px}.create-footer form{margin-top:16px}@media(max-width:560px){.create-field{grid-template-columns:1fr;gap:6px}.create-field label{text-align:left}.create-card{padding:20px}}
+</style></head><body>
+<?php require 'gw-header.php'; ?>
+<main class="create-wrap"><section class="create-card" id="create-card"><h2>Create Character</h2>
+<?php if($successMsg): ?><div class="create-message"><p><?php echo htmlspecialchars($successMsg,ENT_QUOTES,'UTF-8'); ?></p><p><a href="gw-toon.php" class="navlink">Continue to character selection</a></p></div>
+<?php else: ?><?php if($errorMsg): ?><p class="create-message" style="color:#a00000"><?php echo htmlspecialchars($errorMsg,ENT_QUOTES,'UTF-8'); ?></p><?php endif; ?>
 <form method="POST" action="gw-create.php"><?php echo gw_csrf_input(); ?><input type="hidden" name="docreate" value="1">
-<label for="cname">Character name:</label><input type="text" id="cname" name="cname" maxlength="30" size="20" required><br><br>
-<label for="bdate">Birthdate:</label><input id="bdate" name="bdate" type="date" required><br><br>
-<label for="professionid">Profession:</label><select id="professionid" name="professionid" required><option selected disabled value="">Choose Profession</option>
+<div class="create-field"><label for="cname">Character name:</label><input type="text" id="cname" name="cname" maxlength="30" required autofocus></div>
+<div class="create-field"><label for="bdate">Birthdate:</label><input id="bdate" name="bdate" type="date" required></div>
+<div class="create-field"><label for="professionid">Profession:</label><select id="professionid" name="professionid" required><option selected disabled value="">Choose Profession</option>
 <?php $r=$con->query('SELECT runeprofid,runeprofession FROM listruneprofessions WHERE runeprofid BETWEEN 2 AND 11 ORDER BY runeprofid');while($x=$r->fetch_assoc())echo '<option value="'.(int)$x['runeprofid'].'">'.htmlspecialchars($x['runeprofession'],ENT_QUOTES,'UTF-8').'</option>';$r->close(); ?>
-</select><br><br><input type="submit" value="Create character ..."></form><?php endif; ?>
-<br><br><p>Return to <a href="gw-index.php" class="navlink">home</a>.</p><br><br>
-<form method="POST" action="gw-logout.php"><?php echo gw_csrf_input(); ?><input type="hidden" name="logout" value="1"><input type="submit" value="Logout"></form></div></body></html>
+</select></div><div class="create-actions"><input type="submit" value="Create character"></div></form><?php endif; ?>
+<div class="create-footer"><a href="gw-toon.php" class="navlink">Return to character selection</a>
+<form method="POST" action="gw-logout.php"><?php echo gw_csrf_input(); ?><input type="hidden" name="logout" value="1"><input type="submit" value="Logout"></form></div>
+</section></main>
+<script>
+(function(){
+    var profession=document.getElementById('professionid');
+    var card=document.getElementById('create-card');
+    if(!profession||!card)return;
+
+    var professionColors={
+        '2':'#FF8',
+        '3':'#CF9',
+        '4':'#ACF',
+        '5':'#9FC',
+        '6':'#DAF',
+        '7':'#FBB',
+        '8':'#FCE',
+        '9':'#BFF',
+        '10':'#FC9',
+        '11':'#DDF'
+    };
+
+    function updateProfessionColor(){
+        card.style.backgroundColor=professionColors[profession.value]||'rgba(255,255,255,.78)';
+    }
+
+    profession.addEventListener('change',updateProfessionColor);
+    updateProfessionColor();
+})();
+</script>
+</body></html>
 <?php $con->close(); ?>

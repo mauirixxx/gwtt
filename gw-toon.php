@@ -15,7 +15,7 @@ $con->set_charset('utf8mb4');
 $userid = (int)$_SESSION['userid'];
 $selectedToonId = 0;
 $charactername = '';
-$profcolor = '#ffffff';
+$profcolor = '#DDD';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     gw_require_csrf();
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($row = $stmt->get_result()->fetch_assoc()) {
             $selectedToonId = (int)$row['playerid'];
             $charactername = $row['charname'];
-            $profcolor = preg_match('/^#[a-fA-F0-9]{6}$/', $row['profcolor']) ? $row['profcolor'] : '#ffffff';
+            $profcolor = preg_match('/^#(?:[a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/', $row['profcolor']) ? $row['profcolor'] : '#ffffff';
             $_SESSION['playerid'] = $selectedToonId;
             $_SESSION['profcolor'] = $profcolor;
         } else {
@@ -46,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link rel="stylesheet" type="text/css" href="gw-style.css">
 <title><?php echo $selectedToonId ? htmlspecialchars($charactername, ENT_QUOTES, 'UTF-8') : 'Character Selection'; ?></title>
 <style>body{background-color:<?php echo htmlspecialchars($profcolor, ENT_QUOTES, 'UTF-8'); ?>}</style></head><body>
+<?php require 'gw-header.php'; ?>
 <div style="text-align:center">
 <?php if (!$selectedToonId): ?>
 <form method="POST"><?php echo gw_csrf_input(); ?><select name="playerid" onchange="this.form.submit()"><option selected disabled>Select a Character</option>
