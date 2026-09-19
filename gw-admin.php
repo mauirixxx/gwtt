@@ -1,28 +1,69 @@
-<!DOCTYPE html>
-<HTML>
-<HEAD>
-<link rel="stylesheet" type="text/css" href="gw-style.css">
 <?php
 session_start();
-if (isset($_SESSION['userid']) && ($_SESSION['access'])){
-	$uname = $_SESSION['username'];
-	echo '<TITLE>Welcome, ' . $uname . '</TITLE></HEAD><BODY><CENTER>';
-	if ($_SESSION['access'] < 9){ //need to make this a SQL query instead
-		echo'<BR />You don\'t have access to these tools!<BR />';
-	} else {
-		echo 'Delete a toon <A HREF="gw-deletetoon.php" CLASS="navlink">here</A><BR />'; //page doesn't actually exist yet
-		echo 'This will delete a character from a user account, and all of it\'s recorded drop data - this is not reversible!<BR /><BR />';
-		echo 'Delete a user <A HREF="gw-deleteuser.php" CLASS="navlink">here</A><BR />'; //page doesn't actually exist yet
-		echo 'This will delete the user, all of their associated toons, and associated drop data - this is NOT reversible!<BR /><BR />';
-	}
-	echo 'Click <A HREF="gw-index.php" CLASS="navlink">HERE</A> to return to the home page!';
-} else {
-	echo '<TITLE>Login Required</TITLE></HEAD><BODY>';
-	echo '<CENTER><FORM ACTION="gw-login.php" METHOD="POST">Username:<INPUT TYPE="TEXT" NAME="username" SIZE="20"><BR />';
-	echo 'Password:<INPUT TYPE="PASSWORD" NAME="password" SIZE="20"><BR />';
-	echo '<INPUT TYPE="SUBMIT" VALUE="Login ..."></FORM>';
+
+// 1. Check Authentication
+if (!isset($_SESSION['userid']) || empty($_SESSION['userid'])) {
+    header('Location: gw-login.php');
+    exit;
 }
+
+// 2. Strict Privilege Enforcement (Admin Access Check)
+$accessLevel = (int)($_SESSION['access'] ?? 0);
+if ($accessLevel !== 9) {
+    http_response_code(403);
+    ?>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="gw-style.css">
+        <title>Access Denied</title>
+    </head>
+    <body>
+        <div style="text-align: center; margin-top: 50px;">
+            <h2>Access Denied</h2>
+            <p>You do not have permission to access administrator tools.</p>
+            <p>Click <a href="gw-index.php" class="navlink">HERE</a> to return to the home page.</p>
+        </div>
+    </body>
+    </html>
+    <?php
+    exit;
+}
+
+$username = $_SESSION['username'] ?? 'Admin';
 ?>
-</CENTER>
-</BODY>
-</HTML>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="gw-style.css">
+    <title>Admin Dashboard - Welcome, <?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?></title>
+</head>
+<body>
+<div style="text-align: center; margin-top: 50px;">
+
+    <h2>Administrator Tools</h2>
+    
+    <div style="margin-bottom: 20px;">
+        <p><strong>Delete a Character:</strong> <a href="gw-deletetoon.php" class="navlink">here</a></p>
+        <p><small>Deletes a character from a user account and all recorded drop data. (Irreversible)</small></p>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+        <p><strong>Delete a User:</strong> <a href="gw-deleteuser.php" class="navlink">here</a></p>
+        <p><small>Deletes a user, all associated characters, and drop data. (Irreversible)</small></p>
+    </div>
+
+    <br />
+    <p>Click <a href="gw-index.php" class="navlink">HERE</a> to return to the home page.</p>
+
+    <br /><br />
+    <form method="POST" action="gw-logout.php">
+        <input type="hidden" name="logout" value="1">
+        <input type="submit" value="Logout">
+    </form>
+
+</div>
+</body>
+</html>
