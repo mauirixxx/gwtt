@@ -1,22 +1,25 @@
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
+/*!40101 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-/*Table structure for table `listreq` */
+
+/* Table structure for table `listreq` */
 
 DROP TABLE IF EXISTS `listreq`;
 
 CREATE TABLE `listreq` (
-  `req` int(2) DEFAULT NULL COMMENT 'req1-r13'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `req` TINYINT(3) UNSIGNED NOT NULL COMMENT 'Requirement level (0 through 13)',
+  
+  -- Primary Key Constraint
+  PRIMARY KEY (`req`)
 
-/*Data for the table `listreq` */
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-insert  into `listreq`(`req`) values (1),(2),(3),(4),(5),(6),(7),(8),(9),(10),(11),(12),(13);
+/* Seed data for table `listreq` */
+
+INSERT INTO `listreq` (`req`) VALUES
+(0), (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
