@@ -1,37 +1,38 @@
 /*
-SQLyog Ultimate v12.09 (64 bit)
-MySQL - 5.5.52-MariaDB : Database - mauirixxx
-*********************************************************************
+  Hardened Schema for Table: history
 */
 
+-- 1. Ensure Table Creation Uses Modern Engine and Unicode Charset
+CREATE TABLE IF NOT EXISTS `history` (
+  `historyid`     INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `historydate`   DATE NOT NULL,
+  `userid`        INT(11) UNSIGNED NOT NULL,
+  `charnameid`    INT(11) UNSIGNED NOT NULL,
+  `locationid`    SMALLINT(5) UNSIGNED DEFAULT NULL,
+  `goldrec`       MEDIUMINT(8) UNSIGNED DEFAULT 0,
+  `material`      VARCHAR(50) DEFAULT NULL,
+  `itemreq`       TINYINT(3) UNSIGNED DEFAULT NULL,
+  `itemtype`      VARCHAR(30) DEFAULT NULL,
+  `itemattribute` VARCHAR(30) DEFAULT NULL,
+  `itemrarity`    VARCHAR(20) DEFAULT NULL,
+  `itemname`      VARCHAR(150) DEFAULT NULL,
+  `runetype`      VARCHAR(50) DEFAULT NULL COMMENT 'Rune type (e.g., Clarity, Smiting Prayers, Axe Mastery)',
+  
+  -- Primary Key
+  PRIMARY KEY (`historyid`),
+  
+  -- Indexes for Query Optimization
+  INDEX `idx_user_char` (`userid`, `charnameid`),
+  INDEX `idx_historydate` (`historydate`),
+  INDEX `idx_location` (`locationid`),
 
-/*!40101 SET NAMES utf8 */;
+  -- Foreign Key Constraints (Enforces Referential Integrity)
+  CONSTRAINT `fk_history_user` 
+    FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) 
+    ON DELETE CASCADE ON UPDATE CASCADE,
+    
+  CONSTRAINT `fk_history_character` 
+    FOREIGN KEY (`charnameid`) REFERENCES `playername` (`playerid`) 
+    ON DELETE CASCADE ON UPDATE CASCADE
 
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-/*Table structure for table `history` */
-
-CREATE TABLE `history` (
-  `historyid` int(11) NOT NULL AUTO_INCREMENT,
-  `historydate` date DEFAULT NULL,
-  `userid` int(11) DEFAULT NULL,
-  `charnameid` int(11) DEFAULT NULL,
-  `locationid` int(2) DEFAULT NULL,
-  `goldrec` int(4) DEFAULT NULL,
-  `material` varchar(30) DEFAULT NULL,
-  `itemreq` int(2) DEFAULT NULL,
-  `itemtype` varchar(13) DEFAULT NULL,
-  `itemattribute` varchar(15) DEFAULT NULL,
-  `itemrarity` varchar(6) DEFAULT NULL,
-  `itemname` varchar(100) DEFAULT NULL,
-  `runetype` varchar(25) DEFAULT NULL COMMENT 'what type of rune is it (clarity, smiting prayers, axe mastery, etc'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
