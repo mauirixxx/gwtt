@@ -14,6 +14,8 @@ $accessLevel = $isLoggedIn ? (int)($_SESSION['access'] ?? 0) : 0;
     <title><?php echo $isLoggedIn ? 'Welcome, ' . htmlspecialchars($username, ENT_QUOTES, 'UTF-8') : 'Login Required'; ?></title>
 </head>
 <body>
+<?php require 'gw-header.php'; ?>
+
 <div style="text-align: center; margin-top: 50px;">
 <?php if ($isLoggedIn): ?>
     <h2>Welcome, <?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?>!</h2>
