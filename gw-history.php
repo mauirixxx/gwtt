@@ -1,92 +1,121 @@
-<!DOCTYPE html>
-<HTML>
-<HEAD>
-<link rel="stylesheet" type="text/css" href="gw-style.css">
-<TITLE>Treasure Data</TITLE>
-</HEAD>
-<BODY>
-<CENTER><TABLE BORDER="0">
 <?php
 session_start();
-include_once 'gw-connect.php';
+require_once 'gw-connect.php';
+
+// 1. Authentication Check
+if (!isset($_SESSION['playerid']) || empty($_SESSION['playerid'])) {
+    header('Location: login.php');
+    exit;
+}
+
+// 2. Database Connection
 $con = new mysqli(DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME);
-//$cnameid = mysqli_real_escape_string($con, $_POST['cnameid']); //need to sanitize & validate this input somehow
-$cnameid = $_SESSION['playerid'];
-$profcolor = $_SESSION['profcolor'];
-if ($con->connect_errno > 0){
-	die ('Unable to connect to database [' . $db->connect_errno . ']');
+if ($con->connect_errno) {
+    error_log("Database connection failed: " . $con->connect_error);
+    die("Database connection failed.");
 }
-$sql = "SELECT history.*, treasuredata.*, playername.`playerid`, playername.`charname` FROM ((history INNER JOIN treasuredata ON history.`locationid` = treasuredata.`treasureid`) INNER JOIN playername ON history.`charnameid` = playername.`playerid`) WHERE history.`charnameid` = '$cnameid' ORDER BY `historydate`,`historyid` ASC";
-if (!$result = $con->query($sql)){
-	die ('There was an error running the query [' . $con->error . ']');
+
+// 3. Input & Session Sanitization
+$cnameid = (int)$_SESSION['playerid'];
+
+$profcolor = $_SESSION['profcolor'] ?? '#ffffff';
+if (!preg_match('/^#[a-fA-F0-9]{6}$/', $profcolor)) {
+    $profcolor = '#ffffff';
 }
-if (mysqli_num_rows($result) > 0) {
-	echo '<STYLE TYPE="TEXT/CSS" MEDIA="SCREEN">body { background-color: ' . $profcolor . '; }</STYLE>';
-	while ($row = $result->fetch_array()){
-		echo '<TR><TD>On ' . $row['historydate'] . ', "' . $row['charname'] . '" got ' . $row['goldrec'] . 'GP and ';
-		if ($row['itemtype'] == 16) { //this would be a rune
-			$runeid = $row['runetype'];
-			$sqlrune = "SELECT listrunes.`runeid`, listrunes.`runes` FROM listrunes WHERE listrunes.`runeid` = $runeid";
-			if (!$result2 = $con->query($sqlrune)){
-				die ('There was an error running the query [' . $con->error . ']');
-			}
-			while ($row2 = $result2->fetch_array()){
-				echo 'a rune of ' . $row2['runes'];
-			}
-		} else if ($row['itemtype'] == 17) { //nothing dropped, but showing the recorded date
-			echo 'nothing dropped at this location on this date';
-		} else {
-			if (is_null($row['material'])) {
-				$itemrarity = $row['itemrarity'];
-				$itemattr = $row['itemattribute'];
-				$itemweap = $row['itemtype'];
-				$sqlrare = "SELECT listrarity.* FROM listrarity WHERE listrarity.`rareid` = $itemrarity";
-				$sqlattr = "SELECT listattribute.* FROM listattribute WHERE listattribute.`weapattrid` = $itemattr";
-				$sqlweap = "SELECT listtype.* FROM listtype WHERE listtype.`weaponid` = $itemweap";
-				if (!$resultrarity = $con->query($sqlrare)){
-					die ('There was an error running the query [' . $con->error . ']');
-				}
-				while ($row3 = $resultrarity->fetch_array()){
-					echo 'a ' . $row3['rarity'];
-				}
-				echo ' r' . $row['itemreq'];
-				if (!$resultattr = $con->query($sqlattr)){
-					die ('There was an error running the query [' . $con->error . ']');
-				}
-				while ($row4 = $resultattr->fetch_array()){
-					echo ' ' . $row4['weaponattribute'];
-				}
-				if (!$resultweap = $con->query($sqlweap)){
-					die ('There was an error running the query [' . $con->error . ']');
-				}
-				while ($row5 = $resultweap->fetch_array()){
-					echo ' ' . $row5['weapontype'];
-				}
-				echo ' named ' . $row['itemname'];
-			} else {
-				$matid = $row['material'];
-				$sqlmat = "SELECT material FROM materials WHERE materialid = $matid";
-				if (!$resultmats = $con->query($sqlmat)){
-					die ('There was an error running the query [' . $con->error . ']');
-				}
-				while ($row6 = $resultmats->fetch_array()){
-					echo 'a ' . $row6['material'];
-				}
-			}
-		}
-		echo ' at <A HREF="' . $row['wikilink'] . '" CLASS="navlink">' . $row['location'] . '</A></TD></TR>';
-	}
-} else {
-	echo '<CENTER>There is no data to display for that character yet</CENTER><BR />';
-}
+
+// 4. Single Master Query with LEFT JOINs (Eliminates N+1 queries & SQLi)
+$sql = "SELECT 
+            h.historydate, 
+            h.goldrec, 
+            h.itemtype, 
+            h.itemreq, 
+            h.itemname, 
+            p.charname, 
+            t.location, 
+            t.wikilink,
+            lr.runes AS runename,
+            lrat.rarity AS rarityname,
+            la.weaponattribute AS attrname,
+            lt.weapontype AS weapname,
+            m.material AS matname
+        FROM history h
+        INNER JOIN treasuredata t ON h.locationid = t.treasureid
+        INNER JOIN playername p ON h.charnameid = p.playerid
+        LEFT JOIN listrunes lr ON h.runetype = lr.runeid
+        LEFT JOIN listrarity lrat ON h.itemrarity = lrat.rareid
+        LEFT JOIN listattribute la ON h.itemattribute = la.weapattrid
+        LEFT JOIN listtype lt ON h.itemtype = lt.weaponid
+        LEFT JOIN materials m ON h.material = m.materialid
+        WHERE h.charnameid = ?
+        ORDER BY h.historydate ASC, h.historyid ASC";
+
+$stmt = $con->prepare($sql);
+$stmt->bind_param("i", $cnameid);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
-</TABLE></CENTER>
-<BR />
-<CENTER>
-<FORM METHOD="POST" ACTION="gw-toon.php">
-<INPUT TYPE="HIDDEN" NAME="cnameid" VALUE="0">
-<INPUT TYPE="SUBMIT" VALUE="Return to character selection">
-</FORM>
-</CENTER>
-</BODY>
-</HTML>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="gw-style.css">
+    <title>Treasure Data</title>
+    <style media="screen">
+        body { background-color: <?php echo htmlspecialchars($profcolor, ENT_QUOTES, 'UTF-8'); ?>; }
+    </style>
+</head>
+<body>
+
+<div style="text-align: center;">
+<?php if ($result->num_rows > 0): ?>
+    <table style="margin: 0 auto; border: 0;">
+        <?php while ($row = $result->fetch_assoc()): ?>
+            <tr>
+                <td>
+                    On <?php echo htmlspecialchars($row['historydate'], ENT_QUOTES, 'UTF-8'); ?>, 
+                    "<?php echo htmlspecialchars($row['charname'], ENT_QUOTES, 'UTF-8'); ?>" got 
+                    <?php echo (int)$row['goldrec']; ?>GP and 
+
+                    <?php if ((int)$row['itemtype'] === 16): ?>
+                        a rune of <?php echo htmlspecialchars($row['runename'] ?? 'Unknown', ENT_QUOTES, 'UTF-8'); ?>
+
+                    <?php elseif ((int)$row['itemtype'] === 17): ?>
+                        nothing dropped at this location on this date
+
+                    <?php elseif (!empty($row['matname'])): ?>
+                        a <?php echo htmlspecialchars($row['matname'], ENT_QUOTES, 'UTF-8'); ?>
+
+                    <?php else: ?>
+                        a <?php echo htmlspecialchars($row['rarityname'] ?? '', ENT_QUOTES, 'UTF-8'); ?> 
+                        r<?php echo (int)$row['itemreq']; ?> 
+                        <?php echo htmlspecialchars($row['attrname'] ?? '', ENT_QUOTES, 'UTF-8'); ?> 
+                        <?php echo htmlspecialchars($row['weapname'] ?? '', ENT_QUOTES, 'UTF-8'); ?> 
+                        named <?php echo htmlspecialchars($row['itemname'] ?? '', ENT_QUOTES, 'UTF-8'); ?>
+                    <?php endif; ?>
+
+                    at <a href="<?php echo htmlspecialchars($row['wikilink'], ENT_QUOTES, 'UTF-8'); ?>" class="navlink">
+                        <?php echo htmlspecialchars($row['location'], ENT_QUOTES, 'UTF-8'); ?>
+                    </a>
+                </td>
+            </tr>
+        <?php endwhile; ?>
+    </table>
+<?php else: ?>
+    <p>There is no data to display for that character yet.</p>
+<?php endif; ?>
+</div>
+
+<br />
+<div style="text-align: center;">
+    <form method="POST" action="gw-toon.php">
+        <input type="hidden" name="cnameid" value="0">
+        <input type="submit" value="Return to character selection">
+    </form>
+</div>
+
+</body>
+</html>
+<?php
+$stmt->close();
+$con->close();
+?>
