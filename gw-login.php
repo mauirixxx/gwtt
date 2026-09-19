@@ -68,6 +68,16 @@ if ($username !== '' && $password !== '' && strlen($username) <= 50 && strlen($p
 if (!$loginSuccess) {
     gw_throttle_record_failure($con, 'login-user', $userKey, GW_LOGIN_USER_LIMIT);
     gw_throttle_record_failure($con, 'login-ip', $ipKey, GW_LOGIN_IP_LIMIT);
+
+    // The attempt that reaches the threshold should be blocked immediately,
+    // rather than allowing one additional request before returning HTTP 429.
+    if (
+        gw_throttle_is_blocked($con, 'login-user', $userKey) ||
+        gw_throttle_is_blocked($con, 'login-ip', $ipKey)
+    ) {
+        $con->close();
+        gw_rate_limited_response();
+    }
 }
 $con->close();
 
