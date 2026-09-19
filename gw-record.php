@@ -47,7 +47,10 @@ const weaponType=document.getElementById('weapon-type');
 const weaponAttribute=document.getElementById('weapon-attribute');
 function refreshWeaponAttributes(){
     const attrs=weaponAttributeMap[weaponType.value]||[];
-    weaponAttribute.replaceChildren(new Option(attrs.length?'Choose attribute':'No valid attributes',''));
+    const placeholder=new Option(attrs.length?'Choose attribute':'No valid attributes','');
+    placeholder.disabled=true;
+    placeholder.selected=true;
+    weaponAttribute.replaceChildren(placeholder);
     attrs.forEach(function(attr){weaponAttribute.add(new Option(attr.name,String(attr.id)));});
     if(attrs.length===1)weaponAttribute.value=String(attrs[0].id);
     weaponAttribute.disabled=attrs.length===0;
