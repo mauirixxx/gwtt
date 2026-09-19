@@ -69,13 +69,13 @@ default:$dropText='Nothing dropped';break;
 <p><strong>Drop recorded!</strong> <?php echo htmlspecialchars($dropConfirmation['charname'],ENT_QUOTES,'UTF-8'); ?> recorded <?php echo htmlspecialchars($dropText,ENT_QUOTES,'UTF-8'); ?> at <?php echo htmlspecialchars($dropConfirmation['location'],ENT_QUOTES,'UTF-8'); ?> on <?php echo htmlspecialchars($dropConfirmation['historydate'],ENT_QUOTES,'UTF-8'); ?><?php if((int)$dropConfirmation['goldrec']>0): ?>, plus <?php echo number_format((int)$dropConfirmation['goldrec']); ?> gold<?php endif; ?>.</p>
 <?php endif; ?>
 <?php if (!$selectedToonId): ?>
-<form method="POST"><?php echo gw_csrf_input(); ?><select name="playerid" onchange="this.form.submit()"><option selected disabled>Select a Character</option>
+<form method="POST"><?php echo gw_csrf_input(); ?><select name="playerid" onchange="this.form.submit()"><option disabled<?php echo $lastPlayerId ? '' : ' selected'; ?>>Select a Character</option>
 <?php
 $stmt=$con->prepare('SELECT playerid, charname FROM playername WHERE userid = ? ORDER BY charname ASC');
 $stmt->bind_param('i',$userid); $stmt->execute(); $res=$stmt->get_result();
-while($row=$res->fetch_assoc()){ $pid=(int)$row['playerid']; echo '<option value="'.$pid.'"'.($pid===$lastPlayerId?' selected':'').'>'.htmlspecialchars($row['charname'],ENT_QUOTES,'UTF-8').'</option>'; }
+while($row=$res->fetch_assoc()){ $pid=(int)$row['playerid']; echo '<option value="'.$pid.'">'.htmlspecialchars($row['charname'],ENT_QUOTES,'UTF-8').'</option>'; }
 $stmt->close();
-?></select><noscript><input type="submit" value="Choose Toon"></noscript></form>
+?></select><?php if($lastPlayerId): ?><button type="submit" name="playerid" value="<?php echo $lastPlayerId; ?>">Use last character</button><?php endif; ?><noscript><?php if(!$lastPlayerId): ?><input type="submit" value="Choose Toon"><?php endif; ?></noscript></form>
 <br><br><form action="gw-create.php" method="GET"><input type="submit" value="Add a toon"></form>
 <?php else: ?>
 <form method="POST" action="gw-action.php"><?php echo gw_csrf_input(); ?><fieldset class="radiogroup"><legend>Select your course of action</legend><ul class="radio" style="list-style:none;padding:0">
