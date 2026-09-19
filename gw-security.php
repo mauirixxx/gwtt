@@ -91,8 +91,9 @@ function gw_require_admin(mysqli $con): void
     }
 
     if (gw_current_access($con) !== 9) {
-        http_response_code(403);
-        exit('Access denied.');
+        $_SESSION['access'] = 0;
+        header('Location: gw-index.php');
+        exit;
     }
 }
 
