@@ -10,7 +10,7 @@ $uid=(int)$_SESSION['userid'];$toonid=(int)$_SESSION['playerid'];
 if(!gw_character_belongs_to_user($con,$toonid,$uid)){unset($_SESSION['playerid'],$_SESSION['profcolor']);$con->close();header('Location: gw-toon.php');exit;}
 if($_SERVER['REQUEST_METHOD']==='POST')gw_require_csrf();
 $location=isset($_POST['locationid'])?(int)$_POST['locationid']:0;$whatdropped=isset($_POST['gwdrop'])?(int)$_POST['gwdrop']:0;
-$profcolor=$_SESSION['profcolor']??'#ffffff';if(!preg_match('/^#[a-fA-F0-9]{6}$/',$profcolor))$profcolor='#ffffff';
+$profcolor=$_SESSION['profcolor']??'#ffffff';if(!preg_match('/^#(?:[a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/',$profcolor))$profcolor='#ffffff';
 $locname='';$loclink='';$locid=0;
 if($location>0){$stmt=$con->prepare('SELECT treasureid,location,wikilink FROM treasuredata WHERE treasureid=?');$stmt->bind_param('i',$location);$stmt->execute();if($row=$stmt->get_result()->fetch_assoc()){$locid=(int)$row['treasureid'];$locname=$row['location'];$loclink=$row['wikilink'];}$stmt->close();}
 function options(mysqli $c,string $sql,string $id,string $label):void{$r=$c->query($sql);while($x=$r->fetch_assoc())echo '<option value="'.(int)$x[$id].'">'.htmlspecialchars((string)$x[$label],ENT_QUOTES,'UTF-8').'</option>';$r->close();}
