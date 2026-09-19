@@ -20,7 +20,20 @@ $username = trim($_POST['username'] ?? '');
 $password = $_POST['password'] ?? '';
 $loginSuccess = false;
 
-if ($username !== '' && $password !== '' && strlen($username) <= 50) {
+$clientIp = gw_client_ip();
+$userKey = gw_throttle_key('login-user', $username);
+$ipKey = gw_throttle_key('login-ip', $clientIp);
+gw_throttle_cleanup($con);
+
+if (
+    gw_throttle_is_blocked($con, 'login-user', $userKey) ||
+    gw_throttle_is_blocked($con, 'login-ip', $ipKey)
+) {
+    $con->close();
+    gw_rate_limited_response();
+}
+
+if ($username !== '' && $password !== '' && strlen($username) <= 50 && strlen($password) <= 1024) {
     $stmt = $con->prepare('SELECT userid, username, password, access FROM users WHERE username = ?');
     $stmt->bind_param('s', $username);
     $stmt->execute();
@@ -47,9 +60,14 @@ if ($username !== '' && $password !== '' && strlen($username) <= 50) {
             $_SESSION['userid'] = (int)$row['userid'];
             $_SESSION['access'] = (int)$row['access'];
             unset($_SESSION['playerid'], $_SESSION['profcolor']);
+            gw_throttle_clear($con, 'login-user', $userKey);
             $loginSuccess = true;
         }
     }
+}
+if (!$loginSuccess) {
+    gw_throttle_record_failure($con, 'login-user', $userKey, GW_LOGIN_USER_LIMIT);
+    gw_throttle_record_failure($con, 'login-ip', $ipKey, GW_LOGIN_IP_LIMIT);
 }
 $con->close();
 
