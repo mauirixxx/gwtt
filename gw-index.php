@@ -1,26 +1,53 @@
-<!DOCTYPE html>
-<HTML>
-<HEAD>
-<link rel="stylesheet" type="text/css" href="gw-style.css">
 <?php
 session_start();
-if (isset($_SESSION['userid']) && ($_SESSION['access'])){
-	$uname = $_SESSION['username'];
-	echo '<TITLE>Welcome, ' . $uname . '</TITLE></HEAD><BODY><CENTER>';
-	echo 'Proceed to character selection <A HREF="gw-toon.php" CLASS="navlink">here</A><BR />';
-	echo 'Create a new character to record <A HREF="gw-create.php" CLASS="navlink">here</A><BR />';
-	if ($_SESSION['access'] == 9){
-		echo'<BR />Hello admin, please click <A HREF="gw-admin.php" CLASS="navlink">here</A> to access the admin page <BR />';
-	}
-} else {
-	echo '<TITLE>Login Required</TITLE></HEAD><BODY>';
-	echo '<CENTER><FORM ACTION="gw-login.php" METHOD="POST">Username:<INPUT TYPE="TEXT" NAME="username" SIZE="20"><BR />';
-	echo 'Password:<INPUT TYPE="PASSWORD" NAME="password" SIZE="20"><BR />';
-	echo '<INPUT TYPE="SUBMIT" VALUE="Login ..."></FORM>';
-}
+
+// Check if user is logged in
+$isLoggedIn = isset($_SESSION['userid']) && !empty($_SESSION['userid']);
+$username   = $isLoggedIn ? ($_SESSION['username'] ?? 'User') : '';
+$accessLevel = $isLoggedIn ? (int)($_SESSION['access'] ?? 0) : 0;
 ?>
-</CENTER>
-<!-- yup REALLY need to make a footer page - having a logout button when you're not even logged in is stupid -->
-<BR /><BR /><CENTER><FORM METHOD="POST" ACTION="gw-logout.php"><INPUT TYPE="HIDDEN" NAME="logout"><INPUT TYPE="SUBMIT" VALUE="Logout"></FORM></CENTER>
-</BODY>
-</HTML>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="gw-style.css">
+    <title><?php echo $isLoggedIn ? 'Welcome, ' . htmlspecialchars($username, ENT_QUOTES, 'UTF-8') : 'Login Required'; ?></title>
+</head>
+<body>
+<div style="text-align: center; margin-top: 50px;">
+
+<?php if ($isLoggedIn): ?>
+
+    <h2>Welcome, <?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?>!</h2>
+    <p>Proceed to character selection <a href="gw-toon.php" class="navlink">here</a>.</p>
+    <p>Create a new character to record <a href="gw-create.php" class="navlink">here</a>.</p>
+
+    <?php if ($accessLevel === 9): ?>
+        <br />
+        <p>Hello Admin, please click <a href="gw-admin.php" class="navlink">here</a> to access the admin page.</p>
+    <?php endif; ?>
+
+    <br /><br />
+    <form method="POST" action="gw-logout.php">
+        <input type="hidden" name="logout" value="1">
+        <input type="submit" value="Logout">
+    </form>
+
+<?php else: ?>
+
+    <h2>Login Required</h2>
+    <form action="gw-login.php" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" size="20" required><br /><br />
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" size="20" required><br /><br />
+        
+        <input type="submit" value="Login ...">
+    </form>
+
+<?php endif; ?>
+
+</div>
+</body>
+</html>
