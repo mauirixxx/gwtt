@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $selectedPlayer = (int)($_GET['playerid'] ?? $_POST['filter_playerid'] ?? 0);
 $characters = [];
-$r = $con->query('SELECT p.playerid,p.charname,p.birthdate,rp.runeprofession AS profession,(SELECT COUNT(*) FROM history h WHERE h.charnameid=p.playerid) AS history_count FROM playername p LEFT JOIN listruneprofessions rp ON p.professionid=rp.runeprofid ORDER BY p.charname');
+$r = $con->query('SELECT p.playerid,p.charname,p.birthdate,p.profcolor,rp.runeprofession AS profession,(SELECT COUNT(*) FROM history h WHERE h.charnameid=p.playerid) AS history_count FROM playername p LEFT JOIN listruneprofessions rp ON p.professionid=rp.runeprofid ORDER BY p.charname');
 while ($row = $r->fetch_assoc()) $characters[] = $row;
 $r->close();
 
@@ -105,7 +105,7 @@ if ($selectedPlayer > 0) {
 
 <h3>Characters</h3>
 <table class="admin-table"><thead><tr><th>Character</th><th>Profession</th><th>Birthdate</th><th>Loot entries</th><th>Actions</th></tr></thead><tbody>
-<?php foreach($characters as $c): ?><tr>
+<?php foreach($characters as $c): ?><?php $rowColor=(isset($c['profcolor'])&&preg_match('/^#(?:[a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/',$c['profcolor']))?$c['profcolor']:'#ffffff'; ?><tr style="background-color:<?php echo htmlspecialchars($rowColor,ENT_QUOTES,'UTF-8'); ?>">
 <td><?php echo htmlspecialchars($c['charname'],ENT_QUOTES,'UTF-8'); ?></td>
 <td><?php echo htmlspecialchars($c['profession']??'',ENT_QUOTES,'UTF-8'); ?></td>
 <td><?php echo htmlspecialchars($c['birthdate']??'',ENT_QUOTES,'UTF-8'); ?></td>
