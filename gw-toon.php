@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($row = $stmt->get_result()->fetch_assoc()) {
             $selectedToonId = (int)$row['playerid'];
             $charactername = $row['charname'];
-            $profcolor = preg_match('/^#[a-fA-F0-9]{6}$/', $row['profcolor']) ? $row['profcolor'] : '#ffffff';
+            $profcolor = preg_match('/^#(?:[a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/', $row['profcolor']) ? $row['profcolor'] : '#ffffff';
             $_SESSION['playerid'] = $selectedToonId;
             $_SESSION['profcolor'] = $profcolor;
         } else {
