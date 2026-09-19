@@ -15,7 +15,7 @@ $con->set_charset('utf8mb4');
 $userid = (int)$_SESSION['userid'];
 $selectedToonId = 0;
 $charactername = '';
-$profcolor = '#ffffff';
+$profcolor = '#DDD';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     gw_require_csrf();
