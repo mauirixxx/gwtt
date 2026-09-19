@@ -140,11 +140,15 @@ function gw_throttle_record_failure(
         // make a fresh HST window appear roughly ten hours old.
         $windowExpired = !$row;
         if ($row) {
+            // window_started_at is already in PHP from the locked row above,
+            // but do the comparison using MariaDB's clock/timezone. Pass the
+            // value back as data instead of referring to it as a SQL column.
             $stmt = $con->prepare(
-                'SELECT window_started_at < DATE_SUB(NOW(), INTERVAL ? SECOND) AS expired'
+                'SELECT CAST(? AS DATETIME) < DATE_SUB(NOW(), INTERVAL ? SECOND) AS expired'
             );
+            $windowStartedAt = (string)$row['window_started_at'];
             $window = GW_AUTH_WINDOW_SECONDS;
-            $stmt->bind_param('i', $window);
+            $stmt->bind_param('si', $windowStartedAt, $window);
             $stmt->execute();
             $windowExpired = (bool)$stmt->get_result()->fetch_assoc()['expired'];
             $stmt->close();
