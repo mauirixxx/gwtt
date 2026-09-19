@@ -30,7 +30,11 @@ $gwNavUsername = (string)($_SESSION['username'] ?? 'User');
 
         <?php if ($gwNavLoggedIn): ?>
             <div class="gw-site-header__user">
-                <span>Signed in as <?php echo htmlspecialchars($gwNavUsername, ENT_QUOTES, 'UTF-8'); ?></span>
+                <form method="POST" action="gw-logout.php" onsubmit="return confirm('Sign out of Guild Wars Treasure Tracker?');">
+                    <?php echo gw_csrf_input(); ?>
+                    <input type="hidden" name="logout" value="1">
+                    <span>Signed in as </span><button type="submit" class="gw-site-header__username"><?php echo htmlspecialchars($gwNavUsername, ENT_QUOTES, 'UTF-8'); ?></button>
+                </form>
             </div>
         <?php endif; ?>
     </div>
@@ -82,6 +86,19 @@ $gwNavUsername = (string)($_SESSION['username'] ?? 'User');
     font-size: .9rem;
     white-space: nowrap;
 }
+.gw-site-header__user form { margin: 0; }
+.gw-site-header__username {
+    background: none;
+    border: 0;
+    color: #f0d39a;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    padding: 0;
+    text-decoration: underline;
+}
+.gw-site-header__username:hover,
+.gw-site-header__username:focus { color: #fff; }
 @media (max-width: 760px) {
     .gw-site-header__inner {
         align-items: flex-start;
