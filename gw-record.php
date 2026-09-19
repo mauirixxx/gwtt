@@ -16,6 +16,7 @@ if($location>0){$stmt=$con->prepare('SELECT treasureid,location,wikilink FROM tr
 function options(mysqli $c,string $sql,string $id,string $label):void{$r=$c->query($sql);while($x=$r->fetch_assoc())echo '<option value="'.(int)$x[$id].'">'.htmlspecialchars((string)$x[$label],ENT_QUOTES,'UTF-8').'</option>';$r->close();}
 ?>
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link rel="stylesheet" type="text/css" href="gw-style.css"><title>What Dropped?</title><style>body{background-color:<?php echo htmlspecialchars($profcolor,ENT_QUOTES,'UTF-8'); ?>}</style></head><body>
+<?php require 'gw-header.php'; ?>
 <div style="text-align:center"><?php if($locid): ?>At <a href="<?php echo htmlspecialchars($loclink,ENT_QUOTES,'UTF-8'); ?>" class="navlink"><?php echo htmlspecialchars($locname,ENT_QUOTES,'UTF-8'); ?></a> (Guild Wars Wiki link)<?php else: ?><p>Invalid location selected.</p><?php endif; ?></div><br>
 <?php if($locid && $whatdropped===1): ?><div style="text-align:center"><form method="POST" action="gw-insert.php"><?php echo gw_csrf_input(); ?>
 on <input name="treasuredate" type="date" value="<?php echo date('Y-m-d'); ?>" required> a
