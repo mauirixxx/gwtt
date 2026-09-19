@@ -6,6 +6,7 @@ if((int)($_SESSION['access']??0)!==9){http_response_code(403);exit('Access denie
 $username=$_SESSION['username']??'Admin';
 ?>
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link rel="stylesheet" type="text/css" href="gw-style.css"><title>Admin Dashboard</title></head><body>
+<?php require 'gw-header.php'; ?>
 <div style="text-align:center;margin-top:50px"><h2>Administrator Tools</h2>
 <p>The legacy delete-character and delete-user links were disabled because their target handlers are not present in this repository.</p>
 <p>Destructive administration should be reintroduced only with explicit confirmation, CSRF protection, and transactional database handling.</p>
