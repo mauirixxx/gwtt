@@ -119,39 +119,62 @@ function gw_throttle_record_failure(
     string $key,
     int $limit
 ): void {
-    $stmt = $con->prepare(
-        'INSERT INTO auth_throttle
-            (throttle_key, action_type, failure_count, window_started_at, blocked_until, updated_at)
-         VALUES (?, ?, 1, NOW(), NULL, NOW())
-         ON DUPLICATE KEY UPDATE
-            failure_count = IF(
-                window_started_at < DATE_SUB(NOW(), INTERVAL ? SECOND),
-                1,
-                failure_count + 1
-            ),
-            window_started_at = IF(
-                window_started_at < DATE_SUB(NOW(), INTERVAL ? SECOND),
-                NOW(),
-                window_started_at
-            ),
-            blocked_until = IF(
-                (
-                    IF(
-                        window_started_at < DATE_SUB(NOW(), INTERVAL ? SECOND),
-                        1,
-                        failure_count + 1
-                    )
-                ) >= ?,
-                DATE_ADD(NOW(), INTERVAL ? SECOND),
-                blocked_until
-            ),
-            updated_at = NOW()'
-    );
-    $window = GW_AUTH_WINDOW_SECONDS;
-    $block = GW_AUTH_BLOCK_SECONDS;
-    $stmt->bind_param('ssiiiii', $key, $action, $window, $window, $window, $limit, $block);
-    $stmt->execute();
-    $stmt->close();
+    // Read/update in a transaction so the threshold decision is based on
+    // the post-increment count and concurrent attempts cannot lose updates.
+    $con->begin_transaction();
+    try {
+        $stmt = $con->prepare(
+            'SELECT failure_count, window_started_at
+             FROM auth_throttle
+             WHERE throttle_key = ? AND action_type = ?
+             FOR UPDATE'
+        );
+        $stmt->bind_param('ss', $key, $action);
+        $stmt->execute();
+        $row = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+
+        $now = time();
+        if (!$row || strtotime($row['window_started_at']) <= ($now - GW_AUTH_WINDOW_SECONDS)) {
+            $count = 1;
+            $stmt = $con->prepare(
+                'INSERT INTO auth_throttle
+                    (throttle_key, action_type, failure_count, window_started_at, blocked_until, updated_at)
+                 VALUES (?, ?, 1, NOW(), NULL, NOW())
+                 ON DUPLICATE KEY UPDATE
+                    failure_count = 1,
+                    window_started_at = NOW(),
+                    blocked_until = NULL,
+                    updated_at = NOW()'
+            );
+            $stmt->bind_param('ss', $key, $action);
+        } else {
+            $count = (int)$row['failure_count'] + 1;
+            if ($count >= $limit) {
+                $stmt = $con->prepare(
+                    'UPDATE auth_throttle
+                     SET failure_count = ?, blocked_until = DATE_ADD(NOW(), INTERVAL ? SECOND), updated_at = NOW()
+                     WHERE throttle_key = ? AND action_type = ?'
+                );
+                $block = GW_AUTH_BLOCK_SECONDS;
+                $stmt->bind_param('iiss', $count, $block, $key, $action);
+            } else {
+                $stmt = $con->prepare(
+                    'UPDATE auth_throttle
+                     SET failure_count = ?, updated_at = NOW()
+                     WHERE throttle_key = ? AND action_type = ?'
+                );
+                $stmt->bind_param('iss', $count, $key, $action);
+            }
+        }
+
+        $stmt->execute();
+        $stmt->close();
+        $con->commit();
+    } catch (Throwable $e) {
+        $con->rollback();
+        throw $e;
+    }
 }
 
 function gw_throttle_clear(mysqli $con, string $action, string $key): void
