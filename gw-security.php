@@ -204,15 +204,25 @@ function gw_rate_limited_response(): void
 {
     http_response_code(429);
     header('Retry-After: ' . GW_AUTH_BLOCK_SECONDS);
-    exit(
-        '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">' .
-        '<title>Too Many Requests</title></head><body>' .
-        '<div style="text-align:center;margin-top:50px">' .
-        '<h2>Too Many Requests</h2>' .
-        '<p>Too many attempts were received. Please wait 15 minutes and try again.</p>' .
-        '<p><a href="gw-index.php">Return to sign in</a></p>' .
-        '</div></body></html>'
-    );
+    ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="gw-style.css">
+<title>Too Many Requests</title>
+</head>
+<body>
+<?php require 'gw-header.php'; ?>
+<div style="text-align:center;margin-top:50px">
+<h2>Too Many Requests</h2>
+<p>Too many attempts were received. Please wait 15 minutes and try again.</p>
+<p><a href="gw-index.php" class="navlink">Return to sign in</a>.</p>
+</div>
+</body>
+</html>
+<?php
+    exit;
 }
 
 function gw_valid_date(string $date): bool
