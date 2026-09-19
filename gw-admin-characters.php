@@ -1,7 +1,6 @@
 <?php
 session_start();require_once 'gw-connect.php';require_once 'gw-security.php';
-if(empty($_SESSION['userid'])){header('Location: gw-index.php');exit;}if((int)($_SESSION['access']??0)!==9){http_response_code(403);exit('Access denied.');}
-$con=new mysqli(DATABASE_HOST,DATABASE_USER,DATABASE_PASS,DATABASE_NAME);if($con->connect_errno){error_log('Database error: '.$con->connect_error);exit('A database error occurred.');}$con->set_charset('utf8mb4');$message='';$error='';
+$con=new mysqli(DATABASE_HOST,DATABASE_USER,DATABASE_PASS,DATABASE_NAME);if($con->connect_errno){error_log('Database error: '.$con->connect_error);exit('A database error occurred.');}$con->set_charset('utf8mb4');gw_require_admin($con);gw_refresh_session_access($con);$message='';$error='';
 if($_SERVER['REQUEST_METHOD']==='POST'){gw_require_csrf();$action=$_POST['admin_action']??'';
  if($action==='delete_character'){$playerId=(int)($_POST['playerid']??0);$stmt=$con->prepare('SELECT charname FROM playername WHERE playerid=?');$stmt->bind_param('i',$playerId);$stmt->execute();$character=$stmt->get_result()->fetch_assoc();$stmt->close();
   if(!$character)$error='Character not found.';else{$stmt=$con->prepare('DELETE FROM playername WHERE playerid=?');$stmt->bind_param('i',$playerId);if($stmt->execute()&&$stmt->affected_rows===1){$message='Deleted character "'.$character['charname'].'" and all associated loot history.';if((int)($_SESSION['playerid']??0)===$playerId)unset($_SESSION['playerid'],$_SESSION['profcolor']);}else$error='The character could not be deleted.';$stmt->close();}}
