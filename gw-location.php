@@ -18,7 +18,9 @@ $result=$con->query('SELECT treasureid, location FROM treasuredata ORDER BY trea
 if(!$result){error_log('Query failed: '.$con->error);exit('An error occurred while fetching locations.');}
 ?>
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link rel="stylesheet" type="text/css" href="gw-style.css"><title>Location Selection</title>
-<style>body{background-color:<?php echo htmlspecialchars($profcolor,ENT_QUOTES,'UTF-8'); ?>}</style></head><body><div style="text-align:center">
+<style>body{background-color:<?php echo htmlspecialchars($profcolor,ENT_QUOTES,'UTF-8'); ?>}</style></head><body>
+<?php require 'gw-header.php'; ?>
+<div style="text-align:center">
 <form method="POST" action="gw-record.php"><?php echo gw_csrf_input(); ?><select name="locationid" onchange="this.form.submit()"><option selected disabled>Select a map location</option>
 <?php while($row=$result->fetch_assoc()): ?><option value="<?php echo (int)$row['treasureid']; ?>"><?php echo htmlspecialchars($row['location'],ENT_QUOTES,'UTF-8'); ?></option><?php endwhile; ?>
 </select><noscript><input type="submit" value="Choose Map Location"></noscript></form><br>
