@@ -24,6 +24,9 @@ if($gold===false||$gold===null||$droptype===false||$droptype===null||$locid===fa
 if($droptype===1){
     $rarity=(int)($_POST['rare']??0);$req=(int)($_POST['requirement']??-1);$attrib=(int)($_POST['attribute']??0);$weap=(int)($_POST['weapon']??0);$itname=trim($_POST['itemname']??'');
     if(strlen($itname)>150||!gw_lookup_exists($con,'listrarity','rareid',$rarity)||!gw_lookup_exists($con,'listreq','req',$req)||!gw_lookup_exists($con,'listattribute','weapattrid',$attrib)||!gw_lookup_exists($con,'listtype','weaponid',$weap)){http_response_code(400);exit('Invalid weapon data.');}
+    $validPair=$con->prepare('SELECT 1 FROM weapon_attribute_map WHERE weaponid=? AND weapattrid=? LIMIT 1');
+    $validPair->bind_param('ii',$weap,$attrib);$validPair->execute();$pairExists=(bool)$validPair->get_result()->fetch_row();$validPair->close();
+    if(!$pairExists){$con->close();http_response_code(400);exit('That attribute is not valid for the selected weapon type.');}
     $stmt=$con->prepare('INSERT INTO history (historydate,userid,charnameid,locationid,goldrec,drop_type,itemreq,itemtype,itemattribute,itemrarity,itemname) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
     $stmt->bind_param('siiiiiiiiis',$treasdate,$uid,$toonid,$locid,$gold,$droptype,$req,$weap,$attrib,$rarity,$itname);
 }elseif($droptype===2){
