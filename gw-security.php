@@ -100,8 +100,11 @@ function gw_throttle_key(string $scope, string $value): string
 
 function gw_throttle_is_blocked(mysqli $con, string $action, string $key): bool
 {
+    // Keep the block-expiry comparison in MariaDB so its DATETIME values
+    // are evaluated using the same clock/timezone that created them.
     $stmt = $con->prepare(
-        'SELECT blocked_until FROM auth_throttle
+        'SELECT blocked_until IS NOT NULL AND blocked_until > NOW() AS is_blocked
+         FROM auth_throttle
          WHERE throttle_key = ? AND action_type = ? LIMIT 1'
     );
     $stmt->bind_param('ss', $key, $action);
@@ -109,8 +112,7 @@ function gw_throttle_is_blocked(mysqli $con, string $action, string $key): bool
     $row = $stmt->get_result()->fetch_assoc();
     $stmt->close();
 
-    return $row && $row['blocked_until'] !== null
-        && strtotime($row['blocked_until']) > time();
+    return $row && (bool)$row['is_blocked'];
 }
 
 function gw_throttle_record_failure(
