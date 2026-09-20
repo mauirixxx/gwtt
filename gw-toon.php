@@ -84,7 +84,7 @@ default:$dropText='Nothing dropped';break;
 <p class="toon-confirm"><strong>Drop recorded!</strong> <?php echo htmlspecialchars($dropConfirmation['charname'],ENT_QUOTES,'UTF-8'); ?> recorded <?php echo htmlspecialchars($dropText,ENT_QUOTES,'UTF-8'); ?> at <?php echo htmlspecialchars($dropConfirmation['location'],ENT_QUOTES,'UTF-8'); ?> on <?php echo htmlspecialchars($dropConfirmation['historydate'],ENT_QUOTES,'UTF-8'); ?><?php if((int)$dropConfirmation['goldrec']>0): ?>, plus <?php echo number_format((int)$dropConfirmation['goldrec']); ?> gold<?php endif; ?>.</p>
 <?php endif; ?>
 <?php if (!$selectedToonId): ?>
-<form method="POST"><?php echo gw_csrf_input(); ?><select name="playerid" onchange="this.form.submit()"><option disabled<?php echo $lastPlayerId ? '' : ' selected'; ?>>Select a Character</option>
+<form method="POST"><?php echo gw_csrf_input(); ?><select name="playerid" onchange="this.form.submit()"><option value="" selected disabled>Select a Character</option>
 <?php
 $stmt=$con->prepare('SELECT playerid, charname FROM playername WHERE userid = ? ORDER BY charname ASC');
 $stmt->bind_param('i',$userid); $stmt->execute(); $res=$stmt->get_result();
