@@ -12,9 +12,9 @@ if(!gw_character_belongs_to_user($con,$pid,$uid)){unset($_SESSION['playerid'],$_
 $profcolor=$_SESSION['profcolor']??'#ffffff';if(!preg_match('/^#(?:[a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/',$profcolor))$profcolor='#ffffff';
 
 $sql="SELECT h.historydate,h.goldrec,h.drop_type,h.itemreq,h.itemname,p.charname,t.location,t.wikilink,
-lr.runes AS runename,lrat.rarity AS rarityname,la.weaponattribute AS attrname,lt.weapontype AS weapname,m.material AS matname
+lr.runes AS runename,li.insignia AS insignianame,lrat.rarity AS rarityname,la.weaponattribute AS attrname,lt.weapontype AS weapname,m.material AS matname
 FROM history h INNER JOIN treasuredata t ON h.locationid=t.treasureid INNER JOIN playername p ON h.charnameid=p.playerid
-LEFT JOIN listrunes lr ON h.runetype=lr.runeid LEFT JOIN listrarity lrat ON h.itemrarity=lrat.rareid
+LEFT JOIN listrunes lr ON h.runetype=lr.runeid LEFT JOIN listinsignias li ON h.insignia=li.insigniaid LEFT JOIN listrarity lrat ON h.itemrarity=lrat.rareid
 LEFT JOIN listattribute la ON h.itemattribute=la.weapattrid LEFT JOIN listtype lt ON h.itemtype=lt.weaponid
 LEFT JOIN materials m ON h.material=m.materialid WHERE h.charnameid=? AND h.userid=? ORDER BY h.historydate ASC,h.historyid ASC";
 $stmt=$con->prepare($sql);$stmt->bind_param('ii',$pid,$uid);$stmt->execute();$result=$stmt->get_result();
@@ -46,7 +46,7 @@ body{background-color:<?php echo htmlspecialchars($profcolor,ENT_QUOTES,'UTF-8')
 <td class="history-date"><?php $date=new DateTime($row['historydate']);echo htmlspecialchars($date->format('M j, Y'),ENT_QUOTES,'UTF-8'); ?></td>
 <td><a href="<?php echo htmlspecialchars($row['wikilink'],ENT_QUOTES,'UTF-8'); ?>" class="navlink"><?php echo htmlspecialchars($row['location'],ENT_QUOTES,'UTF-8'); ?></a></td>
 <td class="history-gold"><?php echo number_format((int)$row['goldrec']); ?> GP</td>
-<td><?php if((int)$row['drop_type']===3): ?><?php echo htmlspecialchars($row['rarityname']??'',ENT_QUOTES,'UTF-8'); ?> <?php echo htmlspecialchars($row['runename']??'Unknown',ENT_QUOTES,'UTF-8'); ?> Rune
+<td><?php if((int)$row['drop_type']===3): ?><?php echo htmlspecialchars($row['rarityname']??'',ENT_QUOTES,'UTF-8'); ?><?php if(!empty($row['runename'])): ?> <?php echo htmlspecialchars($row['runename'],ENT_QUOTES,'UTF-8'); ?> Rune<?php endif; ?><?php if(!empty($row['insignianame'])): ?><?php echo !empty($row['runename'])?' + ':' '; ?><?php echo htmlspecialchars($row['insignianame'],ENT_QUOTES,'UTF-8'); ?><?php endif; ?>
 <?php elseif((int)$row['drop_type']===4): ?>Nothing dropped
 <?php elseif((int)$row['drop_type']===2): ?><?php echo htmlspecialchars($row['matname']??'Unknown material',ENT_QUOTES,'UTF-8'); ?>
 <?php else: ?><?php echo htmlspecialchars($row['rarityname']??'',ENT_QUOTES,'UTF-8'); ?> R<?php echo (int)$row['itemreq']; ?> <?php echo htmlspecialchars($row['attrname']??'',ENT_QUOTES,'UTF-8'); ?> <?php echo htmlspecialchars($row['weapname']??'',ENT_QUOTES,'UTF-8'); ?><?php if(!empty($row['itemname'])): ?> — <span class="history-itemname"><?php echo htmlspecialchars($row['itemname'],ENT_QUOTES,'UTF-8'); ?></span><?php endif; ?>
