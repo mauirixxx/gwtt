@@ -1,0 +1,35 @@
+<?php
+session_start();require_once 'gw-connect.php';require_once 'gw-security.php';
+$con=new mysqli(DATABASE_HOST,DATABASE_USER,DATABASE_PASS,DATABASE_NAME);if($con->connect_errno){error_log('Database error: '.$con->connect_error);exit('A database error occurred.');}$con->set_charset('utf8mb4');gw_require_admin($con);gw_refresh_session_access($con);
+$id=(int)($_GET['historyid']??$_POST['historyid']??0);$error='';$message='';
+function admin_options(mysqli $c,string $sql,string $idcol,string $labelcol,$selected=null,bool $none=false):void{if($none)echo '<option value="0"'.((int)$selected===0?' selected':'').'>None</option>';$r=$c->query($sql);while($x=$r->fetch_assoc()){echo '<option value="'.(int)$x[$idcol].'"'.((string)$x[$idcol]===(string)$selected?' selected':'').'>'.htmlspecialchars((string)$x[$labelcol],ENT_QUOTES,'UTF-8').'</option>';}$r->close();}
+if($_SERVER['REQUEST_METHOD']==='POST'){gw_require_csrf();$date=trim($_POST['historydate']??'');$gold=filter_input(INPUT_POST,'goldrec',FILTER_VALIDATE_INT,['options'=>['min_range'=>0,'max_range'=>16777215]]);$loc=(int)($_POST['locationid']??0);$type=(int)($_POST['drop_type']??0);$name=trim($_POST['itemname']??'');
+ if(!gw_valid_date($date)||$gold===false||$gold===null||!gw_lookup_exists($con,'treasuredata','treasureid',$loc)||$type<1||$type>4||strlen($name)>150){$error='Invalid loot data.';}
+ else{
+  $material=$req=$weapon=$attribute=$rarity=$rune=$insignia=null;
+  if($type===1){$req=(int)($_POST['itemreq']??-1);$weapon=(int)($_POST['itemtype']??0);$attribute=(int)($_POST['itemattribute']??0);$rarity=(int)($_POST['itemrarity']??0);
+   $pair=$con->prepare('SELECT 1 FROM weapon_attribute_map WHERE weaponid=? AND weapattrid=? LIMIT 1');$pair->bind_param('ii',$weapon,$attribute);$pair->execute();$validPair=(bool)$pair->get_result()->fetch_row();$pair->close();
+   if(!gw_lookup_exists($con,'listreq','req',$req)||!gw_lookup_exists($con,'listtype','weaponid',$weapon)||!gw_lookup_exists($con,'listattribute','weapattrid',$attribute)||!gw_lookup_exists($con,'listrarity','rareid',$rarity)||!$validPair)$error='Invalid weapon data.';
+  }elseif($type===2){$material=(int)($_POST['material']??0);if(!gw_lookup_exists($con,'materials','materialid',$material))$error='Invalid material.';$name=null;
+  }elseif($type===3){$rarity=(int)($_POST['itemrarity']??0);$rv=(int)($_POST['runetype']??0);$iv=(int)($_POST['insignia']??0);if(!in_array($rarity,[2,3,4],true)||($rv===0&&$iv===0)||($rv>0&&!gw_lookup_exists($con,'listrunes','runeid',$rv))||($iv>0&&!gw_lookup_exists($con,'listinsignias','insigniaid',$iv)))$error='Invalid rune / insignia data.';else{$rune=$rv?:null;$insignia=$iv?:null;}$name=null;
+  }else{$name='Nothing dropped!';$gold=0;}
+  if(!$error){$stmt=$con->prepare('UPDATE history SET historydate=?,locationid=?,goldrec=?,drop_type=?,material=?,itemreq=?,itemtype=?,itemattribute=?,itemrarity=?,itemname=?,runetype=?,insignia=? WHERE historyid=?');$stmt->bind_param('siiiiiiiisiii',$date,$loc,$gold,$type,$material,$req,$weapon,$attribute,$rarity,$name,$rune,$insignia,$id);if($stmt->execute())$message='Loot entry updated.';else$error='Loot entry could not be updated.';$stmt->close();}
+ }}
+$stmt=$con->prepare('SELECT * FROM history WHERE historyid=?');$stmt->bind_param('i',$id);$stmt->execute();$h=$stmt->get_result()->fetch_assoc();$stmt->close();if(!$h){$con->close();http_response_code(404);exit('Loot entry not found.');}
+?>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><link rel="stylesheet" href="gw-style.css"><title>Edit Loot Entry</title><style>.edit-wrap{max-width:760px;margin:30px auto;padding:0 20px}.edit-card{background:rgba(255,255,255,.85);border:1px solid #aaa;padding:24px}.edit-grid{display:grid;grid-template-columns:180px 1fr;gap:12px;align-items:center}.edit-grid select,.edit-grid input{max-width:100%;padding:5px}.msg{padding:10px;background:#e8f5e9}.err{padding:10px;background:#ffebee}.actions{margin-top:20px;display:flex;gap:12px}</style></head><body><?php require 'gw-header.php'; ?><main class="edit-wrap"><section class="edit-card"><h2>Edit Loot Entry #<?php echo $id; ?></h2><?php if($message): ?><p class="msg"><?php echo htmlspecialchars($message,ENT_QUOTES,'UTF-8'); ?></p><?php endif; ?><?php if($error): ?><p class="err"><?php echo htmlspecialchars($error,ENT_QUOTES,'UTF-8'); ?></p><?php endif; ?>
+<form method="POST"><?php echo gw_csrf_input(); ?><input type="hidden" name="historyid" value="<?php echo $id; ?>"><div class="edit-grid">
+<label>Date</label><input type="date" name="historydate" value="<?php echo htmlspecialchars($h['historydate'],ENT_QUOTES,'UTF-8'); ?>" required>
+<label>Location</label><select name="locationid"><?php admin_options($con,'SELECT treasureid,location FROM treasuredata ORDER BY treasureid','treasureid','location',$h['locationid']); ?></select>
+<label>Gold</label><input type="number" name="goldrec" min="0" max="16777215" value="<?php echo (int)$h['goldrec']; ?>" required>
+<label>Drop type</label><select name="drop_type" id="drop-type"><option value="1"<?php if((int)$h['drop_type']===1)echo ' selected'; ?>>Weapon</option><option value="2"<?php if((int)$h['drop_type']===2)echo ' selected'; ?>>Rare Material</option><option value="3"<?php if((int)$h['drop_type']===3)echo ' selected'; ?>>Rune / Insignia</option><option value="4"<?php if((int)$h['drop_type']===4)echo ' selected'; ?>>Nothing</option></select>
+<label>Rarity</label><select name="itemrarity"><?php admin_options($con,'SELECT rareid,rarity FROM listrarity ORDER BY rareid','rareid','rarity',$h['itemrarity']); ?></select>
+<label>Requirement</label><select name="itemreq"><?php admin_options($con,'SELECT req FROM listreq ORDER BY req','req','req',$h['itemreq']); ?></select>
+<label>Weapon type</label><select name="itemtype"><?php admin_options($con,'SELECT weaponid,weapontype FROM listtype ORDER BY weaponid','weaponid','weapontype',$h['itemtype']); ?></select>
+<label>Weapon attribute</label><select name="itemattribute"><?php admin_options($con,'SELECT weapattrid,weaponattribute FROM listattribute ORDER BY weapattrid','weapattrid','weaponattribute',$h['itemattribute']); ?></select>
+<label>Item name</label><input type="text" name="itemname" maxlength="150" value="<?php echo htmlspecialchars($h['itemname']??'',ENT_QUOTES,'UTF-8'); ?>">
+<label>Material</label><select name="material"><?php admin_options($con,'SELECT materialid,material FROM materials ORDER BY materialid','materialid','material',$h['material']); ?></select>
+<label>Rune</label><select name="runetype"><?php admin_options($con,'SELECT runeid,runes FROM listrunes ORDER BY runeclassid,runeid','runeid','runes',$h['runetype'],true); ?></select>
+<label>Insignia</label><select name="insignia"><?php admin_options($con,'SELECT insigniaid,insignia FROM listinsignias ORDER BY professionid,insigniaid','insigniaid','insignia',$h['insignia'],true); ?></select>
+</div><div class="actions"><button type="submit">Save all changes</button><a class="navlink" href="gw-admin-characters.php?playerid=<?php echo (int)$h['charnameid']; ?>">Back to loot list</a></div></form>
+</section></main></body></html><?php $con->close(); ?>
