@@ -21,7 +21,7 @@ $dropConfirmation = null;
 $confirmationHistoryId = isset($_SESSION['drop_confirmation_historyid']) ? (int)$_SESSION['drop_confirmation_historyid'] : 0;
 unset($_SESSION['drop_confirmation_historyid']);
 if ($confirmationHistoryId > 0) {
-    $stmt = $con->prepare("SELECT h.historydate,h.goldrec,h.drop_type,h.itemreq,h.itemname,p.charname,t.weapontype,a.weaponattribute,r.rarity,m.material,ru.runes,td.location FROM history h JOIN playername p ON p.playerid=h.charnameid AND p.userid=h.userid JOIN treasuredata td ON td.treasureid=h.locationid LEFT JOIN listtype t ON t.weaponid=h.itemtype LEFT JOIN listattribute a ON a.weapattrid=h.itemattribute LEFT JOIN listrarity r ON r.rareid=h.itemrarity LEFT JOIN materials m ON m.materialid=h.material LEFT JOIN listrunes ru ON ru.runeid=h.runetype WHERE h.historyid=? AND h.userid=? LIMIT 1");
+    $stmt = $con->prepare("SELECT h.historydate,h.goldrec,h.drop_type,h.itemreq,h.itemname,p.charname,t.weapontype,a.weaponattribute,r.rarity,m.material,ru.runes,ins.insignia,td.location FROM history h JOIN playername p ON p.playerid=h.charnameid AND p.userid=h.userid JOIN treasuredata td ON td.treasureid=h.locationid LEFT JOIN listtype t ON t.weaponid=h.itemtype LEFT JOIN listattribute a ON a.weapattrid=h.itemattribute LEFT JOIN listrarity r ON r.rareid=h.itemrarity LEFT JOIN materials m ON m.materialid=h.material LEFT JOIN listrunes ru ON ru.runeid=h.runetype LEFT JOIN listinsignias ins ON ins.insigniaid=h.insignia WHERE h.historyid=? AND h.userid=? LIMIT 1");
     $stmt->bind_param('ii',$confirmationHistoryId,$userid);$stmt->execute();$dropConfirmation=$stmt->get_result()->fetch_assoc();$stmt->close();
 }
 
@@ -77,7 +77,7 @@ $dropText='';
 switch((int)$dropConfirmation['drop_type']){
 case 1:$dropText=trim(($dropConfirmation['rarity']??'').' req '.($dropConfirmation['itemreq']??'').' '.($dropConfirmation['weaponattribute']??'').' '.($dropConfirmation['weapontype']??'').(!empty($dropConfirmation['itemname'])?' called "'.$dropConfirmation['itemname'].'"':''));break;
 case 2:$dropText=(string)($dropConfirmation['material']??'Rare material');break;
-case 3:$dropText=trim(($dropConfirmation['rarity']??'').' '.($dropConfirmation['runes']??'').' rune');break;
+case 3:$parts=[];if(!empty($dropConfirmation['runes']))$parts[]=$dropConfirmation['runes'].' rune';if(!empty($dropConfirmation['insignia']))$parts[]=$dropConfirmation['insignia'];$dropText=trim(($dropConfirmation['rarity']??'').' '.implode(' + ',$parts));break;
 default:$dropText='Nothing dropped';break;
 }
 ?>
