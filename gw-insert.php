@@ -35,10 +35,13 @@ if($droptype===1){
     $stmt=$con->prepare('INSERT INTO history (historydate,userid,charnameid,locationid,goldrec,drop_type,material) VALUES (?,?,?,?,?,?,?)');
     $stmt->bind_param('siiiiii',$treasdate,$uid,$toonid,$locid,$gold,$droptype,$matid);
 }elseif($droptype===3){
-    $runeid=(int)($_POST['rune']??0);$runerare=(int)($_POST['runerarity']??0);
-    if(!gw_lookup_exists($con,'listrunes','runeid',$runeid)||!gw_lookup_exists($con,'listrarity','rareid',$runerare)){http_response_code(400);exit('Invalid rune data.');}
-    $stmt=$con->prepare('INSERT INTO history (historydate,userid,charnameid,locationid,goldrec,drop_type,itemrarity,runetype) VALUES (?,?,?,?,?,?,?,?)');
-    $stmt->bind_param('siiiiiii',$treasdate,$uid,$toonid,$locid,$gold,$droptype,$runerare,$runeid);
+    $runeid=(int)($_POST['rune']??0);$insigniaid=(int)($_POST['insignia']??0);$runerare=(int)($_POST['runerarity']??0);
+    $validRune=$runeid===0||gw_lookup_exists($con,'listrunes','runeid',$runeid);
+    $validInsignia=$insigniaid===0||gw_lookup_exists($con,'listinsignias','insigniaid',$insigniaid);
+    if(!in_array($runerare,[2,3,4],true)||!$validRune||!$validInsignia||($runeid===0&&$insigniaid===0)){$con->close();http_response_code(400);exit('Invalid rune / insignia data.');}
+    $runeValue=$runeid?:null;$insigniaValue=$insigniaid?:null;
+    $stmt=$con->prepare('INSERT INTO history (historydate,userid,charnameid,locationid,goldrec,drop_type,itemrarity,runetype,insignia) VALUES (?,?,?,?,?,?,?,?,?)');
+    $stmt->bind_param('siiiiiiii',$treasdate,$uid,$toonid,$locid,$gold,$droptype,$runerare,$runeValue,$insigniaValue);
 }else{
     $itname='Nothing dropped!';
     $stmt=$con->prepare('INSERT INTO history (historydate,userid,charnameid,locationid,goldrec,drop_type,itemname) VALUES (?,?,?,?,?,?,?)');
