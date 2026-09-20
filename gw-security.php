@@ -263,6 +263,7 @@ function gw_lookup_exists(mysqli $con, string $table, string $column, int $id): 
         'listattribute' => 'weapattrid',
         'listrarity' => 'rareid',
         'listrunes' => 'runeid',
+        'listinsignias' => 'insigniaid',
         'listreq' => 'req',
         'listruneprofessions' => 'runeprofid',
     ];
